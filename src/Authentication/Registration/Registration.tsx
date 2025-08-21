@@ -72,7 +72,7 @@ const Registration: React.FC = () => {
             <span role="img" aria-label="Pig">
               🐷
             </span>{" "}
-            With ApplyBoard's in-house visa support for Australia, you'll get
+            With Study XL's in-house visa support for Australia, you'll get
             expert guidance to prepare a strong GTE statement.
           </div>
         )}
@@ -192,7 +192,7 @@ export default Registration;
 //             <span role="img" aria-label="Pig">
 //               🐷
 //             </span>{" "}
-//             With ApplyBoard's in-house visa support for Australia, you'll get
+//             With Study XL's in-house visa support for Australia, you'll get
 //             expert guidance to prepare a strong GTE statement.
 //           </div>
 //         )}

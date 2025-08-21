@@ -14,21 +14,21 @@ const testimonials: Testimonial[] = [
     name: "Arabelle A.",
     title: "Like an answer from heaven",
     message:
-      "I tried [applying to institutions] and it took months, and months, and months for me to get an answer from a school. But then I stumbled upon ApplyBoard, and it was like an answer from heaven.",
+      "I tried [applying to institutions] and it took months, and months, and months for me to get an answer from a school. But then I stumbled upon Study XL, and it was like an answer from heaven.",
     image: "https://i.ibb.co/r2mF8Vd/woman1.jpg", // replace with real
   },
   {
     name: "Krupal P.",
-    title: "All thanks to ApplyBoard",
+    title: "All thanks to Study XL",
     message:
-      "I wanted to make my parents proud, and they are proud — all thanks to ApplyBoard.",
+      "I wanted to make my parents proud, and they are proud — all thanks to Study XL.",
     image: "https://i.ibb.co/1GmHnRg/woman2.jpg", // replace with real
   },
   {
     name: "Michael T.",
     title: "Made my dream possible",
     message:
-      "With ApplyBoard, I got guidance at every step. The process became so much easier, and I finally got accepted into my dream program!",
+      "With Study XL, I got guidance at every step. The process became so much easier, and I finally got accepted into my dream program!",
     image: "https://i.ibb.co/txPCKpb/man1.jpg", // replace with real
   },
 ];

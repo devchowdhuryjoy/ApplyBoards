@@ -29,7 +29,7 @@ const RequirementPartnar = () => {
             <li className="flex items-start space-x-3">
               <FileText className="text-secondary w-6 h-6 mt-1" />
               <p className="text-justify hyphens-auto">
-                Use AI-powered tools to benefit from ApplyBoard’s 95%{" "}
+                Use AI-powered tools to benefit from Study XL’s 95%{" "}
                 <span className="font-semibold">application success rate</span>
               </p>
             </li>

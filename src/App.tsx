@@ -12,7 +12,8 @@ import Universities from "./components/TrustedPartners/Universities";
 import ChannelPartners from "./components/ChannelPartners/ChannelPartners";
 import RequirementPartnar from "./components/RequirementPartnar/RequirementPartnar";
 import StudyProgramsBanner from "./components/StudyProgramsBanner/StudyProgramsBanner";
-// import Footer from "./components/Footer/Footer";
+import JourneySection from "./components/JourneySection/JourneySection";
+import Footer from "./components/Footer/Footer";
 // import Registration from "./Authentication/Registration/Registration";
 
 
@@ -33,6 +34,7 @@ function App() {
         <ChannelPartners />
         <RequirementPartnar />
         <StudyProgramsBanner />
+        <JourneySection />
 
         {/* Page content (grows and scrolls if needed) */}
         <main className="flex-grow">
@@ -42,7 +44,7 @@ function App() {
         </main>
 
         {/* Fixed Footer */}
-        {/* <Footer /> */}
+        <Footer />
       </div>
     </Router>
   );

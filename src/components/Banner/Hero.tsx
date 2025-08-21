@@ -16,7 +16,7 @@ const Hero = () => {
             <span className="text-secondary">Beyond Borders</span>
           </h1>
           <p className="mt-4 text-black text-base sm:text-lg text-justify hyphens-auto">
-            Explore 1,500+ global universities and colleges. Submit your best possible application with a 95% success rate. Unlock your full potential with ApplyBoard!
+            Explore 1,500+ global universities and colleges. Submit your best possible application with a 95% success rate. Unlock your full potential with Study XL!
           </p>
           <button
             onClick={() => navigate('/registration')}

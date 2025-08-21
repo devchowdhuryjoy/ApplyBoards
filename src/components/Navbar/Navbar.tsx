@@ -17,7 +17,7 @@ const Navbar = () => {
         {/* Logo */}
         <div className="flex items-center gap-2">
           <GraduationCap className="w-7 h-7 text-primary" strokeWidth={2.5} />
-          <span className="font-bold text-primary text-xl">ApplyBoard</span>
+          <span className="font-bold text-primary text-xl">Study XL</span>
         </div>
 
         {/* Desktop Menu */}
