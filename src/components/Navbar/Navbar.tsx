@@ -9,6 +9,9 @@ const Navbar = () => {
   const handleRegister = () => {
     navigate("/registration");
   };
+  const handleLogin = () => {
+    navigate("/login");
+  };
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
@@ -42,7 +45,9 @@ const Navbar = () => {
             >
               Register
             </button>
-            <button className="px-4 py-1.5 bg-primary text-white rounded-md hover:bg-secondary transition">
+            <button 
+             onClick={handleLogin}
+             className="px-4 py-1.5 bg-primary text-white rounded-md hover:bg-secondary transition">
               Log In
             </button>
           </div>
