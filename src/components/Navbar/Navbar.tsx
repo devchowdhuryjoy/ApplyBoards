@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { GraduationCap } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -18,16 +18,16 @@ const Navbar = () => {
     <nav className="w-full bg-white border-b shadow-sm">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-3">
         {/* Logo */}
-        <div className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2 cursor-pointer">
           <GraduationCap className="w-7 h-7 text-primary" strokeWidth={2.5} />
           <span className="font-bold text-primary text-xl">Study XL</span>
-        </div>
+        </Link>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8 text-xl ">
-          <a href="#" className="text-black hover:text-primary">
+          <Link to="/program-search" className="text-black hover:text-primary">
             Students
-          </a>
+          </Link>
 
           <div className="flex items-center gap-1 cursor-pointer text-black hover:text-primary">
             Study Destinations <ChevronDown size={16} />
@@ -45,9 +45,10 @@ const Navbar = () => {
             >
               Register
             </button>
-            <button 
-             onClick={handleLogin}
-             className="px-4 py-1.5 bg-primary text-white rounded-md hover:bg-secondary transition">
+            <button
+              onClick={handleLogin}
+              className="px-4 py-1.5 bg-primary text-white rounded-md hover:bg-secondary transition"
+            >
               Log In
             </button>
           </div>

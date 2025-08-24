@@ -73,7 +73,7 @@ const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Section */}
-        <div className="mt-10 border-t pt-4 text-center text-sm text-black font-semibold">
+        <div className="mt-10 mb-3 border-t pt-4 text-center text-sm text-black font-semibold">
         Copyright © 2025{" "}
         <span className="font-medium text-[#f16f22]">Study XL</span> |
         Powered by <span className="font-medium text-[#f16f22]">Global Routway Consultants</span>

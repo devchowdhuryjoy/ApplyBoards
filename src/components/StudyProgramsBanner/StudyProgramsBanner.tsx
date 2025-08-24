@@ -6,7 +6,7 @@ const StudyProgramsBanner = () => {
       {/* Left Side Image */}
       <div className="flex-shrink-0 mb-6 md:mb-0 md:mr-10">
         <img
-          src="student-1.png" // Replace with your image path
+          src="student-2.png" // Replace with your image path
           alt="Student"
           className="w-52 md:w-64 lg:w-72 object-cover"
         />
