@@ -67,7 +67,7 @@ const DashboardPromotion: React.FC = () => {
               >
                 {/* Icon box */}
                 <div className="w-12 h-12 flex items-center justify-center bg-white shadow-md rounded-lg mb-2">
-                  <span className="text-blue-600 font-bold">{i + 1}</span>
+                  <span className="text-primary font-bold">{i + 1}</span>
                 </div>
                 <p className="text-xs sm:text-sm font-medium text-gray-700">
                   {step}
