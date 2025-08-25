@@ -49,7 +49,7 @@ const SolutionServices: React.FC = () => {
         </div>
 
         {/* Right side - 4 services */}
-        <div className="flex flex-col gap-4 md:gap-6 items-start">
+        <div className="flex flex-col gap-4 md:gap-6 items-end">
           {services.slice(4, 8).map((service, i) => (
             <div
               key={i}

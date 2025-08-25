@@ -5,6 +5,7 @@ import SearchProgram from "./SearchProgram";
 import SolutionSection from "../../SolutionSection/SolutionSection";
 import SolutionServices from "../../SolutionSection/SolutionServices";
 import StudyProgramsBanner from "../../StudyProgramsBanner/StudyProgramsBanner";
+import JourneySection from "../../JourneySection/JourneySection";
 
 
 const ProgramSearch = () => {
@@ -104,6 +105,7 @@ const ProgramSearch = () => {
       </section>
 
       <div className="">
+         <JourneySection />
          <StudySteps />
          <SearchProgram/>
          <SolutionSection/>

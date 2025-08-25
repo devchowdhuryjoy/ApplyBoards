@@ -29,12 +29,16 @@ const Navbar = () => {
             Students
           </Link>
 
-          <div className="flex items-center gap-1 cursor-pointer text-black hover:text-primary">
-            Study Destinations <ChevronDown size={16} />
-          </div>
+          <Link to="/university" className="flex items-center gap-1 cursor-pointer text-black hover:text-primary">
+            University
+          </Link>
+          
+          <Link to="/agent" className="flex items-center gap-1 cursor-pointer text-black hover:text-primary">
+            Agent
+          </Link>
 
           <div className="flex items-center gap-1 cursor-pointer text-black hover:text-primary">
-            Partners <ChevronDown size={16} />
+            Study Destinations <ChevronDown size={16} />
           </div>
 
           {/* Buttons */}
