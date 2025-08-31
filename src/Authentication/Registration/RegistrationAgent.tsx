@@ -78,8 +78,8 @@ const RegistrationAgent: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Banner Section */}
-      <div className="bg-primary text-white py-12 px-6 text-center">
-        <h1 className="text-3xl font-bold mb-4">Become an agent</h1>
+      <div className="text-black py-12 px-6 text-center">
+        <h1 className="text-3xl font-bold mb-4 text-primary">Become an agent</h1>
         <p className="max-w-3xl mx-auto leading-relaxed text-justify hyphens-auto">
           With our 30-year history, we have built strong relationships with over
           5000 recruitment partners, providing educational opportunities for
