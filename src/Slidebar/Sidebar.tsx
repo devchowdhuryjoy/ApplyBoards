@@ -240,6 +240,7 @@ import {
   CheckSquare,
   Bell,
 } from "lucide-react";
+import { LogOut } from "lucide-react";
 
 import HomePage from "../Slidebar/Dashboard/PageDashboard/HomePage";
 import ProgramsPage from "../Slidebar/Dashboard/PageDashboard/ProgramsPage";
@@ -248,6 +249,8 @@ import ApplicationsPage from "../Slidebar/Dashboard/PageDashboard/ApplicationsPa
 import TasksPage from "../Slidebar/Dashboard/PageDashboard/TasksPage";
 
 import ProfileDropdown from "../Slidebar/ProfileDropdown/ProfileDropdown";
+import Logout from "./Dashboard/PageDashboard/Logout";
+
 
 interface MenuItem {
   name: string;
@@ -260,6 +263,7 @@ const menuItems: MenuItem[] = [
   { name: "Profile", icon: <User size={22} /> },
   { name: "My Applications", icon: <FileText size={22} /> },
   { name: "My Tasks", icon: <CheckSquare size={22} /> },
+  { name: "Logout", icon: <LogOut size={22} /> },
 ];
 
 const Sidebar: React.FC = () => {
@@ -279,6 +283,8 @@ const Sidebar: React.FC = () => {
         return <ApplicationsPage />;
       case "My Tasks":
         return <TasksPage />;
+      case "Logout":
+        return <Logout />;
       default:
         return <HomePage />;
     }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { GraduationCap } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
@@ -13,6 +13,41 @@ const Navbar = () => {
     navigate("/login");
   };
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const [open, setOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const destinations = ["UK", "USA", "Canada", "Australia"];
+
+    // Click outside handler
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  // Optional: destination gulo route e convert
+  const getRoute = (country: string) => {
+    switch (country) {
+      case "UK":
+        return "/uk";
+      case "USA":
+        return "/usa";
+      case "Canada":
+        return "/canada";
+      case "Australia":
+        return "/australia";
+      default:
+        return "/";
+    }
+  };
 
   return (
     <nav className="w-full bg-white border-b shadow-sm">
@@ -29,16 +64,50 @@ const Navbar = () => {
             Students
           </Link>
 
-          <Link to="/university" className="flex items-center gap-1 cursor-pointer text-black hover:text-primary">
+          <Link
+            to="/university"
+            className="flex items-center gap-1 cursor-pointer text-black hover:text-primary"
+          >
             University
           </Link>
-          
-          <Link to="/agent" className="flex items-center gap-1 cursor-pointer text-black hover:text-primary">
+
+          <Link
+            to="/agent"
+            className="flex items-center gap-1 cursor-pointer text-black hover:text-primary"
+          >
             Agent
           </Link>
 
-          <div className="flex items-center gap-1 cursor-pointer text-black hover:text-primary">
+          {/* <div className="flex items-center gap-1 cursor-pointer text-black hover:text-primary">
             Study Destinations <ChevronDown size={16} />
+          </div> */}
+
+          <div className="relative" ref={dropdownRef}>
+            {/* Trigger */}
+            <div
+              className="flex items-center gap-1 cursor-pointer text-black hover:text-primary"
+              onClick={() => setOpen(!open)}
+            >
+              Study Destinations <ChevronDown size={16} />
+            </div>
+
+            {/* Dropdown */}
+            {open && (
+              <div className="absolute mt-2 bg-white shadow-lg rounded-md w-40 z-50">
+                {destinations.map((country) => (
+                  <div
+                    key={country}
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => {
+                      navigate(getRoute(country));
+                      setOpen(false);
+                    }}
+                  >
+                    {country}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Buttons */}

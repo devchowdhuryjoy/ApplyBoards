@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const SettingsPage: React.FC = () => {
+const Logout: React.FC = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -30,4 +30,4 @@ const SettingsPage: React.FC = () => {
   );
 };
 
-export default SettingsPage;
+export default Logout;

@@ -23,6 +23,7 @@ import LoginAgent from "./Authentication/Login/LoginAgent";
 import AgentDashboard from "./Slidebar/Dashboard/AgentDashboard";
 import University from "./components/Navbar/University/University";
 import Agent from "./components/Navbar/Agent/Agent";
+import UkPage from "./components/Navbar/StudyDestination/UkPage";
 
 
 
@@ -92,6 +93,14 @@ function App() {
           element={
             <MainLayout>
               <Agent />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/uk"
+          element={
+            <MainLayout>
+              <UkPage />
             </MainLayout>
           }
         />
