@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { PlusCircle, Trash2 } from "lucide-react";
 
-const ProfilePage: React.FC = () => {
+const StudentsProfile: React.FC = () => {
   // Personal Info
   const [personalInfo, setPersonalInfo] = useState({
     fullName: "",
@@ -562,7 +562,7 @@ const ProfilePage: React.FC = () => {
   );
 };
 
-export default ProfilePage;
+export default StudentsProfile;
 
 // Helper components
 const Section: React.FC<{ title: string; children: React.ReactNode }> = ({

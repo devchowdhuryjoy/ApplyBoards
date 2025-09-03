@@ -5,8 +5,8 @@ import {
   Search,
   User,
   FileText,
-  CheckSquare,
   Settings,
+  CheckSquare, GraduationCap, User2
 } from "lucide-react";
 import { LogOut } from "lucide-react";
 
@@ -17,6 +17,8 @@ import ProfilePage from "../../Slidebar/Dashboard/AgentPage/ProfilePage";
 import ApplicationsPage from "../../Slidebar/Dashboard/AgentPage/ApplicationsPage ";
 import TasksPage from "../../Slidebar/Dashboard/AgentPage/TasksPage";
 import SettingsPage from "../../Slidebar/Dashboard/AgentPage/SettingsPage";
+import Universityshow from "./AgentPage/Universityshow";
+import StudentsProfile from "./AgentPage/StudentsProfile";
 
 interface MenuItem {
   name: string;
@@ -28,6 +30,8 @@ const menuItems: MenuItem[] = [
   { name: "My Profile", icon: <User size={22} /> },
   { name: "Applications", icon: <FileText size={22} /> },
   { name: "Tasks", icon: <CheckSquare size={22} /> },
+  { name: "University", icon: <GraduationCap size={22} /> },
+  { name: "StudentsProfile", icon: <User2 size={22} /> },
   { name: "Logout", icon: <LogOut size={22} /> },
 ];
 
@@ -47,6 +51,10 @@ const AgentDashboard: React.FC = () => {
         return <ApplicationsPage />;
       case "Tasks":
         return <TasksPage />;
+      case "University":
+        return <Universityshow />;
+      case "StudentsProfile":
+        return <StudentsProfile />;
       case "Logout":
         return <SettingsPage />;
       default:

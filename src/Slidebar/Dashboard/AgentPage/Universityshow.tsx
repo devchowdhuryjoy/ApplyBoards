@@ -1,8 +1,7 @@
-
 import React, { useState } from "react";
 import { ArrowRight } from "lucide-react";
 
-const ProgramsPage: React.FC = () => {
+const Universityshow: React.FC = () => {
   // 🔶 University Data with Details
   const universities = [
     { 
@@ -130,6 +129,4 @@ const ProgramsPage: React.FC = () => {
   );
 };
 
-export default ProgramsPage;
-
-
+export default Universityshow;

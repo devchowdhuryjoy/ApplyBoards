@@ -90,19 +90,6 @@ const StudySteps = () => {
               </button>
             </div>
           </div>
-
-          {/* Floating icons on the right */}
-          {/* <div className="absolute right-[-60px] top-8 flex flex-col gap-6">
-            <div className="w-12 h-12 rounded-xl bg-green-500 flex items-center justify-center shadow-md">
-              ✅
-            </div>
-            <div className="w-12 h-12 rounded-xl bg-purple-500 flex items-center justify-center shadow-md">
-              ⏰
-            </div>
-            <div className="w-12 h-12 rounded-xl bg-yellow-400 flex items-center justify-center shadow-md">
-              ⚙️
-            </div>
-          </div> */}
         </div>
       </div>
     </section>

@@ -78,10 +78,6 @@ const Navbar = () => {
             Agent
           </Link>
 
-          {/* <div className="flex items-center gap-1 cursor-pointer text-black hover:text-primary">
-            Study Destinations <ChevronDown size={16} />
-          </div> */}
-
           <div className="relative" ref={dropdownRef}>
             {/* Trigger */}
             <div

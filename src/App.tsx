@@ -24,6 +24,9 @@ import AgentDashboard from "./Slidebar/Dashboard/AgentDashboard";
 import University from "./components/Navbar/University/University";
 import Agent from "./components/Navbar/Agent/Agent";
 import UkPage from "./components/Navbar/StudyDestination/UkPage";
+import UsaPage from "./components/Navbar/StudyDestination/UsaPage";
+import CanadaPage from "./components/Navbar/StudyDestination/CanadaPage";
+import AustraliaPage from "./components/Navbar/StudyDestination/AustraliaPage";
 
 
 
@@ -101,6 +104,30 @@ function App() {
           element={
             <MainLayout>
               <UkPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/usa"
+          element={
+            <MainLayout>
+              <UsaPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/canada"
+          element={
+            <MainLayout>
+              <CanadaPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/australia"
+          element={
+            <MainLayout>
+              <AustraliaPage />
             </MainLayout>
           }
         />

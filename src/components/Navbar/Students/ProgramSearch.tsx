@@ -1,18 +1,98 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Search, Globe } from "lucide-react";
-import StudySteps from "./StudySteps";
+// import StudySteps from "./StudySteps";
 import SearchProgram from "./SearchProgram";
 import SolutionSection from "../../SolutionSection/SolutionSection";
 import SolutionServices from "../../SolutionSection/SolutionServices";
 import StudyProgramsBanner from "../../StudyProgramsBanner/StudyProgramsBanner";
-import JourneySection from "../../JourneySection/JourneySection";
-
 
 const ProgramSearch = () => {
   const [course, setCourse] = useState("");
   const [location, setLocation] = useState("");
+  const navigate = useNavigate();
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  };
+
+  const studentCard = {
+    title: "Students",
+    desc: "We’ll guide you to your dream course — from course selection to campus life.",
+    btnText: "Sign up",
+    img: "https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg",
+    btnStyle: "bg-primary text-white hover:bg-secondary",
+    route: "/registration",
+  };
+
   return (
     <>
+      <div className="px-4 py-12 max-w-7xl mx-auto">
+        <h2 className="text-2xl md:text-3xl font-bold text-center mb-10 text-primary">
+          Start your journey with us
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          {/* Left Side: Extra Text */}
+          <div>
+            <h3 className="text-xl md:text-2xl font-semibold text-primary mb-4">
+              Study Abroad with Confidence
+            </h3>
+            <p className="text-black text-justify leading-relaxed">
+              Studying abroad is no longer just a dream. We guide you step by
+              step in selecting the right course, applying to universities,
+              completing your visa process, and preparing for campus life
+              overseas. Stay with us to turn your goals into reality and build a
+              brighter future. <br />
+              <br />
+              Our expert counselors help you explore career-focused programs
+              across top destinations. We ensure that your applications meet all
+              compliance standards and increase your chances of acceptance.{" "}
+              <br />
+              <br />
+              From scholarship opportunities to accommodation guidance, we make
+              sure you feel confident throughout your journey. <br />
+              <br />
+              We also provide personalized support so every student receives the
+              attention and guidance they deserve. <br />
+              <br />
+              With our dedicated team, you will be well-prepared to face
+              challenges, adapt to new cultures, and excel in your academic
+              journey abroad. <br />
+              <br />
+              Join us today and take the first step toward a successful
+              international education experience.
+            </p>
+          </div>
+
+          {/* Right Side: Student Card */}
+          <div className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col">
+            <img
+              src={studentCard.img}
+              alt={studentCard.title}
+              className="w-full h-72 object-cover"
+            />
+            <div className="p-6 flex flex-col flex-1">
+              <h3 className="text-2xl font-bold mb-3 text-primary">
+                {studentCard.title}
+              </h3>
+              <p className="text-black mb-4 text-justify hyphens-auto">
+                {studentCard.desc}
+              </p>
+              <button
+                className={`px-6 py-3 rounded-full font-medium ${studentCard.btnStyle}`}
+                onClick={() => {
+                  scrollToTop();
+                  navigate(studentCard.route);
+                }}
+              >
+                {studentCard.btnText}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <section className="w-full px-6 md:px-12 lg:px-20 py-12 bg-white">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           {/* Left Side */}
@@ -105,14 +185,13 @@ const ProgramSearch = () => {
       </section>
 
       <div className="">
-         <JourneySection />
-         <StudySteps />
-         <SearchProgram/>
-         <SolutionSection/>
-         <SolutionServices/>
-         <div className="mt-10 mb-10">
-         <StudyProgramsBanner/>
-         </div>
+        {/* <StudySteps /> */}
+        <SearchProgram />
+        <SolutionSection />
+        <SolutionServices />
+        <div className="mt-10 mb-10">
+          <StudyProgramsBanner />
+        </div>
       </div>
     </>
   );
