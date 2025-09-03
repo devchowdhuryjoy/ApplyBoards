@@ -8,23 +8,52 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
 
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setError(null);
+
+  //   const users = JSON.parse(localStorage.getItem("users") || "[]");
+  //   const match = users.find(
+  //     (u: any) => u.email === email && u.password === password
+  //   );
+
+  //   if (!match) {
+  //     setError("Invalid email or password");
+  //     return;
+  //   }
+
+  //   localStorage.setItem("auth", JSON.stringify({ email }));
+  //   navigate("/sidebar");
+  // };
+
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
+  e.preventDefault();
+  setError(null);
 
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-    const match = users.find(
-      (u: any) => u.email === email && u.password === password
-    );
+  // LocalStorage থেকে users load
+  let users = JSON.parse(localStorage.getItem("users") || "[]");
 
-    if (!match) {
-      setError("Invalid email or password");
-      return;
-    }
+  // যদি localStorage খালি থাকে, default test user add করি
+  if (users.length === 0) {
+    users = [{ email: "imran@gmail.com", password: "123456" }];
+    localStorage.setItem("users", JSON.stringify(users));
+  }
 
-    localStorage.setItem("auth", JSON.stringify({ email }));
-    navigate("/sidebar");
-  };
+  // Check login
+  const match = users.find(
+    (u: any) => u.email === email && u.password === password
+  );
+
+  if (!match) {
+    setError("Invalid email or password");
+    return;
+  }
+
+  // Login successful → auth save
+  localStorage.setItem("auth", JSON.stringify(match));
+  navigate("/sidebar");
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
