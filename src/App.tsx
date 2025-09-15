@@ -27,6 +27,9 @@ import UkPage from "./components/Navbar/StudyDestination/UkPage";
 import UsaPage from "./components/Navbar/StudyDestination/UsaPage";
 import CanadaPage from "./components/Navbar/StudyDestination/CanadaPage";
 import AustraliaPage from "./components/Navbar/StudyDestination/AustraliaPage";
+import ForgotPassword from "./Authentication/ForgotStudent/ForgotPassword";
+import ResetPassword from "./Authentication/ForgotStudent/ResetPassword";
+
 
 
 
@@ -136,6 +139,8 @@ function App() {
         <Route path="/registration" element={<Registration />} />
         <Route path="/registration-agent" element={<RegistrationAgent />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/login-agent" element={<LoginAgent />} />
         <Route path="/sidebar" element={<Sidebar />} />
         
