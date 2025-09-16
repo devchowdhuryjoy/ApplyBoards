@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import BASE_URL from "../../ApiBaseUrl/ApiBaseUrl";
+import { Link } from "react-router-dom";
 
 const ForgotPassword: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -55,6 +56,13 @@ const ForgotPassword: React.FC = () => {
             {loading ? "Sending..." : "Send Reset Link"}
           </button>
         </form>
+
+        <p className="text-sm text-center mt-4">
+          Back to Login?{" "}
+          <Link to="/login" className="text-blue-600 underline">
+            Login
+          </Link>
+        </p>
       </div>
     </div>
   );
