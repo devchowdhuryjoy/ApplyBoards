@@ -29,6 +29,8 @@ import CanadaPage from "./components/Navbar/StudyDestination/CanadaPage";
 import AustraliaPage from "./components/Navbar/StudyDestination/AustraliaPage";
 import ForgotPassword from "./Authentication/ForgotStudent/ForgotPassword";
 import ResetPassword from "./Authentication/ForgotStudent/ResetPassword";
+import AgentForgotPassword from "./Authentication/AgentForgot/AgentForgotPassword";
+import AgentResetPassword from "./Authentication/AgentForgot/AgentResetPassword";
 
 
 
@@ -142,6 +144,8 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/login-agent" element={<LoginAgent />} />
+        <Route path="/forgot-password-agent" element={<AgentForgotPassword />} />
+        <Route path="/reset-password-agent" element={<AgentResetPassword />} />
         <Route path="/sidebar" element={<Sidebar />} />
         
         {/* Agent Dashboard */}

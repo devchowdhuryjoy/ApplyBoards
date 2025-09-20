@@ -40,7 +40,7 @@
 
 import React, { useState } from "react";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BASE_URL from "../../ApiBaseUrl/ApiBaseUrl";
 
 const AgentLogin = () => {
@@ -62,7 +62,6 @@ const AgentLogin = () => {
 
       const data = await response.json();
 
-      
       if (!response.ok) {
         if (response.status === 403) {
           Swal.fire({
@@ -83,7 +82,7 @@ const AgentLogin = () => {
             text: data.message || "Something went wrong!",
           });
         }
-        return; 
+        return;
       }
 
       // ✅ Success
@@ -95,7 +94,7 @@ const AgentLogin = () => {
         });
 
         localStorage.setItem("agent", JSON.stringify(data.agent));
-        navigate("/agent-dashboard"); 
+        navigate("/agent-dashboard");
       }
     } catch (error) {
       Swal.fire({
@@ -139,9 +138,21 @@ const AgentLogin = () => {
           Login
         </button>
       </form>
+
+      <p className="text-sm text-center mt-4">
+        Don’t have an account?{" "}
+        <Link to="/registration-agent" className="text-blue-600 underline">
+          Register
+        </Link>
+      </p>
+
+      <p className="text-sm text-center mt-2">
+        <Link to="/forgot-password-agent" className="text-blue-600 underline">
+          Forgot Password?
+        </Link>
+      </p>
     </div>
   );
 };
 
 export default AgentLogin;
-

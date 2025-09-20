@@ -1,0 +1,67 @@
+import React, { useState } from "react";
+import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
+import BASE_URL from "../../ApiBaseUrl/ApiBaseUrl";
+
+const AgentForgotPassword: React.FC = () => {
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await fetch(`${BASE_URL}/agent/forget_password_submit`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) throw new Error(result.message || "Something went wrong");
+
+      Swal.fire("Success", result.message, "success");
+      setEmail("");
+    } catch (err: any) {
+      Swal.fire("Error", err.message || "Something went wrong", "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-6">
+        <h2 className="text-2xl font-bold text-center">Agent Forgot Password</h2>
+        <form onSubmit={handleForgotPassword} className="mt-4 space-y-3">
+          <input
+            type="email"
+            placeholder="Enter your email"
+            className="w-full border rounded-lg px-3 py-2"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold"
+            disabled={loading}
+          >
+            {loading ? "Sending..." : "Send Reset Link"}
+          </button>
+        </form>
+
+        <p className="text-sm text-center mt-4">
+          Back to Login?{" "}
+          <Link to="/login-agent" className="text-blue-600 underline">
+            Login
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default AgentForgotPassword;
