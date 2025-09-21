@@ -67,7 +67,7 @@ const Registration: React.FC = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        // backend থেকে error ধরার জন্য
+        
         if (data.errors) {
           const firstError = Object.values(data.errors)[0] as string[];
           Swal.fire({
@@ -259,7 +259,7 @@ const Registration: React.FC = () => {
 
           <button
             type="submit"
-            className="w-full bg-black text-white py-2 rounded-lg font-semibold"
+            className="w-full bg-[#f16f22] text-white py-2 rounded-lg font-semibold"
           >
             Register
           </button>
@@ -267,7 +267,7 @@ const Registration: React.FC = () => {
 
         <p className="text-sm text-center mt-4">
           Already have an account?{" "}
-          <Link to="/login" className="text-blue-600 underline">
+          <Link to="/login" className="text-[#f16f22] underline">
             Login
           </Link>
         </p>

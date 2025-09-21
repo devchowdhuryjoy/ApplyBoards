@@ -84,7 +84,7 @@ const AgentResetPassword: React.FC = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold"
+            className="w-full bg-[#f16f22] text-white py-2 rounded-lg font-semibold"
           >
             {loading ? "Resetting..." : "Reset Password"}
           </button>
@@ -95,3 +95,6 @@ const AgentResetPassword: React.FC = () => {
 };
 
 export default AgentResetPassword;
+
+
+

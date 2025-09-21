@@ -46,7 +46,7 @@ const AgentForgotPassword: React.FC = () => {
           />
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold"
+            className="w-full bg-[#f16f22] text-white py-2 rounded-lg font-semibold"
             disabled={loading}
           >
             {loading ? "Sending..." : "Send Reset Link"}
@@ -55,7 +55,7 @@ const AgentForgotPassword: React.FC = () => {
 
         <p className="text-sm text-center mt-4">
           Back to Login?{" "}
-          <Link to="/login-agent" className="text-blue-600 underline">
+          <Link to="/login-agent" className="text-[#f16f22] underline">
             Login
           </Link>
         </p>
