@@ -90,19 +90,19 @@ const Login: React.FC = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-black text-white py-2 rounded-lg font-semibold"
+            className="w-full bg-[#f16f22] text-white py-2 rounded-lg font-semibold"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
         <p className="text-sm text-center mt-4">
           Don’t have an account?{" "}
-          <Link to="/registration" className="text-blue-600 underline">
+          <Link to="/registration" className="text-[#f16f22] underline">
             Register
           </Link>
         </p>
         <p className="text-sm text-center mt-2">
-          <Link to="/forgot-password" className="text-blue-600 underline">
+          <Link to="/forgot-password" className="text-[#f16f22] underline">
             Forgot Password?
           </Link>
         </p>

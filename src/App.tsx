@@ -145,7 +145,7 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/login-agent" element={<LoginAgent />} />
         <Route path="/forgot-password-agent" element={<AgentForgotPassword />} />
-        <Route path="/reset-password-agent" element={<AgentResetPassword />} />
+        <Route path="/agent-reset-password" element={<AgentResetPassword />} />
         <Route path="/sidebar" element={<Sidebar />} />
         
         {/* Agent Dashboard */}

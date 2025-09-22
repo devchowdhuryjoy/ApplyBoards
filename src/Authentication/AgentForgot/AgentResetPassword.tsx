@@ -46,7 +46,7 @@ const AgentResetPassword: React.FC = () => {
       if (!response.ok) throw new Error(result.message || "Something went wrong");
 
       Swal.fire("Success", result.message, "success");
-      navigate("/agent-login");
+      navigate("/login-agent");
     } catch (err: any) {
       Swal.fire("Error", err.message || "Something went wrong", "error");
     } finally {
@@ -84,7 +84,7 @@ const AgentResetPassword: React.FC = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold"
+            className="w-full bg-[#f16f22] text-white py-2 rounded-lg font-semibold"
           >
             {loading ? "Resetting..." : "Reset Password"}
           </button>
@@ -95,3 +95,6 @@ const AgentResetPassword: React.FC = () => {
 };
 
 export default AgentResetPassword;
+
+
+
