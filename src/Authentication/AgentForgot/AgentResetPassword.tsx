@@ -46,7 +46,7 @@ const AgentResetPassword: React.FC = () => {
       if (!response.ok) throw new Error(result.message || "Something went wrong");
 
       Swal.fire("Success", result.message, "success");
-      navigate("/agent-login");
+      navigate("/login-agent");
     } catch (err: any) {
       Swal.fire("Error", err.message || "Something went wrong", "error");
     } finally {
