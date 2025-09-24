@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2"; 
+import Swal from "sweetalert2";
 import BASE_URL from "../../ApiBaseUrl/ApiBaseUrl";
 
 const Login: React.FC = () => {
@@ -9,26 +9,74 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+
+  //   try {
+  //     const formdata = new FormData();
+  //     formdata.append("email", email);
+  //     formdata.append("password", password);
+
+  //     const requestOptions: RequestInit = {
+  //       method: "POST",
+  //       body: formdata,
+  //       redirect: "follow",
+  //     };
+
+  //     const response = await fetch(`${BASE_URL}/login`, requestOptions);
+  //     const result = await response.json();
+
+  //     if (!response.ok) {
+
+  //       Swal.fire({
+  //         icon: "error",
+  //         title: "Login Failed",
+  //         text: result.message || "Something went wrong",
+  //       });
+  //       return;
+  //     }
+
+  //     Swal.fire({
+  //       icon: "success",
+  //       title: "Login Successful",
+  //       text: result.message || "Welcome back!",
+  //       timer: 2000,
+  //       showConfirmButton: false,
+  //     });
+
+  //     localStorage.setItem("auth", JSON.stringify(result));
+
+  //     setTimeout(() => navigate("/sidebar"), 2000);
+  //   } catch (err: any) {
+  //     Swal.fire({
+  //       icon: "error",
+  //       title: "Error",
+  //       text: err.message || "Something went wrong",
+  //     });
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const formdata = new FormData();
-      formdata.append("email", email);
-      formdata.append("password", password);
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("password", password);
 
-      const requestOptions: RequestInit = {
+      const response = await fetch(`${BASE_URL}/login`, {
         method: "POST",
-        body: formdata,
-        redirect: "follow",
-      };
+        body: formData,
+      });
 
-      const response = await fetch(`${BASE_URL}/login`, requestOptions);
-      const result = await response.json(); 
+      const result = await response.json();
+      console.log("Login response:", result);
 
       if (!response.ok) {
-        
         Swal.fire({
           icon: "error",
           title: "Login Failed",
@@ -37,7 +85,7 @@ const Login: React.FC = () => {
         return;
       }
 
-      
+      // Success
       Swal.fire({
         icon: "success",
         title: "Login Successful",
@@ -46,10 +94,15 @@ const Login: React.FC = () => {
         showConfirmButton: false,
       });
 
-      
-      localStorage.setItem("auth", JSON.stringify(result));
+      // Token + user save
+      localStorage.setItem(
+        "auth",
+        JSON.stringify({
+          token: result.data.token,
+          user: result.data.user,
+        })
+      );
 
-      
       setTimeout(() => navigate("/sidebar"), 2000);
     } catch (err: any) {
       Swal.fire({
@@ -112,6 +165,3 @@ const Login: React.FC = () => {
 };
 
 export default Login;
-
-
-

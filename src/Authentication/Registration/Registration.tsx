@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import BASE_URL from "../../ApiBaseUrl/ApiBaseUrl"; 
+import BASE_URL from "../../ApiBaseUrl/ApiBaseUrl";
 
 const Registration: React.FC = () => {
   const navigate = useNavigate();
@@ -59,15 +59,16 @@ const Registration: React.FC = () => {
           password_confirmation: confirm,
           destination,
           study_level: studyLevel,
-          subject: englishTest,
+          subject: testScore,
           nationality,
+          elp: englishTest, 
+          passport: passportNumber,
         }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        
         if (data.errors) {
           const firstError = Object.values(data.errors)[0] as string[];
           Swal.fire({
@@ -277,4 +278,3 @@ const Registration: React.FC = () => {
 };
 
 export default Registration;
-
