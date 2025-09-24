@@ -80,47 +80,58 @@ const ProfilePage: React.FC = () => {
 
   // ✅ PDF Generate Function
   const generatePdf = async () => {
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      const myHeaders = new Headers();
-      myHeaders.append(
-        "Authorization",
-        "Bearer 54|Hn9OSJm9vfFPniOFCwdCxRGGmJFcZLuK4t3msBN9e0348cec"
-      );
-      myHeaders.append("Content-Type", "application/json");
-
-      const response = await fetch(`${BASE_URL}/student/profile/generate-pdf`, {
-        method: "POST",
-        headers: myHeaders,
-        body: JSON.stringify({
-          profile_data: {
-            ...mainProfile,
-            ...profileData,
-            academic_qualifications: academicList,
-            test_scores: testList,
-            work_experiences: workList,
-            references: referenceList,
-          },
-        }),
-      });
-
-      const result = await response.json();
-
-      if (result.success && result.pdf_url) {
-        // PDF in new tab
-        window.open(result.pdf_url, "_blank");
-        Swal.fire("Success", "PDF generated successfully!", "success");
-      } else {
-        Swal.fire("Error", result.message || "Failed to generate PDF", "error");
-      }
-    } catch (error) {
-      console.error("PDF generation error:", error);
-      Swal.fire("Error", "Failed to generate PDF", "error");
-    } finally {
-      setLoading(false);
+    // 🔹 Get token from localStorage
+    const authString = localStorage.getItem("auth");
+    if (!authString) {
+      Swal.fire("Error", "User not authenticated. Please login.", "error");
+      return;
     }
-  };
+    const auth = JSON.parse(authString);
+    const token = auth?.token || auth?.access || auth?.access_token;
+    if (!token) {
+      Swal.fire("Error", "User not authenticated. Please login.", "error");
+      return;
+    }
+
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+    myHeaders.append("Content-Type", "application/json");
+
+    const response = await fetch(`${BASE_URL}/student/profile/generate-pdf`, {
+      method: "POST",
+      headers: myHeaders,
+      body: JSON.stringify({
+        profile_data: {
+          ...mainProfile,
+          ...profileData,
+          academic_qualifications: academicList,
+          test_scores: testList,
+          work_experiences: workList,
+          references: referenceList,
+        },
+      }),
+    });
+
+    const result = await response.json();
+
+    if (result.success && result.pdf_url) {
+      // PDF in new tab
+      window.open(result.pdf_url, "_blank");
+      Swal.fire("Success", "PDF generated successfully!", "success");
+    } else {
+      Swal.fire("Error", result.message || "Failed to generate PDF", "error");
+    }
+  } catch (error) {
+    console.error("PDF generation error:", error);
+    Swal.fire("Error", "Failed to generate PDF", "error");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   // ✅ Calculate Profile Completion
   const calculateProfileCompletion = () => {
@@ -183,12 +194,24 @@ const ProfilePage: React.FC = () => {
       try {
         setLoading(true);
 
+        // 🔹 Get token from localStorage
+        const authString = localStorage.getItem("auth");
+        if (!authString) {
+          Swal.fire("Error", "User not authenticated. Please login.", "error");
+          return;
+        }
+        const auth = JSON.parse(authString);
+        const token = auth?.token || auth?.access || auth?.access_token;
+        if (!token) {
+          Swal.fire("Error", "User not authenticated. Please login.", "error");
+          return;
+        }
+
         const response = await fetch(`${BASE_URL}/student/profile/edit`, {
           method: "GET",
           headers: {
             Accept: "application/json",
-            Authorization:
-              "Bearer 4|gnUMNPFpnu2I7v9RY9YzhMT5zPxiMs2LOc3Jdp1c043ef1c4",
+            Authorization: `Bearer ${token}`,
           },
         });
 
@@ -245,6 +268,7 @@ const ProfilePage: React.FC = () => {
           setTestList(safeParse(profile.test_scores));
           setWorkList(safeParse(profile.work_experiences));
           setReferenceList(safeParse(profile.references));
+          
         }
       } catch (err) {
         console.error("GET error:", err);
@@ -734,6 +758,8 @@ const ProfilePage: React.FC = () => {
           ))}
         </div>
       </Section>
+
+
 
       {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8 p-6 bg-white rounded-xl shadow-sm">
