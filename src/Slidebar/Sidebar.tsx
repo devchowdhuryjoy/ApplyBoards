@@ -18,7 +18,6 @@ import TasksPage from "../Slidebar/Dashboard/PageDashboard/TasksPage";
 import ProfileDropdown from "../Slidebar/ProfileDropdown/ProfileDropdown";
 import Logout from "./Dashboard/PageDashboard/Logout";
 
-
 interface MenuItem {
   name: string;
   icon: JSX.Element;
@@ -36,7 +35,17 @@ const menuItems: MenuItem[] = [
 const Sidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
-  const [activeMenu, setActiveMenu] = useState("Home");
+  // const [activeMenu, setActiveMenu] = useState("Home");
+
+  const [activeMenu, setActiveMenu] = useState<string>(
+    localStorage.getItem("activeMenu") || "Home"
+  );
+
+  // Update activeMenu handler
+  const handleMenuClick = (menuName: string) => {
+    setActiveMenu(menuName);
+    localStorage.setItem("activeMenu", menuName); // Save in localStorage
+  };
 
   const renderContent = () => {
     switch (activeMenu) {
@@ -75,7 +84,7 @@ const Sidebar: React.FC = () => {
         </div>
 
         {/* Menu */}
-        <div className="flex-1 flex flex-col mt-4 space-y-2">
+        {/* <div className="flex-1 flex flex-col mt-4 space-y-2">
           {menuItems.map((item, index) => (
             <div
               key={index}
@@ -88,7 +97,20 @@ const Sidebar: React.FC = () => {
               {isOpen && <span>{item.name}</span>}
             </div>
           ))}
-        </div>
+        </div> */}
+
+        {menuItems.map((item, index) => (
+          <div
+            key={index}
+            onClick={() => handleMenuClick(item.name)}
+            className={`flex items-center gap-3 px-2 py-2 cursor-pointer 
+            hover:bg-primary hover:text-white transition rounded-lg
+            ${activeMenu === item.name ? "bg-primary text-white" : "text-black"}`}
+            >
+            <span>{item.icon}</span>
+            {isOpen && <span>{item.name}</span>}
+          </div>
+        ))}
       </div>
 
       {/* Main content with header */}
