@@ -8,7 +8,7 @@ const agentCard = {
   btnText: "Become a partner",
   img: "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg",
   btnStyle: "bg-primary text-white hover:bg-secondary",
-  route: "/registration-agent",
+  route: "/login-agent",
 };
 
 const AgentCard: React.FC = () => {
