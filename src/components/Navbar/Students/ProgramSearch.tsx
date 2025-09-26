@@ -22,7 +22,7 @@ const ProgramSearch = () => {
     btnText: "Sign up",
     img: "https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg",
     btnStyle: "bg-primary text-white hover:bg-secondary",
-    route: "/registration",
+    route: "/login",
   };
 
   return (
