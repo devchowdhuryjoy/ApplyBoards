@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import {
   Home,
@@ -6,7 +5,9 @@ import {
   User,
   FileText,
   Settings,
-  CheckSquare, GraduationCap, User2
+  CheckSquare,
+  GraduationCap,
+  User2,
 } from "lucide-react";
 import { LogOut } from "lucide-react";
 
@@ -37,7 +38,14 @@ const menuItems: MenuItem[] = [
 
 const AgentDashboard: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeMenu, setActiveMenu] = useState("Dashboard");
+  const [activeMenu, setActiveMenu] = useState(() => {
+    return localStorage.getItem("activeMenu") || "Dashboard";
+  });
+
+  const handleMenuClick = (name: string) => {
+    setActiveMenu(name);
+    localStorage.setItem("activeMenu", name);
+  };
 
   const renderContent = () => {
     switch (activeMenu) {
@@ -79,7 +87,9 @@ const AgentDashboard: React.FC = () => {
             alt="logo"
             className="w-8 h-8"
           />
-          {isOpen && <span className="ml-2 font-bold text-primary">Agent Panel</span>}
+          {isOpen && (
+            <span className="ml-2 font-bold text-primary">Agent Panel</span>
+          )}
         </div>
 
         {/* Menu Items */}
@@ -87,10 +97,14 @@ const AgentDashboard: React.FC = () => {
           {menuItems.map((item, index) => (
             <div
               key={index}
-              onClick={() => setActiveMenu(item.name)}
+              onClick={() => handleMenuClick(item.name)}
               className={`flex items-center gap-3 px-2 py-2 cursor-pointer
                 hover:bg-primary hover:text-white transition rounded-lg
-                ${activeMenu === item.name ? "bg-primary text-white" : "text-black"}`}
+                ${
+                  activeMenu === item.name
+                    ? "bg-primary text-white"
+                    : "text-black"
+                }`}
             >
               {item.icon}
               {isOpen && <span>{item.name}</span>}
