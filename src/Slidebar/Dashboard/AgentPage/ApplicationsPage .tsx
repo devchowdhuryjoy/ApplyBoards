@@ -48,7 +48,7 @@ const ApplicationsPage: React.FC = () => {
         <table className="min-w-full divide-y text-sm sm:text-base">
           <thead className="bg-gray-50">
             <tr className="text-left text-black">
-              <th className="px-3 sm:px-4 py-2">ID</th>
+              <th className="px-3 sm:px-4 py-2">Student ID</th>
               <th className="px-3 sm:px-4 py-2">Student</th>
               <th className="px-3 sm:px-4 py-2">Program</th>
               <th className="px-3 sm:px-4 py-2">Status</th>
@@ -87,4 +87,7 @@ const ApplicationsPage: React.FC = () => {
 };
 
 export default ApplicationsPage;
+
+
+
 
