@@ -755,10 +755,9 @@
 
 // export default Universities;
 
-
-
 import React, { useState, useEffect } from "react";
 import BASE_URL from "../../ApiBaseUrl/ApiBaseUrl";
+import { useNavigate } from "react-router-dom";
 
 interface TopDiscipline {
   discipline: string;
@@ -797,6 +796,7 @@ const Universities: React.FC = () => {
   const [universities, setUniversities] = useState<University[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const fetchUniversities = async () => {
     try {
@@ -976,7 +976,6 @@ const Universities: React.FC = () => {
   return (
     <section className="bg-white py-16 px-6 md:px-12 lg:px-20">
       <div className="max-w-7xl mx-auto">
-
         {/* Cards Grid */}
         <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {universities.map((uni, i) => {
@@ -989,6 +988,7 @@ const Universities: React.FC = () => {
               <div
                 key={uni.id || i}
                 className="bg-white rounded-3xl shadow-md border border-black overflow-hidden hover:shadow-md transition"
+                onClick={() => navigate("/about-university")}
               >
                 {/* Image */}
                 <div className="relative">
@@ -1135,7 +1135,9 @@ const Universities: React.FC = () => {
 
         {/* Button */}
         <div className="flex justify-center mt-10">
-          <button className="bg-primary text-white font-medium px-6 py-3 rounded-lg shadow-md hover:bg-secondary transition">
+          <button 
+           onClick={() => navigate("/university-apply")}
+           className="bg-primary text-white font-medium px-6 py-3 rounded-lg shadow-md hover:bg-secondary transition">
             Explore More Institutions
           </button>
         </div>

@@ -31,6 +31,8 @@ import ForgotPassword from "./Authentication/ForgotStudent/ForgotPassword";
 import ResetPassword from "./Authentication/ForgotStudent/ResetPassword";
 import AgentForgotPassword from "./Authentication/AgentForgot/AgentForgotPassword";
 import AgentResetPassword from "./Authentication/AgentForgot/AgentResetPassword";
+import AboutUniversity from "./components/TrustedPartners/AboutUniversity/AboutUniversity";
+import UniversityApply from "./components/TrustedPartners/AboutUniversity/UniversityApply";
 
 
 
@@ -93,6 +95,22 @@ function App() {
           element={
             <MainLayout>
               <University />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/about-university"
+          element={
+            <MainLayout>
+              <AboutUniversity />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/university-apply"
+          element={
+            <MainLayout>
+              <UniversityApply />
             </MainLayout>
           }
         />
