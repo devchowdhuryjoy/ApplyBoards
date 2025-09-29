@@ -185,9 +185,6 @@
 
 // export default Universities;
 
-
-
-
 // import React, { useState, useEffect } from "react";
 // import BASE_URL from "../../ApiBaseUrl/ApiBaseUrl";
 
@@ -467,31 +464,28 @@
 
 //   const getImages = (images: any): string[] => {
 //     if (!images) {
-//       return ["/assets/default-university.jpg"]; 
+//       return ["/assets/default-university.jpg"];
 //     }
 
-    
 //     if (Array.isArray(images)) {
 //       return images
-//         .filter((img) => img != null) 
+//         .filter((img) => img != null)
 //         .map((img) => {
-//           if (typeof img === "string") return img; 
-//           if (img.url) return img.url; 
+//           if (typeof img === "string") return img;
+//           if (img.url) return img.url;
 //           return "/assets/default-university.jpg";
 //         });
 //     }
 
-    
 //     if (typeof images === "string") {
 //       try {
 //         const parsed = JSON.parse(images);
 //         return getImages(parsed);
 //       } catch {
-//         return [images]; 
+//         return [images];
 //       }
 //     }
 
-    
 //     return ["/assets/default-university.jpg"];
 //   };
 
@@ -513,17 +507,14 @@
 //   // const getImageUrl = (imagePath: string) => {
 //   //   if (!imagePath) return "/assets/default-university.jpg";
 
-    
 //   //   if (imagePath.startsWith("http") || imagePath.startsWith("//")) {
 //   //     return imagePath;
 //   //   }
 
-    
 //   //   if (imagePath.startsWith("/storage/") || imagePath.startsWith("/images/")) {
 //   //     return `${BASE_URL}${imagePath}`;
 //   //   }
 
-    
 //   //   return `/assets/${imagePath}`;
 //   // };
 
@@ -542,8 +533,6 @@
 
 //   return `/assets/${imagePath}`;
 // };
-
-
 
 //   const safeDisplay = (value: any, defaultValue: string = "N/A"): string => {
 //     if (value === null || value === undefined || value === "") {
@@ -768,8 +757,6 @@
 
 
 
-
-
 import React, { useState, useEffect } from "react";
 import BASE_URL from "../../ApiBaseUrl/ApiBaseUrl";
 
@@ -902,7 +889,7 @@ const Universities: React.FC = () => {
     if (!images) {
       return ["/assets/default-university.jpg"];
     }
-    
+
     if (Array.isArray(images)) {
       return images
         .filter((img) => img != null)
@@ -933,14 +920,16 @@ const Universities: React.FC = () => {
     }
 
     // Remove /api from BASE_URL for images
-    const baseUrlWithoutApi = BASE_URL.replace('/api', '');
-    
+    const baseUrlWithoutApi = BASE_URL.replace("/api", "");
+
     if (
       imagePath.startsWith("/storage/") ||
       imagePath.startsWith("/images/") ||
       imagePath.startsWith("uploads/")
     ) {
-      return `${baseUrlWithoutApi}/${imagePath.replace(/^\//, '').replace(/ /g, "%20")}`;
+      return `${baseUrlWithoutApi}/${imagePath
+        .replace(/^\//, "")
+        .replace(/ /g, "%20")}`;
     }
 
     return `/assets/${imagePath}`;
@@ -951,6 +940,11 @@ const Universities: React.FC = () => {
       return defaultValue;
     }
     return String(value);
+  };
+
+  const isFeatured = (uni: University) => {
+    const featuredIds = [6, 12, 15];
+    return featuredIds.includes(uni.id || 0);
   };
 
   if (loading) {
@@ -982,12 +976,6 @@ const Universities: React.FC = () => {
   return (
     <section className="bg-white py-16 px-6 md:px-12 lg:px-20">
       <div className="max-w-7xl mx-auto">
-        {/* Debug Info - Remove in production */}
-        {/* {process.env.NODE_ENV === "development" && (
-          <div className="mb-4 p-3 bg-yellow-100 rounded">
-            <strong>Debug:</strong> Loaded {universities.length} universities
-          </div>
-        )} */}
 
         {/* Cards Grid */}
         <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
@@ -1012,14 +1000,13 @@ const Universities: React.FC = () => {
                       e.currentTarget.src = "/assets/default-university.jpg";
                     }}
                   />
-                  {uni.featured && (
-                    <span className="absolute top-3 left-3  bg-purple-500 text-black text-xs font-semibold px-3 py-1 rounded-full">
+
+                  {isFeatured(uni) && (
+                    <span className="absolute top-3 left-3 bg-secondary text-white text-xs font-semibold px-3 py-1 rounded-full">
                       ● Featured
                     </span>
                   )}
-                  
                 </div>
-                
 
                 {/* Content */}
                 <div className="p-5">
@@ -1126,17 +1113,6 @@ const Universities: React.FC = () => {
                       </div>
                     </div>
                   )}
-
-                  {/* Timestamps - for debugging */}
-                  {/* {process.env.NODE_ENV === "development" && (
-                    <div className="mt-2 pt-2 border-t border-gray-200">
-                      <p className="text-xs text-gray-500">
-                        Created: {safeDisplay(uni.created_at)}
-                        <br />
-                        Updated: {safeDisplay(uni.updated_at)}
-                      </p>
-                    </div>
-                  )} */}
 
                 </div>
               </div>
