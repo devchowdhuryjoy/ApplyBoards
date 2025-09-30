@@ -125,7 +125,7 @@
 //                     <h3 className="text-lg font-semibold text-black">
 //                       {uni.university_name}
 //                     </h3>
-//                     <p className="text-sm text-gray-600">{uni.location}</p>
+//                     <p className="text-sm text-black">{uni.location}</p>
 //                   </div>
 //                 </div>
 
@@ -623,7 +623,7 @@
 //                       <h3 className="text-lg font-semibold text-black">
 //                         {safeDisplay(uni.university_name)}
 //                       </h3>
-//                       <p className="text-sm text-gray-600">
+//                       <p className="text-sm text-black">
 //                         {safeDisplay(uni.location)}
 //                       </p>
 //                     </div>
@@ -985,9 +985,141 @@ const Universities: React.FC = () => {
             const logoImage = imageUrls[1] || imageUrls[0];
 
             return (
+              // <div
+              //   key={uni.id || i}
+              //   className="bg-white rounded-3xl shadow-md border border-black overflow-hidden hover:shadow-md transition"
+              //   onClick={() => navigate("/about-university")}
+              // >
+              //   {/* Image */}
+              //   <div className="relative">
+              //     <img
+              //       src={getImageUrl(mainImage)}
+              //       alt={`${uni.university_name}`}
+              //       className="w-full h-48 object-cover"
+              //       onError={(e) => {
+              //         e.currentTarget.src = "/assets/default-university.jpg";
+              //       }}
+              //     />
+
+              //     {isFeatured(uni) && (
+              //       <span className="absolute top-3 left-3 bg-secondary text-white text-xs font-semibold px-3 py-1 rounded-full">
+              //         ● Featured
+              //       </span>
+              //     )}
+              //   </div>
+
+              //   {/* Content */}
+              //   <div className="p-5">
+              //     {/* Logo + Name */}
+              //     <div className="flex items-center mb-3">
+              //       <img
+              //         src={getImageUrl(logoImage)}
+              //         alt={`${uni.university_name} logo`}
+              //         className="w-8 h-8 mr-2 object-contain"
+              //         onError={(e) => {
+              //           e.currentTarget.src = "/assets/default-university.jpg";
+              //         }}
+              //       />
+              //       <div>
+              //         <h3 className="text-lg font-semibold text-black">
+              //           {safeDisplay(uni.university_name)}
+              //         </h3>
+              //         <p className="text-sm text-black">
+              //           {safeDisplay(uni.location)}
+              //         </p>
+              //       </div>
+              //     </div>
+
+              //     {/* Short Description */}
+              //     <p className="text-black md:text-lg mb-3">
+              //       {safeDisplay(
+              //         uni.application_short_desc,
+              //         "No description available"
+              //       )}
+              //     </p>
+
+              //     {/* Quick Info */}
+              //     <ul className="md:text-lg text-black space-y-1 mb-3">
+              //       <li>
+              //         <strong>Founded:</strong> {safeDisplay(uni.founded)}
+              //       </li>
+              //       <li>
+              //         <strong>Type:</strong> {safeDisplay(uni.institution_type)}
+              //       </li>
+              //       <li>
+              //         <strong>DLI #:</strong> {safeDisplay(uni.dli_number)}
+              //       </li>
+              //       <li>
+              //         <strong>Phone:</strong> {safeDisplay(uni.phone_number)}
+              //       </li>
+              //       <li>
+              //         <strong>Application Fee:</strong>{" "}
+              //         {safeDisplay(uni.application_fee)}
+              //       </li>
+              //       <li>
+              //         <strong>Address:</strong> {safeDisplay(uni.address)}
+              //       </li>
+              //       <li>
+              //         <strong>Destinations:</strong>{" "}
+              //         {safeDisplay(uni.destinations)}
+              //       </li>
+              //     </ul>
+
+              //     {/* Programs */}
+              //     <div className="mb-3">
+              //       <p className="md:text-lg">
+              //         <strong>Graduate:</strong>{" "}
+              //         {safeDisplay(uni.average_graduate_program)} –{" "}
+              //         {safeDisplay(uni.average_graduate_program_short_desc)}
+              //       </p>
+              //       <p className="md:text-lg">
+              //         <strong>Undergraduate:</strong>{" "}
+              //         {safeDisplay(uni.average_undergraduate_program)} –{" "}
+              //         {safeDisplay(
+              //           uni.average_undergraduate_program_short_desc
+              //         )}
+              //       </p>
+              //     </div>
+
+              //     {/* Cost Info */}
+              //     <div className="mb-3">
+              //       <p className="md:text-lg">
+              //         <strong>Cost of Living:</strong>{" "}
+              //         {safeDisplay(uni.cost_of_living)} –{" "}
+              //         {safeDisplay(uni.cost_of_living_short_desc)}
+              //       </p>
+              //       <p className="md:text-lg">
+              //         <strong>Gross Tuition:</strong>{" "}
+              //         {safeDisplay(uni.average_gross_tuition)} –{" "}
+              //         {safeDisplay(uni.average_gross_tuition_short_desc)}
+              //       </p>
+              //     </div>
+
+              //     {/* Top Disciplines */}
+              //     {disciplines.length > 0 && (
+              //       <div className="mb-3">
+              //         <strong className="md:text-lg block mb-1">
+              //           Top Disciplines:
+              //         </strong>
+              //         <div className="flex flex-wrap gap-2">
+              //           {disciplines.map((disc, idx) => (
+              //             <span
+              //               key={idx}
+              //               className="bg-gray-100 text-black px-2 py-1 rounded md:text-lg"
+              //             >
+              //               {disc.discipline} ({disc.percentage}%)
+              //             </span>
+              //           ))}
+              //         </div>
+              //       </div>
+              //     )}
+
+              //   </div>
+              // </div>
+
               <div
                 key={uni.id || i}
-                className="bg-white rounded-3xl shadow-md border border-black overflow-hidden hover:shadow-md transition"
+                className="bg-white rounded-3xl shadow-md border border-black overflow-hidden hover:shadow-lg transition cursor-pointer"
                 onClick={() => navigate("/about-university")}
               >
                 {/* Image */}
@@ -1002,77 +1134,88 @@ const Universities: React.FC = () => {
                   />
 
                   {isFeatured(uni) && (
-                    <span className="absolute top-3 left-3 bg-secondary text-white text-xs font-semibold px-3 py-1 rounded-full">
+                    <span className="absolute top-3 left-3 bg-secondary text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
                       ● Featured
                     </span>
                   )}
                 </div>
 
                 {/* Content */}
-                <div className="p-5">
+                <div className="p-6 space-y-5">
                   {/* Logo + Name */}
-                  <div className="flex items-center mb-3">
+                  <div className="flex items-center border-b pb-3">
                     <img
                       src={getImageUrl(logoImage)}
                       alt={`${uni.university_name} logo`}
-                      className="w-8 h-8 mr-2 object-contain"
+                      className="w-10 h-10 mr-3 object-contain"
                       onError={(e) => {
                         e.currentTarget.src = "/assets/default-university.jpg";
                       }}
                     />
                     <div>
-                      <h3 className="text-lg font-semibold text-black">
+                      <h3 className="text-xl font-bold text-black">
                         {safeDisplay(uni.university_name)}
                       </h3>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-black italic">
                         {safeDisplay(uni.location)}
                       </p>
                     </div>
                   </div>
 
                   {/* Short Description */}
-                  <p className="text-black text-sm mb-3">
-                    {safeDisplay(
-                      uni.application_short_desc,
-                      "No description available"
-                    )}
-                  </p>
+                  <div className="border-b pb-3">
+                    <p className="text-base md:text-lg text-black leading-relaxed">
+                      {safeDisplay(
+                        uni.application_short_desc,
+                        "No description available"
+                      )}
+                    </p>
+                  </div>
 
                   {/* Quick Info */}
-                  <ul className="text-xs text-black space-y-1 mb-3">
-                    <li>
-                      <strong>Founded:</strong> {safeDisplay(uni.founded)}
-                    </li>
-                    <li>
-                      <strong>Type:</strong> {safeDisplay(uni.institution_type)}
-                    </li>
-                    <li>
-                      <strong>DLI #:</strong> {safeDisplay(uni.dli_number)}
-                    </li>
-                    <li>
-                      <strong>Phone:</strong> {safeDisplay(uni.phone_number)}
-                    </li>
-                    <li>
-                      <strong>Application Fee:</strong>{" "}
-                      {safeDisplay(uni.application_fee)}
-                    </li>
-                    <li>
-                      <strong>Address:</strong> {safeDisplay(uni.address)}
-                    </li>
-                    <li>
-                      <strong>Destinations:</strong>{" "}
-                      {safeDisplay(uni.destinations)}
-                    </li>
-                  </ul>
+                  <div className="border-b pb-3">
+                    <h4 className="text-lg font-semibold underline underline-offset-4 mb-2">
+                      Quick Info
+                    </h4>
+                    <ul className="text-sm md:text-base text-black space-y-1">
+                      <li>
+                        <strong>Founded:</strong> {safeDisplay(uni.founded)}
+                      </li>
+                      <li>
+                        <strong>Type:</strong>{" "}
+                        {safeDisplay(uni.institution_type)}
+                      </li>
+                      <li>
+                        <strong>DLI #:</strong> {safeDisplay(uni.dli_number)}
+                      </li>
+                      <li>
+                        <strong>Phone:</strong> {safeDisplay(uni.phone_number)}
+                      </li>
+                      <li>
+                        <strong>Application Fee:</strong>{" "}
+                        {safeDisplay(uni.application_fee)}
+                      </li>
+                      <li>
+                        <strong>Address:</strong> {safeDisplay(uni.address)}
+                      </li>
+                      <li>
+                        <strong>Destinations:</strong>{" "}
+                        {safeDisplay(uni.destinations)}
+                      </li>
+                    </ul>
+                  </div>
 
                   {/* Programs */}
-                  <div className="mb-3">
-                    <p className="text-xs">
+                  <div className="border-b pb-3">
+                    <h4 className="text-lg font-semibold underline underline-offset-4 mb-2">
+                      Programs
+                    </h4>
+                    <p className="text-sm md:text-base text-black">
                       <strong>Graduate:</strong>{" "}
                       {safeDisplay(uni.average_graduate_program)} –{" "}
                       {safeDisplay(uni.average_graduate_program_short_desc)}
                     </p>
-                    <p className="text-xs">
+                    <p className="text-sm md:text-base text-black">
                       <strong>Undergraduate:</strong>{" "}
                       {safeDisplay(uni.average_undergraduate_program)} –{" "}
                       {safeDisplay(
@@ -1082,13 +1225,16 @@ const Universities: React.FC = () => {
                   </div>
 
                   {/* Cost Info */}
-                  <div className="mb-3">
-                    <p className="text-xs">
+                  <div className="border-b pb-3">
+                    <h4 className="text-lg font-semibold underline underline-offset-4 mb-2">
+                      Costs
+                    </h4>
+                    <p className="text-sm md:text-base text-black">
                       <strong>Cost of Living:</strong>{" "}
                       {safeDisplay(uni.cost_of_living)} –{" "}
                       {safeDisplay(uni.cost_of_living_short_desc)}
                     </p>
-                    <p className="text-xs">
+                    <p className="text-sm md:text-base text-black">
                       <strong>Gross Tuition:</strong>{" "}
                       {safeDisplay(uni.average_gross_tuition)} –{" "}
                       {safeDisplay(uni.average_gross_tuition_short_desc)}
@@ -1097,15 +1243,15 @@ const Universities: React.FC = () => {
 
                   {/* Top Disciplines */}
                   {disciplines.length > 0 && (
-                    <div className="mb-3">
-                      <strong className="text-xs block mb-1">
-                        Top Disciplines:
-                      </strong>
+                    <div>
+                      <h4 className="text-lg font-semibold underline underline-offset-4 mb-2">
+                        Top Disciplines
+                      </h4>
                       <div className="flex flex-wrap gap-2">
                         {disciplines.map((disc, idx) => (
                           <span
                             key={idx}
-                            className="bg-gray-100 text-black px-2 py-1 rounded text-xs"
+                            className="bg-gray-100 text-black px-3 py-1 rounded-lg text-sm md:text-base shadow-sm"
                           >
                             {disc.discipline} ({disc.percentage}%)
                           </span>
@@ -1113,7 +1259,6 @@ const Universities: React.FC = () => {
                       </div>
                     </div>
                   )}
-
                 </div>
               </div>
             );
@@ -1135,9 +1280,10 @@ const Universities: React.FC = () => {
 
         {/* Button */}
         <div className="flex justify-center mt-10">
-          <button 
-           onClick={() => navigate("/university-apply")}
-           className="bg-primary text-white font-medium px-6 py-3 rounded-lg shadow-md hover:bg-secondary transition">
+          <button
+            onClick={() => navigate("/university-apply")}
+            className="bg-primary text-white font-medium px-6 py-3 rounded-lg shadow-md hover:bg-secondary transition"
+          >
             Explore More Institutions
           </button>
         </div>
