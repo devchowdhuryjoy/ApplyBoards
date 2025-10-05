@@ -1,14 +1,10 @@
-import { useRef } from "react";
-export default function AboutUniversity(): JSX.Element {
-  const topSectionRef = useRef<HTMLElement>(null);
 
-  const scrollToTop = () => {
-    topSectionRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+export default function AboutUniversity(): JSX.Element {
+ 
 
   return (
     <>
-      <section className="max-w-6xl mx-auto p-6 sm:p-8" ref={topSectionRef}>
+      <section className="max-w-6xl mx-auto p-6 sm:p-8">
         {/* Header */}
         <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div className="flex items-center gap-4">
@@ -36,13 +32,6 @@ export default function AboutUniversity(): JSX.Element {
             </div>
           </div>
            
-          {/* Example button to scroll to top */}
-          <button
-            onClick={scrollToTop}
-            className="mb-4 bg-blue-600 text-white px-4 py-2 rounded"
-          >
-            Scroll to Top
-          </button>
 
         </header>
 
@@ -124,10 +113,10 @@ export default function AboutUniversity(): JSX.Element {
         
       </section>
 
-      <section className="max-w-7xl mx-auto p-6 sm:p-8 grid lg:grid-cols-3 gap-8">
-        {/* Left Column: Tabs + About Text */}
+      {/* <section className="max-w-7xl mx-auto p-6 sm:p-8 grid lg:grid-cols-3 gap-8">
+        
         <div className="lg:col-span-2 space-y-6">
-          {/* Main Tabs */}
+         
           <div className="flex space-x-6 border-b mb-6 overflow-x-auto">
             {[
               "School Details",
@@ -142,14 +131,14 @@ export default function AboutUniversity(): JSX.Element {
                     ? "text-[#f16f22] border-b-2 border-[#252364] font-medium"
                     : "text-slate-600 hover:text-slate-900"
                 }`}
-                onClick={scrollToTop}
+                
               >
                 {tab}
               </button>
             ))}
           </div>
 
-          {/* School Details Card */}
+          
           <div className="bg-white rounded-xl shadow p-6 space-y-6">
             <h2 className="text-xl font-semibold flex items-center gap-2 mb-4">
               <span className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600">
@@ -158,7 +147,7 @@ export default function AboutUniversity(): JSX.Element {
               School Details
             </h2>
 
-            {/* Sub-tabs */}
+            
             <div className="flex space-x-6 border-b text-sm mb-6">
               {["Overview", "Features", "Location"].map((sub, i) => (
                 <button
@@ -174,7 +163,7 @@ export default function AboutUniversity(): JSX.Element {
               ))}
             </div>
 
-            {/* About Text */}
+            
             <div className="prose max-w-none text-slate-700">
               <h3 className="font-semibold text-lg mb-2">
                 About Laurentian University
@@ -218,9 +207,9 @@ export default function AboutUniversity(): JSX.Element {
           </div>
         </div>
 
-        {/* Right Column: Institution Details + Cost & Duration */}
+        
         <div className="space-y-6">
-          {/* Institution Details */}
+          
           <div className="bg-white rounded-xl shadow p-6">
             <h3 className="text-lg font-semibold mb-4">Institution Details</h3>
             <dl className="space-y-2 text-sm text-slate-700">
@@ -243,7 +232,7 @@ export default function AboutUniversity(): JSX.Element {
             </dl>
           </div>
 
-          {/* Cost and Duration */}
+          
           <div className="bg-white rounded-xl shadow p-6">
             <h3 className="text-lg font-semibold mb-4">Cost and Duration</h3>
             <ul className="space-y-4 text-sm text-slate-700">
@@ -274,7 +263,150 @@ export default function AboutUniversity(): JSX.Element {
             </ul>
           </div>
         </div>
-      </section>
+      </section> */}
+
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
+  {/* Left Column: Tabs + About Text */}
+  <div className="lg:col-span-2 space-y-6">
+    {/* Main Tabs */}
+    <div className="flex flex-wrap sm:flex-nowrap gap-3 sm:space-x-6 border-b mb-6 overflow-x-auto">
+      {["School Details", "Programs", "Scholarships", "Studyxl Services"].map(
+        (tab, i) => (
+          <button
+            key={i}
+            className={`pb-3 whitespace-nowrap text-sm sm:text-base ${
+              i === 0
+                ? "text-[#f16f22] border-b-2 border-[#252364] font-medium"
+                : "text-slate-600 hover:text-slate-900"
+            }`}
+          >
+            {tab}
+          </button>
+        )
+      )}
+    </div>
+
+    {/* School Details Card */}
+    <div className="bg-white rounded-xl shadow p-4 sm:p-6 space-y-6">
+      <h2 className="text-lg sm:text-xl font-semibold flex items-center gap-2 mb-4">
+        <span className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600">
+          🏛️
+        </span>
+        School Details
+      </h2>
+
+      {/* Sub-tabs */}
+      <div className="flex flex-wrap sm:flex-nowrap gap-3 sm:space-x-6 border-b text-sm mb-6 overflow-x-auto">
+        {["Overview", "Features", "Location"].map((sub, i) => (
+          <button
+            key={i}
+            className={`pb-2 whitespace-nowrap ${
+              i === 0
+                ? "text-[#f16f22] border-b-2 border-[#252364] font-medium"
+                : "text-slate-500 hover:text-slate-800"
+            }`}
+          >
+            {sub}
+          </button>
+        ))}
+      </div>
+
+      {/* About Text */}
+      <div className="prose max-w-none text-slate-700 text-sm sm:text-base">
+        <h3 className="font-semibold text-base sm:text-lg mb-2">
+          About Laurentian University
+        </h3>
+        <p className="text-justify">
+          Laurentian University was once only a regional school serving Sudbury,
+          and while it still serves the area well, it has grown into an
+          international leader in niches such as stressed watershed systems,
+          rural and Northern children’s health, particle astrophysics, as well
+          as mining, engineering, and environmental remediation. Laurentian
+          University offers more than 175 undergraduate and graduate programs,
+          and as it is a bilingual institution, 800 course sections are offered
+          in French.
+        </p>
+        <p className="text-justify">
+          Located on a 765-acre campus, the university is surrounded by five
+          lakes, a boreal forest and nature trails. Laurentian University's main
+          campus, an eight-minute drive from downtown, is attractive and
+          welcoming. It’s near a beach that students can visit in the summer,
+          and outdoor rinks, where they can knock around pucks during the
+          winter.
+        </p>
+
+        <h3 className="font-semibold text-base sm:text-lg mt-4 mb-2">
+          Why Laurentian University
+        </h3>
+        <ul className="list-disc list-inside space-y-1 text-justify ">
+          <li>
+            <strong>Unique Signature Programs:</strong> With more than 175
+            degree programs at the undergraduate and graduate levels, and
+            flexible degree options, Laurentian University offers a
+            comprehensive range of high-calibre programs. Our programs in
+            architecture, forensic science, sports administration, midwifery,
+            human kinetics, Indigenous studies and many others provide unique
+            learning experiences and diverse career opportunities for graduates.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  {/* Right Column: Institution Details + Cost & Duration */}
+  <div className="space-y-6">
+    {/* Institution Details */}
+    <div className="bg-white rounded-xl shadow p-4 sm:p-6">
+      <h3 className="text-base sm:text-lg font-semibold mb-4">
+        Institution Details
+      </h3>
+      <dl className="space-y-2 text-sm text-slate-700">
+        <div className="flex justify-between flex-wrap">
+          <dt>Founded</dt>
+          <dd>1960</dd>
+        </div>
+        <div className="flex justify-between flex-wrap">
+          <dt>School ID</dt>
+          <dd>250</dd>
+        </div>
+        <div className="flex justify-between flex-wrap">
+          <dt>DLI number</dt>
+          <dd>O19304259382</dd>
+        </div>
+        <div className="flex justify-between flex-wrap">
+          <dt>Institution Type</dt>
+          <dd>Public</dd>
+        </div>
+      </dl>
+    </div>
+
+    {/* Cost and Duration */}
+    <div className="bg-white rounded-xl shadow p-4 sm:p-6">
+      <h3 className="text-base sm:text-lg font-semibold mb-4">
+        Cost and Duration
+      </h3>
+      <ul className="space-y-4 text-sm text-slate-700">
+        <li className="flex items-start justify-between flex-wrap gap-1">
+          <span className="flex items-center gap-2">💰 Average application fee</span>
+          <span>$112.75 – $153.00 CAD</span>
+        </li>
+        <li className="flex items-start justify-between flex-wrap gap-1">
+          <span className="flex items-center gap-2">📅 Average graduate program</span>
+          <span>One Year</span>
+        </li>
+        <li className="flex items-start justify-between flex-wrap gap-1">
+          <span className="flex items-center gap-2">📅 Average undergraduate program</span>
+          <span>4 Years</span>
+        </li>
+        <li className="flex items-start justify-between flex-wrap gap-1">
+          <span className="flex items-center gap-2">🏠 Cost of living</span>
+          <span>$20,635.00 CAD / year</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
     </>
   );
 }
