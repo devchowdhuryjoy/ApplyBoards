@@ -34,11 +34,7 @@ import AgentResetPassword from "./Authentication/AgentForgot/AgentResetPassword"
 import AboutUniversity from "./components/TrustedPartners/AboutUniversity/AboutUniversity";
 import UniversityApply from "./components/TrustedPartners/AboutUniversity/UniversityApply";
 
-
-
-
-
-// ✅ Main layout with Navbar & Footer
+//Main layout with Navbar & Footer
 function MainLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex flex-col min-h-screen">
@@ -49,7 +45,7 @@ function MainLayout({ children }: { children: React.ReactNode }) {
   );
 }
 
-// ✅ Landing page sections
+//Landing page sections
 function HomePage() {
   return (
     <>
@@ -156,33 +152,95 @@ function App() {
         />
 
         {/* Auth pages without Navbar/Footer */}
-        <Route path="/registration" element={<Registration />} />
+        {/* <Route path="/registration" element={<Registration />} />
         <Route path="/registration-agent" element={<RegistrationAgent />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/login-agent" element={<LoginAgent />} />
         <Route path="/forgot-password-agent" element={<AgentForgotPassword />} />
-        <Route path="/agent-reset-password" element={<AgentResetPassword />} />
-        <Route path="/sidebar" element={<Sidebar />} />
-        
-        {/* Agent Dashboard */}
-        <Route path="/agent-dashboard" element={<AgentDashboard/>} />
+        <Route path="/agent-reset-password" element={<AgentResetPassword />} /> */}
 
+        {/* Auth pages WITH Navbar & Footer */}
+        <Route
+          path="/registration"
+          element={
+            <MainLayout>
+              <Registration />
+            </MainLayout>
+          }
+        />
+
+        <Route
+          path="/registration-agent"
+          element={
+            <MainLayout>
+              <RegistrationAgent />
+            </MainLayout>
+          }
+        />
+
+        <Route
+          path="/login"
+          element={
+            <MainLayout>
+              <Login />
+            </MainLayout>
+          }
+        />
+
+        <Route
+          path="/forgot-password"
+          element={
+            <MainLayout>
+              <ForgotPassword />
+            </MainLayout>
+          }
+        />
+
+        <Route
+          path="/reset-password"
+          element={
+            <MainLayout>
+              <ResetPassword />
+            </MainLayout>
+          }
+        />
+
+        <Route
+          path="/login-agent"
+          element={
+            <MainLayout>
+              <LoginAgent />
+            </MainLayout>
+          }
+        />
+
+        <Route
+          path="/forgot-password-agent"
+          element={
+            <MainLayout>
+              <AgentForgotPassword />
+            </MainLayout>
+          }
+        />
+
+        <Route
+          path="/agent-reset-password"
+          element={
+            <MainLayout>
+              <AgentResetPassword />
+            </MainLayout>
+          }
+        />
+
+        <Route path="/sidebar" element={<Sidebar />} />
+
+        {/* Agent Dashboard */}
+        <Route path="/agent-dashboard" element={<AgentDashboard />} />
       </Routes>
     </Router>
   );
 }
 
 export default App;
-
-
-
-
-
-
-
-
-
-
-

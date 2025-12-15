@@ -8,8 +8,9 @@ import {
   CheckSquare,
   GraduationCap,
   User2,
+  Bell,
 } from "lucide-react";
-import { LogOut } from "lucide-react";
+// import { LogOut } from "lucide-react";
 
 // Import your page components for the agent
 import DashboardPage from "../../Slidebar/Dashboard/AgentPage/DashboardPage";
@@ -20,6 +21,7 @@ import TasksPage from "../../Slidebar/Dashboard/AgentPage/TasksPage";
 import SettingsPage from "../../Slidebar/Dashboard/AgentPage/SettingsPage";
 import Universityshow from "./AgentPage/Universityshow";
 import StudentsProfile from "./AgentPage/StudentsProfile";
+import ProfileDropdown from "../ProfileDropdown/ProfileDropdown";
 
 interface MenuItem {
   name: string;
@@ -33,11 +35,12 @@ const menuItems: MenuItem[] = [
   { name: "Tasks", icon: <CheckSquare size={22} /> },
   { name: "University", icon: <GraduationCap size={22} /> },
   { name: "StudentsProfile", icon: <User2 size={22} /> },
-  { name: "Logout", icon: <LogOut size={22} /> },
+  // { name: "Logout", icon: <LogOut size={22} /> },
 ];
 
 const AgentDashboard: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState(() => {
     return localStorage.getItem("activeMenu") || "Dashboard";
   });
@@ -63,8 +66,8 @@ const AgentDashboard: React.FC = () => {
         return <Universityshow />;
       case "StudentsProfile":
         return <StudentsProfile />;
-      case "Logout":
-        return <SettingsPage />;
+      // case "Logout":
+      //   return <SettingsPage />;
       default:
         return <DashboardPage />;
     }
@@ -123,6 +126,15 @@ const AgentDashboard: React.FC = () => {
         <div className="flex items-center justify-between w-full h-16 bg-primary px-4 text-white">
           <span className="font-semibold text-lg">{activeMenu}</span>
           {/* Optional: profile dropdown */}
+          <div className="flex items-center gap-4 relative">
+            <Bell size={20} className="cursor-pointer" />
+            <User
+              size={20}
+              className="cursor-pointer"
+              onClick={() => setProfileOpen(!profileOpen)}
+            />
+            {profileOpen && <ProfileDropdown />}
+          </div>
         </div>
 
         {/* Page Content */}

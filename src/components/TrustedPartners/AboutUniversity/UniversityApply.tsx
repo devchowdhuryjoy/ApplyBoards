@@ -118,6 +118,7 @@ const UniversityApply: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
 
   const fetchUniversities = async () => {
     try {
@@ -296,240 +297,293 @@ const UniversityApply: React.FC = () => {
 
   return (
     <>
-    <Program />
+      <Program />
 
-    <section className="bg-white py-16 px-6 md:px-12 lg:px-20">
-      <div className="max-w-7xl mx-auto">
-        {/* Cards Grid */}
-        <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {universities.map((uni, i) => {
-            const disciplines = parseTopDisciplines(uni.top_disciplines);
-            const imageUrls = getImages(uni.images);
-            const mainImage = imageUrls[0];
-            const logoImage = imageUrls[1] || imageUrls[0];
+      <section className="bg-white py-16 px-6 md:px-12 lg:px-20">
+        <div className="max-w-7xl mx-auto">
+          {/* Cards Grid */}
+          <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {universities.map((uni, i) => {
+              const disciplines = parseTopDisciplines(uni.top_disciplines);
+              const imageUrls = getImages(uni.images);
+              const mainImage = imageUrls[0];
+              const logoImage = imageUrls[1] || imageUrls[0];
 
-            return (
-              // <div
-              //   key={uni.id || i}
-              //   className="bg-white rounded-xl mt-10 mb-10 shadow-md border border-gray-200 hover:shadow-lg transition cursor-pointer max-w-md mx-auto"
+              return (
+                // <div
+                //   key={uni.id || i}
+                //   className="bg-white rounded-xl mt-10 mb-10 shadow-md border border-gray-200 hover:shadow-lg transition cursor-pointer max-w-md mx-auto"
 
-              // >
-              //   {/* Header */}
-              //   <div className="p-4 border-b border-gray-200">
-              //     <div className="flex items-center space-x-2">
-              //       <img
-              //         src={getImageUrl(logoImage)}
-              //         alt={`${uni.university_name} logo`}
-              //         className="w-10 h-10 object-contain"
-              //         onError={(e) => {
-              //           e.currentTarget.src = "/assets/default-university.jpg";
-              //         }}
-              //       />
-              //       <h3 className="text-blue-700 font-semibold hover:underline">
-              //         {safeDisplay(uni.university_name)}
-              //       </h3>
-              //     </div>
-              //     <p className="text-sm text-black mt-1">
-              //       {safeDisplay(uni.institution_type)}
-              //     </p>
-              //     <p className="text-base font-medium text-black">
-              //       {safeDisplay(uni.average_undergraduate_program)}
-              //     </p>
-              //   </div>
+                // >
+                //   {/* Header */}
+                //   <div className="p-4 border-b border-gray-200">
+                //     <div className="flex items-center space-x-2">
+                //       <img
+                //         src={getImageUrl(logoImage)}
+                //         alt={`${uni.university_name} logo`}
+                //         className="w-10 h-10 object-contain"
+                //         onError={(e) => {
+                //           e.currentTarget.src = "/assets/default-university.jpg";
+                //         }}
+                //       />
+                //       <h3 className="text-blue-700 font-semibold hover:underline">
+                //         {safeDisplay(uni.university_name)}
+                //       </h3>
+                //     </div>
+                //     <p className="text-sm text-black mt-1">
+                //       {safeDisplay(uni.institution_type)}
+                //     </p>
+                //     <p className="text-base font-medium text-black">
+                //       {safeDisplay(uni.average_undergraduate_program)}
+                //     </p>
+                //   </div>
 
-              //   {/* Quick Info */}
-              //   <div className="p-4 space-y-2 text-sm">
-              //     <p>
-              //       <strong>Location:</strong> {safeDisplay(uni.location)}
-              //     </p>
-              //     <p>
-              //       <strong>Founded:</strong> {safeDisplay(uni.founded)}
-              //     </p>
-              //     <p>
-              //       <strong>Tuition (1st year):</strong>{" "}
-              //       {safeDisplay(uni.average_gross_tuition)}
-              //     </p>
-              //     <p>
-              //       <strong>Application fee:</strong>{" "}
-              //       {safeDisplay(uni.application_fee)}
-              //     </p>
-              //     <p>
-              //       <strong>Duration:</strong>{" "}
-              //       {safeDisplay(uni.program_duration, "N/A")}
-              //     </p>
-              //   </div>
+                //   {/* Quick Info */}
+                //   <div className="p-4 space-y-2 text-sm">
+                //     <p>
+                //       <strong>Location:</strong> {safeDisplay(uni.location)}
+                //     </p>
+                //     <p>
+                //       <strong>Founded:</strong> {safeDisplay(uni.founded)}
+                //     </p>
+                //     <p>
+                //       <strong>Tuition (1st year):</strong>{" "}
+                //       {safeDisplay(uni.average_gross_tuition)}
+                //     </p>
+                //     <p>
+                //       <strong>Application fee:</strong>{" "}
+                //       {safeDisplay(uni.application_fee)}
+                //     </p>
+                //     <p>
+                //       <strong>Duration:</strong>{" "}
+                //       {safeDisplay(uni.program_duration, "N/A")}
+                //     </p>
+                //   </div>
 
-              //   {/* Success prediction */}
-              //   <div className="p-4 border-t border-gray-200">
-              //     <p className="font-medium text-black mb-2">
-              //       Success prediction
-              //     </p>
-              //     <div className="flex items-center justify-between text-xs">
-              //       <div className="flex flex-col items-center">
-              //         <span>Sep 2026</span>
-              //         <span className="bg-gray-200 text-black px-2 py-0.5 rounded-full mt-1">
-              //           {safeDisplay(
-              //             uni.success_prediction_sept2026,
-              //             "Average"
-              //           )}
-              //         </span>
-              //       </div>
-              //       <div className="flex flex-col items-center">
-              //         <span>Jan 2027</span>
-              //         <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded-full mt-1">
-              //           {safeDisplay(uni.success_prediction_jan2027, "High")}
-              //         </span>
-              //       </div>
-              //       <div className="flex flex-col items-center">
-              //         <span>Sep 2027</span>
-              //         <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded-full mt-1">
-              //           {safeDisplay(uni.success_prediction_sept2027, "High")}
-              //         </span>
-              //       </div>
-              //     </div>
-              //   </div>
+                //   {/* Success prediction */}
+                //   <div className="p-4 border-t border-gray-200">
+                //     <p className="font-medium text-black mb-2">
+                //       Success prediction
+                //     </p>
+                //     <div className="flex items-center justify-between text-xs">
+                //       <div className="flex flex-col items-center">
+                //         <span>Sep 2026</span>
+                //         <span className="bg-gray-200 text-black px-2 py-0.5 rounded-full mt-1">
+                //           {safeDisplay(
+                //             uni.success_prediction_sept2026,
+                //             "Average"
+                //           )}
+                //         </span>
+                //       </div>
+                //       <div className="flex flex-col items-center">
+                //         <span>Jan 2027</span>
+                //         <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded-full mt-1">
+                //           {safeDisplay(uni.success_prediction_jan2027, "High")}
+                //         </span>
+                //       </div>
+                //       <div className="flex flex-col items-center">
+                //         <span>Sep 2027</span>
+                //         <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded-full mt-1">
+                //           {safeDisplay(uni.success_prediction_sept2027, "High")}
+                //         </span>
+                //       </div>
+                //     </div>
+                //   </div>
 
-              //   {/* CTA */}
-              //   <div className="p-4 border-t border-gray-200">
-              //     <button className="w-full bg-blue-100 text-blue-700 font-medium py-2 rounded-lg hover:bg-blue-200 transition">
-              //       Create application
-              //     </button>
-              //   </div>
-              // </div>
+                //   {/* CTA */}
+                //   <div className="p-4 border-t border-gray-200">
+                //     <button className="w-full bg-blue-100 text-blue-700 font-medium py-2 rounded-lg hover:bg-blue-200 transition">
+                //       Create application
+                //     </button>
+                //   </div>
+                // </div>
 
-              <div
-                key={uni.id || i}
-                className="bg-white rounded-2xl  shadow-lg border border-gray-200 hover:shadow-2xl transition-all duration-300 cursor-pointer max-w-[850px] mx-auto"
-              >
-                {/* Header */}
-                <div className="p-7 border-b border-gray-200">
-                  <div className="flex items-center space-x-4">
-                    <img
-                      src={getImageUrl(logoImage)}
-                      alt={`${uni.university_name} logo`}
-                      className="w-14 h-14 object-contain rounded-md border shadow-sm"
-                      onError={(e) => {
-                        e.currentTarget.src = "/assets/default-university.jpg";
-                      }}
-                    />
-                    <div>
-                      <h3 className="text-2xl text-[#252364] font-bold hover:underline leading-snug">
-                        {safeDisplay(uni.university_name)}
-                      </h3>
-                      <p className="text-black text-sm mt-0.5">
-                        {safeDisplay(uni.institution_type)}
-                      </p>
+                <div
+                  key={uni.id || i}
+                  className="bg-white rounded-2xl  shadow-lg border border-gray-200 hover:shadow-2xl transition-all duration-300 cursor-pointer max-w-[850px] mx-auto"
+                >
+                  {/* Header */}
+                  <div className="p-7 border-b border-gray-200">
+                    <div className="flex items-center space-x-4">
+                      <img
+                        src={getImageUrl(logoImage)}
+                        alt={`${uni.university_name} logo`}
+                        className="w-14 h-14 object-contain rounded-md border shadow-sm"
+                        onError={(e) => {
+                          e.currentTarget.src =
+                            "/assets/default-university.jpg";
+                        }}
+                      />
+                      <div>
+                        <h3 className="text-2xl text-[#252364] font-bold hover:underline leading-snug">
+                          {safeDisplay(uni.university_name)}
+                        </h3>
+                        <p className="text-black text-sm mt-0.5">
+                          {safeDisplay(uni.institution_type)}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="text-lg font-medium text-black mt-4">
+                      🎓 {safeDisplay(uni.average_undergraduate_program)}
+                    </p>
+                  </div>
+
+                  {/* Quick Info */}
+                  <div className="p-7 grid grid-cols-2 gap-y-3 gap-x-8 text-sm md:text-base">
+                    <p className="flex items-center leading-relaxed">
+                      <strong className="text-black mr-2 whitespace-nowrap">
+                        📍 Location:
+                      </strong>
+                      <span className="text-black">
+                        {safeDisplay(uni.location)}
+                      </span>
+                    </p>
+
+                    <p className="flex items-center leading-relaxed">
+                      <strong className="text-black mr-2 whitespace-nowrap">
+                        🏛 Founded:
+                      </strong>
+                      <span className="text-black">
+                        {safeDisplay(uni.founded)}
+                      </span>
+                    </p>
+
+                    <p className="flex items-center leading-relaxed">
+                      <strong className="text-black mr-2 whitespace-nowrap">
+                        💰 Tuition:
+                      </strong>
+                      <span className="text-black">
+                        {safeDisplay(uni.average_gross_tuition)}
+                      </span>
+                    </p>
+                    <p className="flex items-center leading-relaxed col-span-2">
+                      <strong className="text-black mr-2 whitespace-nowrap">
+                        ⏳ Duration:
+                      </strong>
+                      <span className="text-black">
+                        {safeDisplay(uni.program_duration, "N/A")}
+                      </span>
+                    </p>
+
+                    <p className="flex items-center leading-relaxed">
+                      <strong className="text-black mr-2 whitespace-nowrap">
+                        📝 Application Fee:
+                      </strong>
+                      <span className="text-black">
+                        {safeDisplay(uni.application_fee)}
+                      </span>
+                    </p>
+                  </div>
+
+                  {/* Success prediction */}
+                  <div className="p-7 border-t border-gray-200">
+                    <p className="font-semibold text-black mb-4 text-lg">
+                      📊 Success Prediction
+                    </p>
+                    <div className="flex items-center justify-around text-sm">
+                      <div className="flex flex-col items-center">
+                        <span className="font-medium">Sep 2026</span>
+                        <span className="bg-gray-100 text-black px-4 py-1 rounded-full mt-2 shadow-sm">
+                          {safeDisplay(
+                            uni.success_prediction_sept2026,
+                            "Average"
+                          )}
+                        </span>
+                      </div>
+                      <div className="flex flex-col items-center">
+                        <span className="font-medium">Jan 2027</span>
+                        <span className="bg-green-100 text-green-700 px-4 py-1 rounded-full mt-2 shadow-sm">
+                          {safeDisplay(uni.success_prediction_jan2027, "High")}
+                        </span>
+                      </div>
+                      <div className="flex flex-col items-center">
+                        <span className="font-medium">Sep 2027</span>
+                        <span className="bg-green-100 text-green-700 px-4 py-1 rounded-full mt-2 shadow-sm">
+                          {safeDisplay(uni.success_prediction_sept2027, "High")}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                  <p className="text-lg font-medium text-black mt-4">
-                    🎓 {safeDisplay(uni.average_undergraduate_program)}
-                  </p>
-                </div>
 
-                {/* Quick Info */}
-                <div className="p-7 grid grid-cols-2 gap-y-3 gap-x-8 text-sm md:text-base">
-                  <p className="flex items-center leading-relaxed">
-                    <strong className="text-black mr-2 whitespace-nowrap">
-                      📍 Location:
-                    </strong>
-                    <span className="text-black">
-                      {safeDisplay(uni.location)}
-                    </span>
-                  </p>
-
-                  <p className="flex items-center leading-relaxed">
-                    <strong className="text-black mr-2 whitespace-nowrap">
-                      🏛 Founded:
-                    </strong>
-                    <span className="text-black">
-                      {safeDisplay(uni.founded)}
-                    </span>
-                  </p>
-
-                  <p className="flex items-center leading-relaxed">
-                    <strong className="text-black mr-2 whitespace-nowrap">
-                      💰 Tuition:
-                    </strong>
-                    <span className="text-black">
-                      {safeDisplay(uni.average_gross_tuition)}
-                    </span>
-                  </p>
-                  <p className="flex items-center leading-relaxed col-span-2">
-                    <strong className="text-black mr-2 whitespace-nowrap">
-                      ⏳ Duration:
-                    </strong>
-                    <span className="text-black">
-                      {safeDisplay(uni.program_duration, "N/A")}
-                    </span>
-                  </p>
-
-                  <p className="flex items-center leading-relaxed">
-                    <strong className="text-black mr-2 whitespace-nowrap">
-                      📝 Application Fee:
-                    </strong>
-                    <span className="text-black">
-                      {safeDisplay(uni.application_fee)}
-                    </span>
-                  </p>
-                </div>
-
-                {/* Success prediction */}
-                <div className="p-7 border-t border-gray-200">
-                  <p className="font-semibold text-black mb-4 text-lg">
-                    📊 Success Prediction
-                  </p>
-                  <div className="flex items-center justify-around text-sm">
-                    <div className="flex flex-col items-center">
-                      <span className="font-medium">Sep 2026</span>
-                      <span className="bg-gray-100 text-black px-4 py-1 rounded-full mt-2 shadow-sm">
-                        {safeDisplay(
-                          uni.success_prediction_sept2026,
-                          "Average"
-                        )}
-                      </span>
-                    </div>
-                    <div className="flex flex-col items-center">
-                      <span className="font-medium">Jan 2027</span>
-                      <span className="bg-green-100 text-green-700 px-4 py-1 rounded-full mt-2 shadow-sm">
-                        {safeDisplay(uni.success_prediction_jan2027, "High")}
-                      </span>
-                    </div>
-                    <div className="flex flex-col items-center">
-                      <span className="font-medium">Sep 2027</span>
-                      <span className="bg-green-100 text-green-700 px-4 py-1 rounded-full mt-2 shadow-sm">
-                        {safeDisplay(uni.success_prediction_sept2027, "High")}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* CTA */}
-                <div className="p-7 border-t border-gray-200">
+                  {/* CTA */}
+                  {/* <div className="p-7 border-t border-gray-200">
                   <button className="w-full bg-[#f16f22] text-white font-semibold py-3.5 rounded-xl hover:bg-[#252364] transition-all duration-300 shadow-md">
                     🚀 Create Application
                   </button>
+                </div> */}
+
+                  <>
+                    {/* Bottom Button */}
+                    <div className="p-7 border-t border-gray-200">
+                      <button
+                        onClick={() => setOpen(true)}
+                        className="w-full bg-[#252364] text-white font-semibold py-3.5 rounded-xl transition-all duration-300 shadow-md"
+                      >
+                        🚀 Create Application
+                      </button>
+                    </div>
+
+                    {/* Popup Modal */}
+                    {open && (
+                      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+                        <div className="bg-white w-full max-w-md rounded-2xl p-6 relative animate-fadeIn">
+                          {/* Close */}
+                          <button
+                            onClick={() => setOpen(false)}
+                            className="absolute top-4 right-4 text-gray-500 text-xl"
+                          >
+                            ✕
+                          </button>
+
+                          <h2 className="text-xl font-bold text-center text-[#252364]">
+                            Continue as
+                          </h2>
+                          <p className="text-center text-gray-500 text-sm mt-1">
+                            Select how you want to register
+                          </p>
+
+                          <div className="mt-6 space-y-4">
+                            {/* Student */}
+                            <button
+                              onClick={() => navigate("/login")}
+                              className="w-full border border-[#252364] text-[#252364] font-semibold py-3 rounded-xl hover:bg-[#252364] hover:text-white transition"
+                            >
+                              🎓 Student
+                            </button>
+
+                            {/* Agent */}
+                            <button
+                              onClick={() => navigate("/login-agent")}
+                              className="w-full bg-[#252364] text-white font-semibold py-3 rounded-xl hover:opacity-90 transition"
+                            >
+                              🧑‍💼 Agent
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </>
+
                 </div>
-              </div>
-              
-            );
-          })}
-        </div>
-
-        {/* Empty State */}
-        {universities.length === 0 && !loading && (
-          <div className="text-center py-10">
-            <p className="text-black">No universities found.</p>
-            <button
-              onClick={fetchUniversities}
-              className="mt-4 bg-primary text-white font-medium px-6 py-3 rounded-lg shadow-md hover:bg-secondary transition"
-            >
-              Try Again
-            </button>
+              );
+            })}
           </div>
-        )}
 
-        {/* Button */}
-        {/* <div className="flex justify-center mt-10">
+          {/* Empty State */}
+          {universities.length === 0 && !loading && (
+            <div className="text-center py-10">
+              <p className="text-black">No universities found.</p>
+              <button
+                onClick={fetchUniversities}
+                className="mt-4 bg-primary text-white font-medium px-6 py-3 rounded-lg shadow-md hover:bg-secondary transition"
+              >
+                Try Again
+              </button>
+            </div>
+          )}
+
+          {/* Button */}
+          {/* <div className="flex justify-center mt-10">
           <button
             onClick={() => navigate("/university-apply")}
             className="bg-primary text-white font-medium px-6 py-3 rounded-lg shadow-md hover:bg-secondary transition"
@@ -537,8 +591,8 @@ const UniversityApply: React.FC = () => {
             Explore More Institutions
           </button>
         </div> */}
-      </div>
-    </section>
+        </div>
+      </section>
     </>
   );
 };

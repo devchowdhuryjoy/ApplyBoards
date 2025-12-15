@@ -12,17 +12,22 @@ const Navbar = () => {
   const handleLogin = () => {
     navigate("/login");
   };
+
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState(false);
 
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const destinations = ["UK", "USA", "Canada", "Australia"];
 
-    // Click outside handler
+  // Click outside handler
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setOpen(false);
       }
     };
@@ -134,22 +139,85 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="md:hidden px-4 pb-4 flex flex-col gap-3 bg-white border-t mt-2">
-          <a href="#" className="text-black hover:text-primary">
+        <div className="md:hidden px-4 pb-4 flex flex-col gap-4 bg-white border-t mt-2">
+          <Link
+            to="/program-search"
+            onClick={() => setMobileOpen(false)}
+            className="text-black hover:text-primary"
+          >
             Students
-          </a>
-          <a
-            href="#"
-            className="flex items-center gap-1 text-black hover:text-primary"
+          </Link>
+
+          <Link
+            to="/university"
+            onClick={() => setMobileOpen(false)}
+            className="text-black hover:text-primary"
           >
-            Study Destinations <ChevronDown size={16} />
-          </a>
-          <a
-            href="#"
-            className="flex items-center gap-1 text-black hover:text-primary"
+            University
+          </Link>
+
+          <Link
+            to="/agent"
+            onClick={() => setMobileOpen(false)}
+            className="text-black hover:text-primary"
           >
-            Partners <ChevronDown size={16} />
-          </a>
+            Agent
+          </Link>
+
+          {/* Study Destinations (Mobile) */}
+          <div>
+            <div
+              className="flex items-center gap-1 text-black font-semibold cursor-pointer"
+              onClick={() => setMobileDropdownOpen(!mobileDropdownOpen)}
+            >
+              Study Destinations
+              <ChevronDown
+                size={18}
+                className={`transition ${
+                  mobileDropdownOpen ? "rotate-180" : ""
+                }`}
+              />
+            </div>
+
+            {mobileDropdownOpen && (
+              <div className="ml-3 mt-2 flex flex-col gap-2">
+                {destinations.map((country) => (
+                  <div
+                    key={country}
+                    className="cursor-pointer text-gray-700 hover:text-primary"
+                    onClick={() => {
+                      navigate(getRoute(country));
+                      setMobileOpen(false);
+                      setMobileDropdownOpen(false);
+                    }}
+                  >
+                    {country}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Mobile Buttons */}
+          <button
+            onClick={() => {
+              handleRegister();
+              setMobileOpen(false);
+            }}
+            className="px-4 py-2 border border-blue-600 text-primary rounded-md hover:bg-blue-50"
+          >
+            Register
+          </button>
+
+          <button
+            onClick={() => {
+              handleLogin();
+              setMobileOpen(false);
+            }}
+            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-secondary"
+          >
+            Log In
+          </button>
         </div>
       )}
     </nav>
