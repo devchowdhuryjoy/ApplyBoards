@@ -171,7 +171,7 @@ const RegistrationAgent: React.FC = () => {
       </div>
 
       {/* Form */}
-      <div className="flex justify-center mt-8 px-4">
+      <div className="flex justify-center mt-8 mb-8 px-4">
         <form
           className="bg-white p-8 rounded-lg shadow-md w-full max-w-2xl"
           onSubmit={handleSubmit}

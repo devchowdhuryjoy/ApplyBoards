@@ -66,7 +66,7 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8 text-xl ">
           <Link to="/program-search" className="text-black hover:text-primary">
-            Students
+            Studentss
           </Link>
 
           <Link
