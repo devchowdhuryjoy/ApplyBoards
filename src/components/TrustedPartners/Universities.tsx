@@ -987,10 +987,10 @@ const Universities: React.FC = () => {
             return (
              
 
-              <div
+                <div
                 key={uni.id || i}
                 className="bg-white rounded-3xl shadow-md border border-black overflow-hidden hover:shadow-lg transition cursor-pointer"
-                onClick={() => navigate("/about-university")}
+                onClick={() => navigate(`/about-university/${uni.id}`)} 
               >
                 {/* Image */}
                 <div className="relative">
