@@ -155,7 +155,7 @@ const RegistrationAgent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white mb-10">
       {/* Banner */}
       <div className="text-black py-12 px-6 text-center">
         <h1 className="text-3xl font-bold mb-4 text-primary">

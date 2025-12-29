@@ -132,7 +132,7 @@ const AgentLogin = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-20 p-6 bg-white rounded-xl shadow-md">
+    <div className="max-w-md mx-auto mt-20 p-6 bg-white rounded-xl shadow-md mb-10">
       <h2 className="text-xl font-bold mb-4">Agent Login</h2>
       <form onSubmit={handleLogin}>
         <div className="mb-4">

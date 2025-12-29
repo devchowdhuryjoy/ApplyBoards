@@ -33,7 +33,7 @@ const menuItems: MenuItem[] = [
   { name: "My Profile", icon: <User size={22} /> },
   { name: "Applications", icon: <FileText size={22} /> },
   { name: "Tasks", icon: <CheckSquare size={22} /> },
-  { name: "University", icon: <GraduationCap size={22} /> },
+  { name: "Programs & University", icon: <GraduationCap size={22} /> },
   { name: "StudentsProfile", icon: <User2 size={22} /> },
   // { name: "Logout", icon: <LogOut size={22} /> },
 ];
@@ -62,7 +62,7 @@ const AgentDashboard: React.FC = () => {
         return <ApplicationsPage />;
       case "Tasks":
         return <TasksPage />;
-      case "University":
+      case "Programs & University":
         return <Universityshow />;
       case "StudentsProfile":
         return <StudentsProfile />;
