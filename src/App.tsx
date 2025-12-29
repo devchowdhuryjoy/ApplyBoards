@@ -33,6 +33,7 @@ import AgentForgotPassword from "./Authentication/AgentForgot/AgentForgotPasswor
 import AgentResetPassword from "./Authentication/AgentForgot/AgentResetPassword";
 import AboutUniversity from "./components/TrustedPartners/AboutUniversity/AboutUniversity";
 import UniversityApply from "./components/TrustedPartners/AboutUniversity/UniversityApply";
+import ProgramDetails from "./components/TrustedPartners/AboutUniversity/ProgramDetails";
 
 //Main layout with Navbar & Footer
 function MainLayout({ children }: { children: React.ReactNode }) {
@@ -107,6 +108,14 @@ function App() {
           element={
             <MainLayout>
               <UniversityApply />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/program-details"
+          element={
+            <MainLayout>
+              <ProgramDetails/>
             </MainLayout>
           }
         />

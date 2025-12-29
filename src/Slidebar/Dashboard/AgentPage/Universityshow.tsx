@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import Universities from "../../../components/TrustedPartners/Universities";
+import UniversityApply from "../../../components/TrustedPartners/AboutUniversity/UniversityApply";
+
 
 const Universityshow: React.FC = () => {
   
 
   return (
     <div className="w-full px-4 sm:px-8 py-6 bg-gray-50 min-h-screen">
-        <div>
-        <Universities />
+      <div>
+        <UniversityApply />
       </div>
     </div>
   );

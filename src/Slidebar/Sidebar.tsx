@@ -25,7 +25,7 @@ interface MenuItem {
 
 const menuItems: MenuItem[] = [
   { name: "Home", icon: <Home size={22} /> },
-  { name: "University", icon: <BookOpen size={22} /> },
+  { name: "Programs & University", icon: <BookOpen size={22} /> },
   { name: "Profile", icon: <User size={22} /> },
   { name: "My Applications", icon: <FileText size={22} /> },
   { name: "My Tasks", icon: <CheckSquare size={22} /> },
@@ -51,7 +51,7 @@ const Sidebar: React.FC = () => {
     switch (activeMenu) {
       case "Home":
         return <HomePage />;
-      case "University":
+      case "Programs & University":
         return <ProgramsPage />;
       case "Profile":
         return <ProfilePage />;
