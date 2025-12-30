@@ -34,6 +34,7 @@ import AgentResetPassword from "./Authentication/AgentForgot/AgentResetPassword"
 import AboutUniversity from "./components/TrustedPartners/AboutUniversity/AboutUniversity";
 import UniversityApply from "./components/TrustedPartners/AboutUniversity/UniversityApply";
 import ProgramDetails from "./components/TrustedPartners/AboutUniversity/ProgramDetails";
+import CreateApplicationForm from "./components/TrustedPartners/CreateApplicationForm/CreateApplicationForm";
 
 //Main layout with Navbar & Footer
 function MainLayout({ children }: { children: React.ReactNode }) {
@@ -112,10 +113,18 @@ function App() {
           }
         />
         <Route
+          path="/create-application-form"
+          element={
+            <MainLayout>
+              <CreateApplicationForm />
+            </MainLayout>
+          }
+        />
+        <Route
           path="/program-details"
           element={
             <MainLayout>
-              <ProgramDetails/>
+              <ProgramDetails />
             </MainLayout>
           }
         />
