@@ -22,6 +22,7 @@ import SettingsPage from "../../Slidebar/Dashboard/AgentPage/SettingsPage";
 import Universityshow from "./AgentPage/Universityshow";
 import StudentsProfile from "./AgentPage/StudentsProfile";
 import ProfileDropdown from "../ProfileDropdown/ProfileDropdown";
+import AllAgentStudentData from "./AgentPage/AllAgentStudentData";
 
 interface MenuItem {
   name: string;
@@ -35,6 +36,7 @@ const menuItems: MenuItem[] = [
   { name: "Tasks", icon: <CheckSquare size={22} /> },
   { name: "Programs & University", icon: <GraduationCap size={22} /> },
   { name: "StudentsProfile", icon: <User2 size={22} /> },
+  { name: "AllAgentStudentData", icon: <User2 size={22} /> },
   // { name: "Logout", icon: <LogOut size={22} /> },
 ];
 
@@ -66,6 +68,8 @@ const AgentDashboard: React.FC = () => {
         return <Universityshow />;
       case "StudentsProfile":
         return <StudentsProfile />;
+      case "AllAgentStudentData":
+        return <AllAgentStudentData/>;
       // case "Logout":
       //   return <SettingsPage />;
       default:

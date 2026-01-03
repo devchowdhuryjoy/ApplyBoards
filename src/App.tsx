@@ -97,7 +97,7 @@ function App() {
           }
         />
         <Route
-          path="/about-university/:id" // Dynamic parameter যোগ করুন
+          path="/about-university/:id" 
           element={
             <MainLayout>
               <AboutUniversity />
