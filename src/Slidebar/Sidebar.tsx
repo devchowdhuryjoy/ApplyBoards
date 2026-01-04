@@ -25,11 +25,11 @@ interface MenuItem {
 
 const menuItems: MenuItem[] = [
   { name: "Home", icon: <Home size={22} /> },
-  { name: "Programs & University", icon: <BookOpen size={22} /> },
+  { name: "Programs", icon: <BookOpen size={22} /> },
   { name: "Profile", icon: <User size={22} /> },
   { name: "My Applications", icon: <FileText size={22} /> },
   { name: "My Tasks", icon: <CheckSquare size={22} /> },
-  // { name: "Logout", icon: <LogOut size={22} /> },
+  
 ];
 
 const Sidebar: React.FC = () => {
@@ -51,7 +51,7 @@ const Sidebar: React.FC = () => {
     switch (activeMenu) {
       case "Home":
         return <HomePage />;
-      case "Programs & University":
+      case "Programs":
         return <ProgramsPage />;
       case "Profile":
         return <ProfilePage />;
@@ -59,8 +59,7 @@ const Sidebar: React.FC = () => {
         return <ApplicationsPage />;
       case "My Tasks":
         return <TasksPage />;
-      // case "Logout":
-      //   return <Logout />;
+    
       default:
         return <HomePage />;
     }

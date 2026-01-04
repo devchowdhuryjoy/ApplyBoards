@@ -5,7 +5,7 @@ const DashboardPromotion: React.FC = () => {
   return (
     <>
       <div className="w-full px-4 sm:px-8 py-6 bg-gray-50">
-        {/* 🔶 Promotion Banner */}
+        {/* Promotion Banner */}
         <div className="bg-gradient-to-r from-orange-400 to-orange-700 rounded-2xl text-white p-6 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center justify-between relative overflow-hidden">
           {/* Text */}
           <div className="max-w-2xl">
@@ -37,7 +37,7 @@ const DashboardPromotion: React.FC = () => {
           </div>
         </div>
 
-        {/* 🔶 My Progress Section */}
+        {/*  My Progress Section */}
         <div className="mt-10">
           {/* Title */}
           <div className="flex items-center gap-3 mb-6">
