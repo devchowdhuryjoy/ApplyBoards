@@ -9,8 +9,10 @@ import {
   GraduationCap,
   User2,
   Bell,
+  
 } from "lucide-react";
-// import { LogOut } from "lucide-react";
+import { FaUserGraduate } from "react-icons/fa";
+
 
 // Import your page components for the agent
 import DashboardPage from "../../Slidebar/Dashboard/AgentPage/DashboardPage";
@@ -18,7 +20,6 @@ import SearchPage from "../../Slidebar/Dashboard/AgentPage/SearchPage";
 import ProfilePage from "../../Slidebar/Dashboard/AgentPage/ProfilePage";
 import ApplicationsPage from "../../Slidebar/Dashboard/AgentPage/ApplicationsPage ";
 import TasksPage from "../../Slidebar/Dashboard/AgentPage/TasksPage";
-import SettingsPage from "../../Slidebar/Dashboard/AgentPage/SettingsPage";
 import Universityshow from "./AgentPage/Universityshow";
 import StudentsProfile from "./AgentPage/StudentsProfile";
 import ProfileDropdown from "../ProfileDropdown/ProfileDropdown";
@@ -36,8 +37,8 @@ const menuItems: MenuItem[] = [
   { name: "Tasks", icon: <CheckSquare size={22} /> },
   { name: "Programs & University", icon: <GraduationCap size={22} /> },
   { name: "StudentsProfile", icon: <User2 size={22} /> },
-  { name: "AllAgentStudentData", icon: <User2 size={22} /> },
-  // { name: "Logout", icon: <LogOut size={22} /> },
+  { name: "AllAgentStudentData", icon: <FaUserGraduate size={22} />, },
+ 
 ];
 
 const AgentDashboard: React.FC = () => {
@@ -70,8 +71,7 @@ const AgentDashboard: React.FC = () => {
         return <StudentsProfile />;
       case "AllAgentStudentData":
         return <AllAgentStudentData/>;
-      // case "Logout":
-      //   return <SettingsPage />;
+      
       default:
         return <DashboardPage />;
     }
