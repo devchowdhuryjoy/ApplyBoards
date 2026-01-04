@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import BASE_URL from "../../../ApiBaseUrl/ApiBaseUrl";
 import { useNavigate } from "react-router-dom";
@@ -8,10 +7,10 @@ import {
   FaMoneyBillWave,
   FaClock,
   FaFileInvoice,
-  FaFileAlt,      
-  FaCalendarAlt,  
-  FaChartBar,    
-  FaChartLine
+  FaFileAlt,
+  FaCalendarAlt,
+  FaChartBar,
+  FaChartLine,
 } from "react-icons/fa";
 
 interface TopDiscipline {
@@ -39,7 +38,7 @@ interface ProgramType {
   success_prediction_sept2027?: string;
   institution_type: string;
   destination_id?: number;
-  destination_name?: string; 
+  destination_name?: string;
   university_id?: number;
   program_level_id?: number;
   study_field_id?: number;
@@ -75,15 +74,19 @@ const UniversityApply: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  
+
+  const [selectedProgram, setSelectedProgram] = useState<ProgramType | null>(null);
+
   // Filter states
   const [activeFilters, setActiveFilters] = useState<FilterOptions>({});
-  
+
   // State for destinations
   const [destinations, setDestinations] = useState<Destination[]>([]);
-  
+
   // Ref for Program component
   const programRef = useRef<ProgramHandle>(null);
+
+  
 
   const fetchPrograms = async () => {
     try {
@@ -141,22 +144,26 @@ const UniversityApply: React.FC = () => {
 
       console.log("Programs loaded:", programsData);
       console.log("First program:", programsData[0]);
-      
+
       // Check what fields are available in programs
       if (programsData.length > 0) {
         const sampleProgram = programsData[0];
         console.log("Available fields in program:", Object.keys(sampleProgram));
-        console.log("Sample program destination_id:", sampleProgram.destination_id);
-        console.log("Sample program destination_name:", sampleProgram.destination_name);
+        console.log(
+          "Sample program destination_id:",
+          sampleProgram.destination_id
+        );
+        console.log(
+          "Sample program destination_name:",
+          sampleProgram.destination_name
+        );
       }
 
       setAllPrograms(programsData);
       setFilteredPrograms(programsData);
     } catch (err) {
       console.error("Error fetching programs:", err);
-      setError(
-        err instanceof Error ? err.message : "Failed to fetch programs"
-      );
+      setError(err instanceof Error ? err.message : "Failed to fetch programs");
     } finally {
       setLoading(false);
     }
@@ -181,21 +188,18 @@ const UniversityApply: React.FC = () => {
         }
       }
 
-      const response = await fetch(
-        `${BASE_URL}/all/destination/filter`,
-        {
-          method: "GET",
-          headers: myHeaders,
-          redirect: "follow",
-        }
-      );
+      const response = await fetch(`${BASE_URL}/all/destination/filter`, {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      });
 
       if (response.ok) {
         const result = await response.json();
         console.log("Destinations API Response:", result);
-        
+
         let destinationsData: Destination[] = [];
-        
+
         if (result.data && Array.isArray(result.data)) {
           destinationsData = result.data;
         } else if (Array.isArray(result)) {
@@ -203,7 +207,7 @@ const UniversityApply: React.FC = () => {
         } else if (result.destinations && Array.isArray(result.destinations)) {
           destinationsData = result.destinations;
         }
-        
+
         console.log("Destinations loaded:", destinationsData);
         setDestinations(destinationsData);
       }
@@ -216,7 +220,7 @@ const UniversityApply: React.FC = () => {
   const handleFilterChange = (filters: FilterOptions) => {
     console.log("=== FILTERS RECEIVED ===", filters);
     setActiveFilters(filters);
-    
+
     if (Object.keys(filters).length === 0) {
       console.log("No filters, showing all programs");
       setFilteredPrograms(allPrograms);
@@ -224,124 +228,162 @@ const UniversityApply: React.FC = () => {
     }
 
     let filtered = [...allPrograms];
-    
+
     console.log(`Starting with ${filtered.length} programs`);
 
     // Apply destination filter - MOST IMPORTANT FIX
     if (filters.destinationId && filters.destinationId !== "") {
       console.log(`🔍 FILTERING BY DESTINATION ID: ${filters.destinationId}`);
-      
+
       // Find destination name
-      const selectedDestination = destinations.find(d => 
-        d.id.toString() === filters.destinationId
+      const selectedDestination = destinations.find(
+        (d) => d.id.toString() === filters.destinationId
       );
-      
+
       const destinationName = selectedDestination?.destinations_name;
       console.log(`Destination name: ${destinationName}`);
-      
+
       // Get university IDs from this destination
-      const destinationUniversityIds = selectedDestination?.universities?.map(u => u.id.toString()) || [];
-      console.log(`University IDs in this destination:`, destinationUniversityIds);
-      
+      const destinationUniversityIds =
+        selectedDestination?.universities?.map((u) => u.id.toString()) || [];
+      console.log(
+        `University IDs in this destination:`,
+        destinationUniversityIds
+      );
+
       // Filter programs
-      filtered = filtered.filter(program => {
+      filtered = filtered.filter((program) => {
         // Method 1: Check if program's university_id is in destination's universities array
-        if (program.university_id && destinationUniversityIds.includes(program.university_id.toString())) {
-          console.log(`✓ Program ${program.id} matched by university_id ${program.university_id}`);
+        if (
+          program.university_id &&
+          destinationUniversityIds.includes(program.university_id.toString())
+        ) {
+          console.log(
+            `✓ Program ${program.id} matched by university_id ${program.university_id}`
+          );
           return true;
         }
-        
+
         // Method 2: Check destination_id directly
         if (program.destination_id?.toString() === filters.destinationId) {
-          console.log(`✓ Program ${program.id} matched by destination_id ${program.destination_id}`);
+          console.log(
+            `✓ Program ${program.id} matched by destination_id ${program.destination_id}`
+          );
           return true;
         }
-        
+
         // Method 3: Check destination_name if available
-        if (program.destination_name && destinationName && 
-            program.destination_name.toLowerCase() === destinationName.toLowerCase()) {
-          console.log(`✓ Program ${program.id} matched by destination_name "${program.destination_name}"`);
+        if (
+          program.destination_name &&
+          destinationName &&
+          program.destination_name.toLowerCase() ===
+            destinationName.toLowerCase()
+        ) {
+          console.log(
+            `✓ Program ${program.id} matched by destination_name "${program.destination_name}"`
+          );
           return true;
         }
-        
+
         // Method 4: Check location contains destination name
-        if (destinationName && program.location?.toLowerCase().includes(destinationName.toLowerCase())) {
-          console.log(`✓ Program ${program.id} matched by location "${program.location}"`);
+        if (
+          destinationName &&
+          program.location
+            ?.toLowerCase()
+            .includes(destinationName.toLowerCase())
+        ) {
+          console.log(
+            `✓ Program ${program.id} matched by location "${program.location}"`
+          );
           return true;
         }
-        
+
         // Method 5: Check university name contains destination name
-        if (destinationName && program.university_name?.toLowerCase().includes(destinationName.toLowerCase())) {
-          console.log(`✓ Program ${program.id} matched by university_name "${program.university_name}"`);
+        if (
+          destinationName &&
+          program.university_name
+            ?.toLowerCase()
+            .includes(destinationName.toLowerCase())
+        ) {
+          console.log(
+            `✓ Program ${program.id} matched by university_name "${program.university_name}"`
+          );
           return true;
         }
-        
+
         return false;
       });
-      
-      console.log(`After destination filter: ${filtered.length} programs found`);
+
+      console.log(
+        `After destination filter: ${filtered.length} programs found`
+      );
     }
 
     // Apply university filter
     if (filters.universityId && filters.universityId !== "") {
       console.log(`Filtering by university ID: ${filters.universityId}`);
-      filtered = filtered.filter(program => 
-        program.university_id?.toString() === filters.universityId
+      filtered = filtered.filter(
+        (program) => program.university_id?.toString() === filters.universityId
       );
       console.log(`After university filter: ${filtered.length} programs`);
     }
 
     // Apply program level filter
     if (filters.programLevelId && filters.programLevelId !== "") {
-      filtered = filtered.filter(program => 
-        program.program_level_id?.toString() === filters.programLevelId
+      filtered = filtered.filter(
+        (program) =>
+          program.program_level_id?.toString() === filters.programLevelId
       );
     }
 
     // Apply study field filter
     if (filters.studyFieldId && filters.studyFieldId !== "") {
-      filtered = filtered.filter(program => 
-        program.study_field_id?.toString() === filters.studyFieldId
+      filtered = filtered.filter(
+        (program) => program.study_field_id?.toString() === filters.studyFieldId
       );
     }
 
     // Apply intake filter
     if (filters.intakeId && filters.intakeId !== "") {
-      filtered = filtered.filter(program => 
-        program.intake_id?.toString() === filters.intakeId
+      filtered = filtered.filter(
+        (program) => program.intake_id?.toString() === filters.intakeId
       );
     }
 
     // Apply program tag filter
     if (filters.programTagId && filters.programTagId !== "") {
-      filtered = filtered.filter(program => 
-        program.program_tag_id?.toString() === filters.programTagId
+      filtered = filtered.filter(
+        (program) => program.program_tag_id?.toString() === filters.programTagId
       );
     }
 
     // Apply search query filter
     if (filters.searchQuery && filters.searchQuery !== "") {
       const query = filters.searchQuery.toLowerCase();
-      filtered = filtered.filter(program => 
-        program.program_name?.toLowerCase().includes(query) ||
-        program.university_name?.toLowerCase().includes(query) ||
-        program.location?.toLowerCase().includes(query)
+      filtered = filtered.filter(
+        (program) =>
+          program.program_name?.toLowerCase().includes(query) ||
+          program.university_name?.toLowerCase().includes(query) ||
+          program.location?.toLowerCase().includes(query)
       );
     }
 
     console.log("=== FINAL FILTERED PROGRAMS ===");
     console.log("Count:", filtered.length);
-    console.log("Programs:", filtered.map(p => ({
-      id: p.id,
-      university: p.university_name,
-      university_id: p.university_id,
-      destination_id: p.destination_id,
-      destination_name: p.destination_name,
-      location: p.location
-    })));
-    
+    console.log(
+      "Programs:",
+      filtered.map((p) => ({
+        id: p.id,
+        university: p.university_name,
+        university_id: p.university_id,
+        destination_id: p.destination_id,
+        destination_name: p.destination_name,
+        location: p.location,
+      }))
+    );
+
     setFilteredPrograms(filtered);
-    
+
     // Scroll to top when filters change
     if (programRef.current) {
       programRef.current.scrollToTop();
@@ -362,17 +404,14 @@ const UniversityApply: React.FC = () => {
 
   useEffect(() => {
     const loadData = async () => {
-      await Promise.all([
-        fetchPrograms(),
-        fetchDestinations()
-      ]);
-      
+      await Promise.all([fetchPrograms(), fetchDestinations()]);
+
       window.scrollTo({
         top: 0,
         behavior: "smooth",
       });
     };
-    
+
     loadData();
   }, []);
 
@@ -387,12 +426,15 @@ const UniversityApply: React.FC = () => {
     console.log("All programs count:", allPrograms.length);
     console.log("Filtered programs count:", filteredPrograms.length);
     console.log("Destinations count:", destinations.length);
-    
+
     if (destinations.length > 0) {
       console.log("First destination:", destinations[0]);
-      console.log("Universities in first destination:", destinations[0].universities);
+      console.log(
+        "Universities in first destination:",
+        destinations[0].universities
+      );
     }
-    
+
     if (allPrograms.length > 0) {
       const sampleProgram = allPrograms[0];
       console.log("Sample program fields:", {
@@ -401,7 +443,7 @@ const UniversityApply: React.FC = () => {
         university_id: sampleProgram.university_id,
         destination_id: sampleProgram.destination_id,
         destination_name: sampleProgram.destination_name,
-        location: sampleProgram.location
+        location: sampleProgram.location,
       });
     }
   }, [allPrograms, filteredPrograms, destinations]);
@@ -501,9 +543,15 @@ const UniversityApply: React.FC = () => {
               Available Programs
             </h2>
             <p className="text-gray-600 mt-1">
-              Showing {filteredPrograms.length} program{filteredPrograms.length !== 1 ? 's' : ''}
-              {Object.keys(activeFilters).length > 0 && ' with applied filters'}
-              {activeFilters.destinationId && ` for ${destinations.find(d => d.id.toString() === activeFilters.destinationId)?.destinations_name}`}
+              Showing {filteredPrograms.length} program
+              {filteredPrograms.length !== 1 ? "s" : ""}
+              {Object.keys(activeFilters).length > 0 && " with applied filters"}
+              {activeFilters.destinationId &&
+                ` for ${
+                  destinations.find(
+                    (d) => d.id.toString() === activeFilters.destinationId
+                  )?.destinations_name
+                }`}
             </p>
           </div>
 
@@ -539,7 +587,8 @@ const UniversityApply: React.FC = () => {
                             </h3>
                             <p className="text-black text-sm mt-0.5">
                               {safeDisplay(program.institution_type)}
-                              {program.destination_name && ` • ${program.destination_name}`}
+                              {program.destination_name &&
+                                ` • ${program.destination_name}`}
                             </p>
                           </div>
                         </div>
@@ -547,7 +596,6 @@ const UniversityApply: React.FC = () => {
                           🎓 {safeDisplay(program.program_name)}
                         </p>
                       </div>
-
                       {/* Quick Info */}
                       <div className="p-7 flex flex-col gap-3 text-sm md:text-base">
                         <p className="flex items-center gap-2 leading-relaxed">
@@ -602,21 +650,21 @@ const UniversityApply: React.FC = () => {
                         </p>
 
                         {/* Intake Months */}
-                        {program.intake_months && program.intake_months.length > 0 && (
-                          <p className="flex items-center gap-2 leading-relaxed">
-                            <FaCalendarAlt className="text-black" />
-                            <strong className="text-black mr-2 whitespace-nowrap">
-                              Intake Months:
-                            </strong>
-                            <span className="text-black">
-                              {program.intake_months
-                                .map((intake) => intake.month)
-                                .join(", ")}
-                            </span>
-                          </p>
-                        )}
+                        {program.intake_months &&
+                          program.intake_months.length > 0 && (
+                            <p className="flex items-center gap-2 leading-relaxed">
+                              <FaCalendarAlt className="text-black" />
+                              <strong className="text-black mr-2 whitespace-nowrap">
+                                Intake Months:
+                              </strong>
+                              <span className="text-black">
+                                {program.intake_months
+                                  .map((intake) => intake.month)
+                                  .join(", ")}
+                              </span>
+                            </p>
+                          )}
                       </div>
-
                       {/* Success Chance */}
                       <div className="p-7 border-t border-gray-200">
                         <div className="flex items-center justify-between mb-4">
@@ -687,16 +735,26 @@ const UniversityApply: React.FC = () => {
                           </>
                         ) : null}
                       </div>
-
                       {/* Bottom Button */}
-                      <div className="p-7 border-t border-gray-200">
+                      {/* <div className="p-7 border-t border-gray-200">
                         <button
                           onClick={() => setOpen(true)}
                           className="w-full bg-primary text-white font-semibold py-3.5 rounded-xl transition-all duration-300 shadow-md hover:bg-secondary"
                         >
                           Create Application
                         </button>
-                      </div>
+                      </div> */}
+                     
+                      <button
+                        onClick={() => {
+                          setSelectedProgram(program);
+                          setOpen(true);
+                        }}
+                        className="w-full bg-primary text-white font-semibold py-3.5 rounded-xl transition-all duration-300 shadow-md hover:bg-secondary"
+                      >
+                        Create Application
+                      </button>
+
                     </div>
                   );
                 })}
@@ -718,8 +776,8 @@ const UniversityApply: React.FC = () => {
                       key={i}
                       onClick={() => setCurrentPage(i + 1)}
                       className={`px-4 py-2 rounded-lg border ${
-                        currentPage === i + 1 
-                          ? "bg-primary text-white border-primary" 
+                        currentPage === i + 1
+                          ? "bg-primary text-white border-primary"
                           : "bg-white border-gray-300 hover:bg-gray-50"
                       } transition`}
                     >
@@ -728,7 +786,9 @@ const UniversityApply: React.FC = () => {
                   ))}
 
                   <button
-                    onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                    onClick={() =>
+                      setCurrentPage((p) => Math.min(p + 1, totalPages))
+                    }
                     disabled={currentPage === totalPages}
                     className="px-4 py-2 border rounded-lg disabled:opacity-50 hover:bg-gray-50 transition"
                   >
@@ -811,3 +871,6 @@ const UniversityApply: React.FC = () => {
 };
 
 export default UniversityApply;
+
+
+
