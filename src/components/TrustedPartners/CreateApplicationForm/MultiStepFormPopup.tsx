@@ -139,17 +139,8 @@ const MultiStepFormPopup = ({ open, setOpen, programData }) => {
     await Swal.fire({
       icon: 'success',
       title: 'Application Submitted Successfully!',
-      html: `
-        <div style="text-align: left;">
-          <p><strong>Student:</strong> ${payload.student_name}</p>
-          <p><strong>Program:</strong> ${payload.program_name}</p>
-          <p><strong>University:</strong> ${payload.university_name}</p>
-          <p><strong>Intake:</strong> ${payload.intake}</p>
-          <p><strong>Application ID:</strong> ${result.data?.id || 'N/A'}</p>
-        </div>
-      `,
       confirmButtonText: 'Close',
-      confirmButtonColor: '#28a745',
+      confirmButtonColor: '#f16f22',
       showCloseButton: true,
       timer: 5000,
       timerProgressBar: true,
@@ -356,7 +347,7 @@ const MultiStepFormPopup = ({ open, setOpen, programData }) => {
               <button
                 onClick={applyApplication}
                 disabled={loading}
-                className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition duration-300 font-medium disabled:opacity-50"
+                className="w-full bg-primary text-white py-3 rounded-lg hover:bg-secondary transition duration-300 font-medium disabled:opacity-50"
               >
                 {loading ? (
                   <span className="flex items-center justify-center">

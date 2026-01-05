@@ -33,11 +33,13 @@ interface MenuItem {
 const menuItems: MenuItem[] = [
   { name: "Dashboard", icon: <Home size={22} /> },
   { name: "My Profile", icon: <User size={22} /> },
+  { name: "StudentsProfile", icon: <User2 size={22} /> },
+  { name: "AllStudentData", icon: <FaUserGraduate size={22} />, },
+  { name: "Programs & University", icon: <GraduationCap size={22} /> },
   { name: "Applications", icon: <FileText size={22} /> },
   { name: "Tasks", icon: <CheckSquare size={22} /> },
-  { name: "Programs & University", icon: <GraduationCap size={22} /> },
-  { name: "StudentsProfile", icon: <User2 size={22} /> },
-  { name: "AllAgentStudentData", icon: <FaUserGraduate size={22} />, },
+  
+  
  
 ];
 
@@ -69,7 +71,7 @@ const AgentDashboard: React.FC = () => {
         return <Universityshow />;
       case "StudentsProfile":
         return <StudentsProfile />;
-      case "AllAgentStudentData":
+      case "AllStudentData":
         return <AllAgentStudentData/>;
       
       default:
