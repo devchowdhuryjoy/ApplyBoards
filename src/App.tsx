@@ -36,6 +36,7 @@ import UniversityApply from "./components/TrustedPartners/AboutUniversity/Univer
 import ProgramDetails from "./components/TrustedPartners/AboutUniversity/ProgramDetails";
 import CreateApplicationForm from "./components/TrustedPartners/CreateApplicationForm/CreateApplicationForm";
 
+
 //Main layout with Navbar & Footer
 function MainLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -120,6 +121,7 @@ function App() {
             </MainLayout>
           }
         />
+        
         <Route
           path="/program-details"
           element={

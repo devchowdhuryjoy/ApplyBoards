@@ -4,7 +4,7 @@ import { Users, Globe, FileText } from "lucide-react";
 const ProfilePage: React.FC = () => {
   // Sample agent data
   const agent = {
-    name: "Imran Uddin chowdhury",
+    name: "Imran",
     email: "imran@example.com",
     role: "Agent",
     profileImage: "https://i.pravatar.cc/150?img=12",
@@ -100,5 +100,8 @@ const ProfilePage: React.FC = () => {
 };
 
 export default ProfilePage;
+
+
+
 
 

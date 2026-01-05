@@ -256,14 +256,6 @@ const RegistrationAgent: React.FC = () => {
             className="border p-2 rounded w-full mb-4"
           />
           <input
-            type="email"
-            name="finance_email"
-            value={formData.finance_email}
-            onChange={handleChange}
-            placeholder="Finance Email"
-            className="border p-2 rounded w-full mb-4"
-          />
-          <input
             type="password"
             name="password"
             value={formData.password}
@@ -271,7 +263,9 @@ const RegistrationAgent: React.FC = () => {
             placeholder="Password"
             className="border p-2 rounded w-full mb-4"
           />
-
+           
+          <h2 className="text-xl font-semibold mb-2">Address</h2>
+          <hr className="mb-4" />
           {/* Address */}
           <input
             type="text"
@@ -279,6 +273,14 @@ const RegistrationAgent: React.FC = () => {
             value={formData.street_address}
             onChange={handleChange}
             placeholder="Street Address"
+            className="border p-2 rounded w-full mb-4"
+          />
+          <input
+            type="email"
+            name="finance_email"
+            value={formData.finance_email}
+            onChange={handleChange}
+            placeholder="Finance Email"
             className="border p-2 rounded w-full mb-4"
           />
           <input

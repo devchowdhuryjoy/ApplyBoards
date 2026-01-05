@@ -719,110 +719,14 @@ const StudentApplication: React.FC = () => {
                       </div>
 
                       {/*FIXED: Bottom Button */}
-                      {/* <div className="p-7 border-t border-gray-200">
-                        <button
-                          
-                          className="w-full bg-primary text-white font-semibold py-3.5 rounded-xl transition-all duration-300 shadow-md hover:bg-secondary"
-                        >
-                          Create Application
-                        </button>
-                      </div> */}
-
                       <div className="p-7 border-t border-gray-200">
                         <button
-                          onClick={() => setShowPopup(true)}
+                          onClick={() => navigate("/student-program-apply")}
                           className="w-full bg-primary text-white font-semibold py-3.5 rounded-xl transition-all duration-300 shadow-md hover:bg-secondary"
                         >
                           Create Application
                         </button>
                       </div>
-
-                      {/* Popup Modal */}
-                      {showPopup && (
-                        <div className="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center z-50 p-4">
-                          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-xl">
-                            {/* Popup Header */}
-                            <div className="flex justify-between items-center p-6 border-b border-gray-200">
-                              <h2 className="text-2xl font-bold text-gray-800">
-                                Create New Application
-                              </h2>
-                              <button
-                                onClick={() => setShowPopup(false)}
-                                className="text-gray-500 hover:text-gray-700 text-2xl"
-                              >
-                                &times;
-                              </button>
-                            </div>
-
-                            {/* Popup Form */}
-                            <form onSubmit={handleSubmit} className="p-6">
-                              <div className="space-y-4">
-                                <div>
-                                  <label className="block text-gray-700 text-sm font-medium mb-2">
-                                    Application Name
-                                  </label>
-                                  <input
-                                    type="text"
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleInputChange}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                                    placeholder="Enter application name"
-                                    required
-                                  />
-                                </div>
-
-                                <div>
-                                  <label className="block text-gray-700 text-sm font-medium mb-2">
-                                    Email Address
-                                  </label>
-                                  <input
-                                    type="email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleInputChange}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                                    placeholder="Enter your email"
-                                    required
-                                  />
-                                </div>
-
-                                <div>
-                                  <label className="block text-gray-700 text-sm font-medium mb-2">
-                                    Description
-                                  </label>
-                                  <textarea
-                                    name="description"
-                                    value={formData.description}
-                                    onChange={handleInputChange}
-                                    rows="4"
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                                    placeholder="Describe your application"
-                                    required
-                                  />
-                                </div>
-                              </div>
-
-                              {/* Form Actions */}
-                              <div className="flex justify-end space-x-3 mt-8 pt-4 border-t border-gray-200">
-                                <button
-                                  type="button"
-                                  onClick={() => setShowPopup(false)}
-                                  className="px-5 py-2.5 text-gray-700 font-medium rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors"
-                                >
-                                  Cancel
-                                </button>
-                                <button
-                                  type="submit"
-                                  className="px-5 py-2.5 bg-primary text-white font-medium rounded-lg hover:bg-secondary transition-colors"
-                                >
-                                  Submit Application
-                                </button>
-                              </div>
-                            </form>
-                          </div>
-                        </div>
-                      )}
 
                     </div>
                   );

@@ -25,8 +25,8 @@ interface MenuItem {
 
 const menuItems: MenuItem[] = [
   { name: "Home", icon: <Home size={22} /> },
-  { name: "Programs", icon: <BookOpen size={22} /> },
   { name: "Profile", icon: <User size={22} /> },
+  { name: "Programs", icon: <BookOpen size={22} /> },
   { name: "My Applications", icon: <FileText size={22} /> },
   { name: "My Tasks", icon: <CheckSquare size={22} /> },
   
