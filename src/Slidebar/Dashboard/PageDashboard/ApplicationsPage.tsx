@@ -21,7 +21,7 @@ const ApplicationsPage: React.FC = () => {
   return (
     <div className="w-full px-4 sm:px-8 py-8 bg-gray-50 min-h-screen">
       <h2 className="text-2xl font-bold text-gray-800 mb-6">
-        📌 My Applications
+         My Applications
       </h2>
 
       {applications.length > 0 ? (
