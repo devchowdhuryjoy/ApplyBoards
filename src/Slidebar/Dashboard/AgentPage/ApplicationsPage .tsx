@@ -190,9 +190,6 @@
 
 // export default ApplicationsPage;
 
-
-
-
 import React, { useEffect, useState } from "react";
 import BASE_URL from "../../../ApiBaseUrl/ApiBaseUrl";
 
@@ -247,18 +244,23 @@ const ApplicationsPage: React.FC = () => {
       const result = await response.json();
       console.log("API Response:", result);
 
-      const formatted: Application[] = (result?.data || []).map((item: any) => ({
-        id: item.id || item.application_id || "N/A",
-        studentName: item.student_name || item.studentName || "Unknown",
-        studentId: item.student_id || item.studentId || "N/A",
-        program: item.program_name || item.program || "N/A",
-        university: item.university_name || item.university || "N/A",
-        status: ["Accepted", "Rejected", "Submitted"].includes(item.status)
-          ? item.status
-          : "Pending",
-        submittedAt:
-          item.submitted_at || item.submittedAt || item.created_at?.slice(0, 10) || "N/A",
-      }));
+      const formatted: Application[] = (result?.data || []).map(
+        (item: any) => ({
+          id: item.id || item.application_id || "N/A",
+          studentName: item.student_name || item.studentName || "Unknown",
+          studentId: item.student_id || item.studentId || "N/A",
+          program: item.program_name || item.program || "N/A",
+          university: item.university_name || item.university || "N/A",
+          status: ["Accepted", "Rejected", "Submitted"].includes(item.status)
+            ? item.status
+            : "Pending",
+          submittedAt:
+            item.submitted_at ||
+            item.submittedAt ||
+            item.created_at?.slice(0, 10) ||
+            "N/A",
+        })
+      );
 
       setApplications(formatted);
     } catch (err: any) {
@@ -277,8 +279,8 @@ const ApplicationsPage: React.FC = () => {
 
   if (loading)
     return (
-      <div className="min-h-screen flex items-center justify-center text-gray-500">
-        Loading applications...
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-gray-500 text-sm">Loading applications...</p>
       </div>
     );
 
@@ -291,7 +293,9 @@ const ApplicationsPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 text-black p-4 sm:p-6">
-      <h2 className="text-2xl sm:text-3xl font-semibold mb-6">My Applications</h2>
+      <h2 className="text-2xl sm:text-3xl font-semibold mb-6">
+        My Applications
+      </h2>
 
       {/* Table */}
       <div className="overflow-x-auto bg-white rounded-xl shadow border border-gray-100">
@@ -368,6 +372,3 @@ const ApplicationsPage: React.FC = () => {
 };
 
 export default ApplicationsPage;
-
-
-
