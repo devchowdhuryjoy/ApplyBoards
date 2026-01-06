@@ -219,7 +219,7 @@ const StudentsProfile: React.FC = () => {
     });
 
     //  POST request with Authorization header
-    const response = await fetch(`${BASE_URL}/agent-student/register`, {
+    const response = await fetch(`${BASE_URL}/agent/agent-student/register`, {
       method: "POST",
       body: formData,
       headers: {
