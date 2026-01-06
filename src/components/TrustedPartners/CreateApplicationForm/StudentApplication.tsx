@@ -12,6 +12,7 @@ import {
   FaChartBar,
   FaChartLine,
 } from "react-icons/fa";
+import StudentProgramApply from "./StudentProgramApply";
 
 interface TopDiscipline {
   discipline: string;
@@ -74,11 +75,9 @@ const StudentApplication: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  //FIXED:
+  // Popup states
   const [open, setOpen] = useState(false);
-  const [selectedProgram, setSelectedProgram] = useState<ProgramType | null>(
-    null
-  );
+  const [selectedProgram, setSelectedProgram] = useState<ProgramType | null>(null);
 
   // Filter states
   const [activeFilters, setActiveFilters] = useState<FilterOptions>({});
@@ -89,38 +88,17 @@ const StudentApplication: React.FC = () => {
   // Ref for Program component
   const programRef = useRef<ProgramHandle>(null);
 
-  // popup showing state
-  const [showPopup, setShowPopup] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    description: "",
-  });
+  /* Pagination state */
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+  const totalPages = Math.ceil(filteredPrograms.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    //form submission logic
-    console.log("Form submitted:", formData);
-
-    // Form reset
-    setFormData({
-      name: "",
-      email: "",
-      description: "",
-    });
-    setShowPopup(false);
-
-    // Success message action
-    alert("Application created successfully!");
-  };
+  const currentPrograms = filteredPrograms.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
   const fetchPrograms = async () => {
     try {
@@ -177,22 +155,7 @@ const StudentApplication: React.FC = () => {
       }
 
       console.log("Programs loaded:", programsData);
-      console.log("First program:", programsData[0]);
-
-      // Check what fields are available in programs
-      if (programsData.length > 0) {
-        const sampleProgram = programsData[0];
-        console.log("Available fields in program:", Object.keys(sampleProgram));
-        console.log(
-          "Sample program destination_id:",
-          sampleProgram.destination_id
-        );
-        console.log(
-          "Sample program destination_name:",
-          sampleProgram.destination_name
-        );
-      }
-
+      
       setAllPrograms(programsData);
       setFilteredPrograms(programsData);
     } catch (err) {
@@ -267,7 +230,7 @@ const StudentApplication: React.FC = () => {
 
     // Apply destination filter
     if (filters.destinationId && filters.destinationId !== "") {
-      console.log(`🔍 FILTERING BY DESTINATION ID: ${filters.destinationId}`);
+      console.log(` FILTERING BY DESTINATION ID: ${filters.destinationId}`);
 
       // Find destination name
       const selectedDestination = destinations.find(
@@ -398,17 +361,12 @@ const StudentApplication: React.FC = () => {
     }
   };
 
-  /* Pagination state */
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
-
-  const totalPages = Math.ceil(filteredPrograms.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-
-  const currentPrograms = filteredPrograms.slice(
-    startIndex,
-    startIndex + itemsPerPage
-  );
+  // Handle Create Application button click
+  const handleCreateApplication = (program: ProgramType) => {
+    console.log("Selected Program:", program);
+    setSelectedProgram(program);
+    setOpen(true);
+  };
 
   useEffect(() => {
     const loadData = async () => {
@@ -718,20 +676,35 @@ const StudentApplication: React.FC = () => {
                         ) : null}
                       </div>
 
-                      {/*FIXED: Bottom Button */}
+                      {/* Bottom Button */}
                       <div className="p-7 border-t border-gray-200">
                         <button
-                          onClick={() => navigate("/student-program-apply")}
+                          onClick={() => handleCreateApplication(program)}
                           className="w-full bg-primary text-white font-semibold py-3.5 rounded-xl transition-all duration-300 shadow-md hover:bg-secondary"
                         >
                           Create Application
                         </button>
                       </div>
-
                     </div>
                   );
                 })}
               </div>
+
+              {/* Student Program Apply Modal */}
+              {selectedProgram && (
+                <StudentProgramApply
+                  open={open}
+                  setOpen={setOpen}
+                  programData={{
+                    program_id: selectedProgram.id?.toString() || "",
+                    program_name: selectedProgram.program_name || "",
+                    university_name: selectedProgram.university_name || "",
+                    location: selectedProgram.location || "",
+                    intake_name: selectedProgram.intake_name || "",
+                    intake_months: selectedProgram.intake_months || [],
+                  }}
+                />
+              )}
 
               {/* Pagination */}
               {totalPages > 1 && (
