@@ -1,0 +1,1179 @@
+// import React, { useEffect, useState } from "react";
+// import { useParams, useNavigate } from "react-router-dom";
+
+// interface University {
+//   id: number;
+//   program_name: string;
+  
+// }
+
+// const ProgramUniversity: React.FC = () => {
+//   const { id } = useParams<{ id: string }>();
+//   const navigate = useNavigate();
+//   const [university, setUniversity] = useState<University | null>(null);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState<string | null>(null);
+//   const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
+
+//   const [activeTab, setActiveTab] = useState("Overview");
+
+//   const tabs = ["Overview", "Programs", "Admissions", "Campus Life", "Scholarships", "Reviews"];
+
+//   return (
+//     <div className="min-h-screen bg-gray-50">
+//       {/* Header Section */}
+//       <div className="bg-white shadow-sm border-b">
+//         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+//           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+//             <div className="flex items-start gap-4">
+//               <div className="flex-shrink-0">
+//                 <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-2xl shadow-lg">
+//                   P
+//                 </div>
+//               </div>
+//               <div className="flex-1">
+//                 <h1 className="text-2xl md:text-3xl font-bold text-secondary mb-2">
+//                   Master of Science in Speech-Language Pathology
+//                 </h1>
+//                 <div className="flex flex-wrap items-center gap-3 text-gray-600">
+//                   <span className="flex items-center gap-2">
+//                     <svg
+//                       className="w-4 h-4 text-secondary"
+//                       fill="currentColor"
+//                       viewBox="0 0 20 20"
+//                       xmlns="http://www.w3.org/2000/svg"
+//                     >
+//                       <path
+//                         fillRule="evenodd"
+//                         d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+//                         clipRule="evenodd"
+//                       />
+//                     </svg>
+//                     <span className="font-medium">University Name, City, Country</span>
+//                   </span>
+//                   <span className="hidden md:inline text-gray-300">•</span>
+//                   <span className="truncate" title="123 University Street, City, Country">
+//                     Faculty of Health Sciences
+//                   </span>
+//                 </div>
+//               </div>
+//             </div>
+//             <div className="flex flex-col sm:flex-row gap-3">
+//               <button
+//                 onClick={() => navigate("/about-university/id")}
+//                 className="px-5 py-2.5 border border-primary text-secondary font-medium rounded-lg hover:bg-primary/10 transition-colors flex items-center justify-center gap-2"
+//               >
+//                 <svg
+//                   className="w-4 h-4"
+//                   fill="none"
+//                   stroke="currentColor"
+//                   viewBox="0 0 24 24"
+//                   xmlns="http://www.w3.org/2000/svg"
+//                 >
+//                   <path
+//                     strokeLinecap="round"
+//                     strokeLinejoin="round"
+//                     strokeWidth="2"
+//                     d="M10 19l-7-7m0 0l7-7m-7 7h18"
+//                   />
+//                 </svg>
+//                 Back to List
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Image Gallery Section */}
+//       <div className="py-8">
+//         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+//           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+//             <div className="relative rounded-xl overflow-hidden bg-gray-100 shadow-lg hover:shadow-xl transition-shadow duration-300 md:col-span-2 md:row-span-2" style={{ aspectRatio: "16/9" }}>
+//               <img
+//                 src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1600&q=80"
+//                 alt="Main university campus"
+//                 className="w-full h-full object-cover"
+//               />
+//               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+//                 <button className="bg-white text-gray-900 font-medium px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors flex items-center gap-2 text-sm">
+//                   <svg
+//                     className="w-4 h-4"
+//                     fill="none"
+//                     stroke="currentColor"
+//                     viewBox="0 0 24 24"
+//                     xmlns="http://www.w3.org/2000/svg"
+//                   >
+//                     <path
+//                       strokeLinecap="round"
+//                       strokeLinejoin="round"
+//                       strokeWidth="2"
+//                       d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+//                     />
+//                   </svg>
+//                   View All Photos (4)
+//                 </button>
+//               </div>
+//             </div>
+//             {[1, 2, 3, 4, ].map((item) => (
+//               <div key={item} className="relative rounded-xl overflow-hidden bg-gray-100 shadow-lg hover:shadow-xl transition-shadow duration-300" style={{ aspectRatio: "4/3" }}>
+//                 <img
+//                   src={`https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80&${item}`}
+//                   alt={`Campus photo ${item}`}
+//                   className="w-full h-full object-cover"
+//                 />
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Main Content Section */}
+//       <div className="pb-12">
+//         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+//           {/* Navigation Tabs */}
+//           <div className="mb-8">
+//             <div className="flex overflow-x-auto border-b">
+//               {["Overview", "Admission Requirements", "Similar Programs"].map((tab, index) => (
+//                 <button
+//                   key={index}
+//                   className={`flex-shrink-0 px-6 py-4 font-medium border-b-2 transition-colors ${
+//                     activeTab === tab
+//                       ? "border-blue-600 text-secondary"
+//                       : "border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300"
+//                   }`}
+//                   onClick={() => setActiveTab(tab)}
+//                 >
+//                   {tab}
+//                 </button>
+//               ))}
+//             </div>
+//           </div>
+
+//           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+//             {/* Left Column - Program Summary & Content */}
+//             <div className="lg:col-span-2 space-y-8">
+//               {/* Program Summary Section */}
+//               <div className="bg-white rounded-xl shadow-sm border p-6 md:p-8">
+//                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Program Summary</h2>
+//                 <div className="space-y-4">
+//                   <p className="text-gray-700 leading-relaxed">
+//                     Speech-language pathologists are healthcare professionals who combine knowledge from a wide range of fields such as language, psychology, education, and medicine. Whether the student's goal is to work in education or healthcare, the school's combination of classroom preparation and field experience will provide students with everything they need for a rewarding career as a speech-language pathologist.
+//                   </p>
+//                   <p className="text-gray-700 leading-relaxed">
+//                     This Master of Science in Speech-Language Pathology will prepare students to help clients with the following conditions:
+//                   </p>
+//                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
+//                     {[
+//                       "Language delay",
+//                       "Phonological disorder",
+//                       "Autism spectrum disorder",
+//                       "Hearing impairment",
+//                       "Stuttering",
+//                       "Cleft lip and palate",
+//                       "Brain injury",
+//                       "Swallowing disorder"
+//                     ].map((condition, index) => (
+//                       <li key={index} className="flex items-start gap-2">
+//                         <svg className="w-5 h-5 text-secondary mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+//                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+//                         </svg>
+//                         <span className="text-gray-700">{condition}</span>
+//                       </li>
+//                     ))}
+//                   </ul>
+//                 </div>
+//               </div>
+
+//               {/* Admission Requirements Section */}
+//               <div className="bg-white rounded-xl shadow-sm border p-6 md:p-8">
+//                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Admission Requirements</h2>
+//                 <p className="text-gray-600 mb-6">May vary depending on student nationality and education background.</p>
+                
+//                 <div className="space-y-8">
+//                   {/* Academic Background */}
+//                   <div>
+//                     <h3 className="text-xl font-semibold text-gray-900 mb-4">Academic Background</h3>
+//                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//                       <div className="bg-gray-50 rounded-lg p-4">
+//                         <p className="text-gray-600 text-sm mb-1">Minimum Level of Education Completed</p>
+//                         <p className="text-lg font-bold text-gray-900">Grade 1</p>
+//                       </div>
+//                       <div className="bg-gray-50 rounded-lg p-4">
+//                         <p className="text-gray-600 text-sm mb-1">Minimum GPA</p>
+//                         <p className="text-lg font-bold text-gray-900">77.0%</p>
+//                       </div>
+//                     </div>
+//                     <button className="mt-4 text-secondary font-medium hover:text-primary transition-colors flex items-center gap-2">
+//                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+//                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+//                       </svg>
+//                       Convert grades
+//                     </button>
+//                   </div>
+
+//                   {/* Disclaimer */}
+//                   <div className="bg-yellow-50 border border-yellow-100 rounded-lg p-4">
+//                     <p className="text-yellow-800 text-sm">
+//                       The program requirements above should only be used as a guide and do not guarantee admission into the program.
+//                     </p>
+//                   </div>
+
+//                   {/* Program Intakes */}
+//                   <div>
+//                     <h3 className="text-xl font-semibold text-gray-900 mb-4">Program Intakes</h3>
+//                     <div className="space-y-2">
+//                       {[
+//                         { intake: "Aug 2026", status: "Open", icon: "✔" },
+//                         { intake: "Jan 2027", status: "Likely open", icon: "✔" },
+//                         { intake: "Aug 2027", status: "Likely open", icon: "✔" },
+//                         { intake: "Jan 2028", status: "Likely open", icon: "✔" },
+//                         { intake: "Aug 2028", status: "Likely open", icon: "✔" }
+//                       ].map((item, index) => (
+//                         <div key={index} className="flex items-center justify-between py-3 border-b border-gray-100 last:border-0">
+//                           <div className="flex items-center gap-3">
+//                             <span className="text-green-600">{item.icon}</span>
+//                             <span className="font-medium text-gray-900">{item.intake}</span>
+//                           </div>
+//                           <span className="text-gray-600">{item.status}</span>
+//                         </div>
+//                       ))}
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+
+//               {/* Similar Programs Section */}
+//               <div className="bg-white rounded-xl shadow-sm border p-6 md:p-8">
+//                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Similar Programs</h2>
+//                 <div className="space-y-6">
+//                   {[
+//                     {
+//                       title: "Master of Science - Applied Behaviour Analysis",
+//                       university: "Regis College",
+//                       intake: "Sep 2026",
+//                       deadline: "Sep 2026",
+//                       tuition: "$27,840.00 USD",
+//                       fee: "Free"
+//                     },
+//                     {
+//                       title: "Master of Science in Nursing - Nursing Practitioner - Psychiatric-Mental Health Practitioner",
+//                       university: "Regis College",
+//                       intake: "Sep 2026",
+//                       deadline: "Sep 2026",
+//                       tuition: "$30,875.00 USD",
+//                       fee: "Free"
+//                     }
+//                   ].map((program, index) => (
+//                     <div key={index} className="border border-gray-200 rounded-xl p-6 hover:border-secondary transition-colors">
+//                       <h3 className="text-lg font-bold text-gray-900 mb-2">{program.title}</h3>
+//                       <p className="text-gray-600 mb-4">{program.university}</p>
+                      
+//                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+//                         <div>
+//                           <p className="text-gray-600 text-sm mb-1">Earliest Intake</p>
+//                           <p className="font-medium text-gray-900">{program.intake}</p>
+//                         </div>
+//                         <div>
+//                           <p className="text-gray-600 text-sm mb-1">Deadline</p>
+//                           <p className="font-medium text-gray-900">{program.deadline}</p>
+//                         </div>
+//                         <div>
+//                           <p className="text-gray-600 text-sm mb-1">Gross tuition</p>
+//                           <p className="font-medium text-gray-900">{program.tuition}</p>
+//                         </div>
+//                         <div>
+//                           <p className="text-gray-600 text-sm mb-1">Application fee</p>
+//                           <p className="font-medium text-gray-900">{program.fee}</p>
+//                         </div>
+//                       </div>
+                      
+//                       <button className="w-full md:w-auto px-6 py-2.5 bg-secondary text-white font-medium rounded-lg hover:bg-primary transition-colors">
+//                         Apply Now
+//                       </button>
+//                     </div>
+//                   ))}
+//                 </div>
+
+//                 {/* Optional Practical Training */}
+//                 <div className="mt-8 pt-8 border-t border-gray-200">
+//                   <h3 className="text-xl font-semibold text-gray-900 mb-4">Optional Practical Training</h3>
+//                   <p className="text-gray-700 mb-4">
+//                     This program is eligible for Optional Practical Training.
+//                   </p>
+//                   <div className="bg-blue-50 rounded-lg p-4">
+//                     <p className="text-gray-700 mb-3">
+//                       Optional Practical Training (OPT) is temporary employment that is directly related to an F-1 student's major area of study. Eligible students can apply to receive up to 12 months of OPT employment authorization before completing their academic studies (pre-completion) and/or after completing their academic studies (post-completion).
+//                     </p>
+//                     <p className="text-gray-700 mb-3">
+//                       If you have earned a degree in certain science, technology, engineering and math (STEM) fields, you may be eligible for a 24-month extension of your post-completion OPT employment authorization.
+//                     </p>
+//                     <p className="text-gray-700">
+//                       For more information see{" "}
+//                       <a 
+//                         href="https://www.uscis.gov/o/" 
+//                         target="_blank" 
+//                         rel="noopener noreferrer"
+//                         className="text-secondary hover:text-primary transition-colors"
+//                       >
+//                         https://www.uscis.gov/o/
+//                       </a>
+//                     </p>
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* Right Column - Program Details Sidebar */}
+//             <div className="space-y-6">
+//               {/* Apply Now Card */}
+//               <div className="bg-white rounded-xl shadow-sm border p-6">
+//                 <div className="text-center mb-6">
+//                   <button className="w-full bg-secondary text-white font-bold py-3 px-6 rounded-lg hover:bg-primary transition-colors text-lg">
+//                     Apply Now
+//                   </button>
+//                 </div>
+                
+//                 <div className="space-y-4">
+//                   {[
+//                     { label: "Program Level", value: "Master's Degree", icon: "🎓" },
+//                     { label: "Program Length", value: "2 year master's degree", icon: "⏱️" },
+//                     { label: "Cost of Living", value: "$17,080.00 USD / Year", icon: "💰" },
+//                     { label: "Gross Tuition", value: "$34,160.00 USD / First Year", icon: "📊" },
+//                     { label: "Application Fee", value: "Free", icon: "📄" },
+//                     { label: "Other Fees", value: "Health Insurance Fee", icon: "📋" }
+//                   ].map((item, index) => (
+//                     <div key={index} className="flex items-start justify-between py-3 border-b border-gray-100">
+//                       <div className="flex items-center gap-3">
+//                         <span className="text-lg">{item.icon}</span>
+//                         <span className="text-gray-600">{item.label}</span>
+//                       </div>
+//                       <span className="font-semibold text-gray-900 text-right">{item.value}</span>
+//                     </div>
+//                   ))}
+//                 </div>
+//               </div>
+
+//               {/* Chat Widget */}
+//               <div className="bg-white rounded-xl shadow-sm border p-6">
+//                 <div className="text-center">
+//                   <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+//                     <svg className="w-8 h-8 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+//                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+//                     </svg>
+//                   </div>
+//                   <h3 className="text-lg font-bold text-gray-900 mb-2">Have questions?</h3>
+//                   <p className="text-gray-600 mb-4">Chat with our education consultants</p>
+//                   <button className="w-full border border-secondary text-secondary font-medium py-3 rounded-lg hover:bg-secondary hover:text-white transition-colors">
+//                     Start Chat
+//                   </button>
+//                 </div>
+//               </div>
+
+//               {/* Quick Links */}
+//               <div className="bg-white rounded-xl shadow-sm border p-6">
+//                 <h3 className="text-lg font-bold text-gray-900 mb-4">Quick Links</h3>
+//                 <div className="space-y-3">
+//                   {[
+//                     { label: "Download Brochure", icon: "📥" },
+//                     { label: "Schedule Consultation", icon: "📅" },
+//                     { label: "View University Details", icon: "🏛️" },
+//                     { label: "Compare Programs", icon: "⚖️" }
+//                   ].map((link, index) => (
+//                     <button
+//                       key={index}
+//                       className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors text-left"
+//                     >
+//                       <div className="flex items-center gap-3">
+//                         <span>{link.icon}</span>
+//                         <span className="text-gray-700">{link.label}</span>
+//                       </div>
+//                       <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+//                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+//                       </svg>
+//                     </button>
+//                   ))}
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ProgramUniversity;
+
+
+
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import BASE_URL from "../../ApiBaseUrl/ApiBaseUrl";
+
+interface ProgramData {
+  id: number;
+  program_name: string;
+  university_name: string;
+  location: string;
+  faculty?: string;
+  description: string;
+  program_level: string;
+  program_length: string;
+  cost_of_living: string;
+  gross_tuition: string;
+  application_fee: string;
+  other_fees?: string;
+  conditions?: string[];
+  minimum_education?: string;
+  minimum_gpa?: string;
+  intakes?: Array<{
+    intake: string;
+    status: string;
+  }>;
+  similar_programs?: Array<{
+    title: string;
+    university: string;
+    intake: string;
+    deadline: string;
+    tuition: string;
+    fee: string;
+  }>;
+  images: string[];
+  // New fields from your data
+  program_description?: string;
+  program_summary?: string;
+  address?: string;
+  campus_city?: string;
+  duration?: string;
+  intake_name?: string;
+  submission_deadline?: string;
+  average_gross_tuition_short_desc?: string;
+  cost_of_living_short_desc?: string;
+  field_of_study_name?: string;
+  program_level?: string;
+  ielts_overall?: number;
+  toefl_overall?: number;
+  duolingo_total?: number;
+  grading_scheme?: string;
+  study_permit_or_visa?: string;
+  nationality?: string;
+}
+
+const ProgramUniversity: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const [programData, setProgramData] = useState<ProgramData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
+
+  const [activeTab, setActiveTab] = useState("Overview");
+
+  useEffect(() => {
+    if (!id) {
+      setError("Program ID not found");
+      setLoading(false);
+      return;
+    }
+
+    const fetchProgramData = async () => {
+      setLoading(true);
+      setError(null);
+      setImageErrors({});
+
+      try {
+        console.log(`Fetching program data for ID: ${id}`);
+        
+        // Try multiple API endpoints
+        const endpoints = [
+          `${BASE_URL}/university-programs/details/${id}`,
+          `${BASE_URL}/university/programs/${id}`,
+          `${BASE_URL}/programs/${id}`,
+          `${BASE_URL}/api/programs/${id}`
+        ];
+
+        let success = false;
+        let lastError = null;
+
+        for (const endpoint of endpoints) {
+          try {
+            console.log(`Trying endpoint: ${endpoint}`);
+            
+            const response = await fetch(endpoint, {
+              method: "GET",
+              headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+              },
+            });
+
+            console.log(`Response status for ${endpoint}:`, response.status);
+
+            if (!response.ok) {
+              console.warn(`Endpoint ${endpoint} failed: ${response.status}`);
+              lastError = `HTTP ${response.status}`;
+              continue;
+            }
+
+            const responseText = await response.text();
+            console.log(`Response text length: ${responseText.length}`);
+
+            if (responseText.trim() === "") {
+              console.warn(`Empty response from ${endpoint}`);
+              lastError = "Empty response";
+              continue;
+            }
+
+            let parsedData;
+            try {
+              parsedData = JSON.parse(responseText);
+            } catch (parseError) {
+              console.warn(`JSON parse error for ${endpoint}:`, parseError);
+              lastError = "Invalid JSON";
+              continue;
+            }
+
+            console.log("Parsed data:", parsedData);
+
+            // Handle response structure
+            if (parsedData.status && parsedData.data) {
+              setProgramData(parsedData.data);
+            } else if (parsedData.data) {
+              setProgramData(parsedData.data);
+            } else if (parsedData.id || parsedData.program_name) {
+              // Direct program object (from your console data)
+              setProgramData(parsedData);
+            } else {
+              console.warn("Unexpected response structure:", parsedData);
+              continue;
+            }
+
+            success = true;
+            console.log("Successfully fetched program data");
+            break;
+
+          } catch (err) {
+            console.error(`Error with endpoint ${endpoint}:`, err);
+            lastError = err.message;
+          }
+        }
+
+        if (!success) {
+          // If all API endpoints fail, use the data directly from localStorage or create mock
+          console.log("All API endpoints failed, creating data from console structure");
+          
+          // Create program data based on your console output
+          const programFromLocal = {
+            id: parseInt(id),
+            program_name: "Program Data Not Found",
+            university_name: "University Not Found",
+            location: "N/A",
+            description: "Program details could not be loaded from API.",
+            program_level: "N/A",
+            program_length: "N/A",
+            cost_of_living: "N/A",
+            gross_tuition: "N/A",
+            application_fee: "N/A",
+            images: [],
+            // Add more fields as needed
+          };
+          
+          setProgramData(programFromLocal);
+          setError(`Could not fetch from API. Using fallback data. Last error: ${lastError}`);
+        }
+
+      } catch (err: any) {
+        console.error("Error fetching program data:", err);
+        setError(err.message || "Failed to fetch program data");
+        
+        // Create fallback data
+        const fallbackData: ProgramData = {
+          id: parseInt(id) || 0,
+          program_name: "Fallback Program",
+          university_name: "Fallback University",
+          location: "Unknown",
+          description: "This is fallback program data because the API failed to load.",
+          program_level: "Bachelor's",
+          program_length: "4 years",
+          cost_of_living: "$15,000",
+          gross_tuition: "$30,000",
+          application_fee: "$100",
+          images: [
+            "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80"
+          ]
+        };
+        
+        setProgramData(fallbackData);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProgramData();
+  }, [id]);
+
+  // Function to get correct image URL
+  const getImageUrl = (imagePath: string): string => {
+    if (!imagePath || typeof imagePath !== "string" || imagePath.trim() === "") {
+      return "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1600&q=80";
+    }
+
+    if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+      return imagePath;
+    }
+
+    // Handle image string that might be JSON array
+    if (imagePath.startsWith('["') && imagePath.endsWith('"]')) {
+      try {
+        const imagesArray = JSON.parse(imagePath);
+        if (Array.isArray(imagesArray) && imagesArray.length > 0) {
+          const backendUrl = BASE_URL.replace("/api", "");
+          return `${backendUrl}/${imagesArray[0]}`;
+        }
+      } catch (e) {
+        console.error("Error parsing images JSON:", e);
+      }
+    }
+
+    const backendUrl = BASE_URL.replace("/api", "");
+    return `${backendUrl}/${imagePath}`;
+  };
+
+  // Parse images from string or array
+  const getImagesArray = (images: any): string[] => {
+    if (!images) return [];
+    
+    if (Array.isArray(images)) {
+      return images;
+    }
+    
+    if (typeof images === 'string') {
+      try {
+        // Try to parse as JSON array
+        const parsed = JSON.parse(images);
+        if (Array.isArray(parsed)) {
+          return parsed;
+        }
+      } catch (e) {
+        // If not JSON, treat as single image string
+        return [images];
+      }
+    }
+    
+    return [];
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600 mb-4"></div>
+        <p className="text-lg text-gray-700">Loading program details...</p>
+        <p className="text-sm text-gray-500 mt-2">Program ID: {id}</p>
+      </div>
+    );
+  }
+
+  if (error && !programData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+        <div className="max-w-2xl w-full bg-white rounded-xl shadow-lg p-8 text-center">
+          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg
+              className="w-8 h-8 text-red-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+          <h2 className="text-xl font-bold text-gray-800 mb-2">
+            API Connection Error
+          </h2>
+          <div className="bg-gray-100 p-4 rounded-lg mb-6 text-left">
+            <p className="text-gray-700 mb-2">
+              <strong>Error:</strong> {error}
+            </p>
+            <p className="text-gray-600 text-sm">
+              <strong>Tried endpoints:</strong>
+            </p>
+            <ul className="text-xs text-gray-500 mt-1">
+              <li>• {BASE_URL}/university-programs/details/{id}</li>
+              <li>• {BASE_URL}/university/programs/{id}</li>
+              <li>• {BASE_URL}/programs/{id}</li>
+            </ul>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <button
+              onClick={() => window.location.reload()}
+              className="flex-1 bg-blue-600 text-white font-medium py-3 rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Try Again
+            </button>
+            <button
+              onClick={() => navigate(-1)}
+              className="flex-1 bg-gray-200 text-gray-700 font-medium py-3 rounded-lg hover:bg-gray-300 transition-colors"
+            >
+              Go Back
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const data = programData!;
+  const imagesArray = getImagesArray(data.images);
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header Section */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0">
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-2xl shadow-lg">
+                  {data.program_name?.charAt(0) || 'P'}
+                </div>
+              </div>
+              <div className="flex-1">
+                <h1 className="text-2xl md:text-3xl font-bold text-secondary mb-2">
+                  {data.program_name || "Program Name"}
+                </h1>
+                <div className="flex flex-wrap items-center gap-3 text-gray-600">
+                  <span className="flex items-center gap-2">
+                    <svg
+                      className="w-4 h-4 text-secondary"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span className="font-medium">
+                      {data.university_name || "University Name"}, {data.location || "Location"}
+                    </span>
+                  </span>
+                  {data.campus_city && (
+                    <>
+                      <span className="hidden md:inline text-gray-300">•</span>
+                      <span className="truncate" title={data.campus_city}>
+                        {data.campus_city}
+                      </span>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button
+                onClick={() => navigate(-1)}
+                className="px-5 py-2.5 border border-primary text-secondary font-medium rounded-lg hover:bg-primary/10 transition-colors flex items-center justify-center gap-2"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                  />
+                </svg>
+                Go Back
+              </button>
+              {data.university_id && (
+                <button
+                  onClick={() => navigate(`/about-university/${data.university_id}`)}
+                  className="px-5 py-2.5 bg-secondary text-white font-medium rounded-lg hover:bg-primary transition-colors flex items-center justify-center gap-2"
+                >
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                    />
+                  </svg>
+                  View University
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Image Gallery Section */}
+      <div className="py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {imagesArray.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+              {imagesArray.slice(0, 5).map((img, index) => {
+                const imageUrl = getImageUrl(img);
+                const isMainImage = index === 0;
+
+                return (
+                  <div
+                    key={index}
+                    className={`relative rounded-xl overflow-hidden bg-gray-100 shadow-lg hover:shadow-xl transition-shadow duration-300 ${
+                      isMainImage ? "md:col-span-2 md:row-span-2" : ""
+                    }`}
+                    style={{ aspectRatio: isMainImage ? "16/9" : "4/3" }}
+                  >
+                    <img
+                      src={imageUrl}
+                      alt={`${data.program_name} - Photo ${index + 1}`}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        console.error(`Image ${index} failed to load`);
+                        setImageErrors(prev => ({ ...prev, [index]: true }));
+                        e.currentTarget.src = "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80";
+                      }}
+                      loading={index < 2 ? "eager" : "lazy"}
+                    />
+                    {isMainImage && imagesArray.length > 1 && (
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                        <button className="bg-white text-gray-900 font-medium px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors flex items-center gap-2 text-sm">
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                            />
+                          </svg>
+                          View All Photos ({imagesArray.length})
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+              <div className="relative rounded-xl overflow-hidden bg-gray-100 shadow-lg hover:shadow-xl transition-shadow duration-300 md:col-span-2 md:row-span-2" style={{ aspectRatio: "16/9" }}>
+                <img
+                  src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1600&q=80"
+                  alt="Default program image"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              {[1, 2, 3].map((item) => (
+                <div key={item} className="relative rounded-xl overflow-hidden bg-gray-100 shadow-lg hover:shadow-xl transition-shadow duration-300" style={{ aspectRatio: "4/3" }}>
+                  <img
+                    src={`https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80&${item}`}
+                    alt={`Default image ${item}`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Main Content Section */}
+      <div className="pb-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Navigation Tabs */}
+          <div className="mb-8">
+            <div className="flex overflow-x-auto border-b">
+              {["Overview", "Admission Requirements", "Similar Programs"].map((tab, index) => (
+                <button
+                  key={index}
+                  className={`flex-shrink-0 px-6 py-4 font-medium border-b-2 transition-colors ${
+                    activeTab === tab
+                      ? "border-blue-600 text-secondary"
+                      : "border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300"
+                  }`}
+                  onClick={() => setActiveTab(tab)}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Left Column - Program Summary & Content */}
+            <div className="lg:col-span-2 space-y-8">
+              {/* Program Summary Section */}
+              <div className="bg-white rounded-xl shadow-sm border p-6 md:p-8">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Program Summary</h2>
+                <div className="space-y-4">
+                  <p className="text-gray-700 leading-relaxed">
+                    {data.program_description || data.program_summary || data.description || "No description available for this program."}
+                  </p>
+                  
+                  {/* Program Details Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                    {data.field_of_study_name && (
+                      <div className="bg-gray-50 rounded-lg p-4">
+                        <p className="text-gray-600 text-sm mb-1">Field of Study</p>
+                        <p className="text-lg font-bold text-gray-900">{data.field_of_study_name}</p>
+                      </div>
+                    )}
+                    
+                    {data.program_level && (
+                      <div className="bg-gray-50 rounded-lg p-4">
+                        <p className="text-gray-600 text-sm mb-1">Program Level</p>
+                        <p className="text-lg font-bold text-gray-900">{data.program_level}</p>
+                      </div>
+                    )}
+                    
+                    {data.duration && (
+                      <div className="bg-gray-50 rounded-lg p-4">
+                        <p className="text-gray-600 text-sm mb-1">Duration</p>
+                        <p className="text-lg font-bold text-gray-900">{data.duration}</p>
+                      </div>
+                    )}
+                    
+                    {data.intake_name && (
+                      <div className="bg-gray-50 rounded-lg p-4">
+                        <p className="text-gray-600 text-sm mb-1">Intake</p>
+                        <p className="text-lg font-bold text-gray-900">{data.intake_name}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Admission Requirements Section */}
+              <div className="bg-white rounded-xl shadow-sm border p-6 md:p-8">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Admission Requirements</h2>
+                
+                <div className="space-y-8">
+                  {/* Language Requirements */}
+                  {(data.ielts_required || data.toefl_required || data.duolingo_required) && (
+                    <div>
+                      <h3 className="text-xl font-semibold text-gray-900 mb-4">Language Requirements</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {data.ielts_required && data.ielts_overall && (
+                          <div className="bg-blue-50 rounded-lg p-4">
+                            <p className="text-gray-600 text-sm mb-1">IELTS Overall</p>
+                            <p className="text-lg font-bold text-gray-900">{data.ielts_overall}</p>
+                          </div>
+                        )}
+                        
+                        {data.toefl_required && data.toefl_overall && (
+                          <div className="bg-green-50 rounded-lg p-4">
+                            <p className="text-gray-600 text-sm mb-1">TOEFL Overall</p>
+                            <p className="text-lg font-bold text-gray-900">{data.toefl_overall}</p>
+                          </div>
+                        )}
+                        
+                        {data.duolingo_required && data.duolingo_total && (
+                          <div className="bg-purple-50 rounded-lg p-4">
+                            <p className="text-gray-600 text-sm mb-1">Duolingo Total</p>
+                            <p className="text-lg font-bold text-gray-900">{data.duolingo_total}</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Academic Background */}
+                  <div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-4">Academic Background</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="bg-gray-50 rounded-lg p-4">
+                        <p className="text-gray-600 text-sm mb-1">Minimum GPA</p>
+                        <p className="text-lg font-bold text-gray-900">
+                          {data.minimum_gpa || data.grading_scheme || "N/A"}
+                        </p>
+                      </div>
+                      <div className="bg-gray-50 rounded-lg p-4">
+                        <p className="text-gray-600 text-sm mb-1">Last Level of Study</p>
+                        <p className="text-lg font-bold text-gray-900">
+                          {data.last_level_of_study || "N/A"}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Visa Information */}
+                  {(data.study_permit_or_visa || data.nationality) && (
+                    <div>
+                      <h3 className="text-xl font-semibold text-gray-900 mb-4">Visa Information</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {data.study_permit_or_visa && (
+                          <div className="bg-gray-50 rounded-lg p-4">
+                            <p className="text-gray-600 text-sm mb-1">Study Permit/Visa</p>
+                            <p className="text-lg font-bold text-gray-900">{data.study_permit_or_visa}</p>
+                          </div>
+                        )}
+                        
+                        {data.nationality && (
+                          <div className="bg-gray-50 rounded-lg p-4">
+                            <p className="text-gray-600 text-sm mb-1">Nationality</p>
+                            <p className="text-lg font-bold text-gray-900">{data.nationality}</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Important Dates */}
+                  {(data.open_date || data.submission_deadline) && (
+                    <div>
+                      <h3 className="text-xl font-semibold text-gray-900 mb-4">Important Dates</h3>
+                      <div className="space-y-2">
+                        {data.open_date && (
+                          <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                            <div className="flex items-center gap-3">
+                              <span className="text-green-600">📅</span>
+                              <span className="font-medium text-gray-900">Open Date</span>
+                            </div>
+                            <span className="text-gray-600">
+                              {new Date(data.open_date).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                              })}
+                            </span>
+                          </div>
+                        )}
+                        
+                        {data.submission_deadline && (
+                          <div className="flex items-center justify-between py-3">
+                            <div className="flex items-center gap-3">
+                              <span className="text-red-600">⏰</span>
+                              <span className="font-medium text-gray-900">Submission Deadline</span>
+                            </div>
+                            <span className="text-gray-600">
+                              {new Date(data.submission_deadline).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                              })}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column - Program Details Sidebar */}
+            <div className="space-y-6">
+              {/* Apply Now Card */}
+              <div className="bg-white rounded-xl shadow-sm border p-6">
+                <div className="text-center mb-6">
+                  <button className="w-full bg-secondary text-white font-bold py-3 px-6 rounded-lg hover:bg-primary transition-colors text-lg">
+                    Apply Now
+                  </button>
+                </div>
+                
+                <div className="space-y-4">
+                  {[
+                    { label: "Program Name", value: data.program_name || "N/A", icon: "📚" },
+                    { label: "University", value: data.university_name || "N/A", icon: "🏛️" },
+                    { label: "Location", value: data.location || "N/A", icon: "📍" },
+                    { label: "Application Fee", value: data.application_fee ? `$${data.application_fee}` : "N/A", icon: "💰" },
+                    { label: "Gross Tuition", value: data.gross_tuition ? `$${data.gross_tuition}` : "N/A", icon: "📊" },
+                    { label: "Cost of Living", value: data.cost_of_living ? `$${data.cost_of_living}/year` : "N/A", icon: "🏠" }
+                  ].map((item, index) => (
+                    <div key={index} className="flex items-start justify-between py-3 border-b border-gray-100">
+                      <div className="flex items-center gap-3">
+                        <span className="text-lg">{item.icon}</span>
+                        <span className="text-gray-600">{item.label}</span>
+                      </div>
+                      <span className="font-semibold text-gray-900 text-right">{item.value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Success Chance */}
+              {data.success_chance && (
+                <div className="bg-white rounded-xl shadow-sm border p-6">
+                  <h3 className="text-lg font-bold text-gray-900 mb-4">Success Chance</h3>
+                  <div className={`p-4 rounded-lg ${
+                    data.success_chance === 'High' ? 'bg-green-50 border border-green-200' :
+                    data.success_chance === 'Medium' ? 'bg-yellow-50 border border-yellow-200' :
+                    'bg-red-50 border border-red-200'
+                  }`}>
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium text-gray-900">{data.success_chance} Chance</span>
+                      <span className={`text-2xl ${
+                        data.success_chance === 'High' ? 'text-green-600' :
+                        data.success_chance === 'Medium' ? 'text-yellow-600' :
+                        'text-red-600'
+                      }`}>
+                        {data.success_chance === 'High' ? '🎯' :
+                         data.success_chance === 'Medium' ? '⚠️' : '❌'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Quick Links */}
+              <div className="bg-white rounded-xl shadow-sm border p-6">
+                <h3 className="text-lg font-bold text-gray-900 mb-4">Quick Links</h3>
+                <div className="space-y-3">
+                  {[
+                    { label: "Download Brochure", icon: "📥", onClick: () => console.log("Download Brochure") },
+                    { label: "Schedule Consultation", icon: "📅", onClick: () => console.log("Schedule Consultation") },
+                    { 
+                      label: "View University Details", 
+                      icon: "🏛️", 
+                      onClick: () => data.university_id && navigate(`/about-university/${data.university_id}`) 
+                    },
+                    { label: "Compare Programs", icon: "⚖️", onClick: () => console.log("Compare Programs") }
+                  ].map((link, index) => (
+                    <button
+                      key={index}
+                      onClick={link.onClick}
+                      className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors text-left"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span>{link.icon}</span>
+                        <span className="text-gray-700">{link.label}</span>
+                      </div>
+                      <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProgramUniversity;

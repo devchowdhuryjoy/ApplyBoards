@@ -35,6 +35,8 @@ import AboutUniversity from "./components/TrustedPartners/AboutUniversity/AboutU
 import UniversityApply from "./components/TrustedPartners/AboutUniversity/UniversityApply";
 import ProgramDetails from "./components/TrustedPartners/AboutUniversity/ProgramDetails";
 import CreateApplicationForm from "./components/TrustedPartners/CreateApplicationForm/CreateApplicationForm";
+import ProgramUniversity from "./components/ProgramUniversity/ProgramUniversity";
+import AgentFinalApply from "./Slidebar/FinalApply/AgentFinalApply";
 
 
 //Main layout with Navbar & Footer
@@ -130,6 +132,8 @@ function App() {
             </MainLayout>
           }
         />
+        <Route path="/program-university/:id" element={<ProgramUniversity />} />
+
         <Route
           path="/agent"
           element={
@@ -138,6 +142,7 @@ function App() {
             </MainLayout>
           }
         />
+        <Route path="/agent-final-apply/:id" element={<AgentFinalApply />} />
         <Route
           path="/uk"
           element={
