@@ -135,7 +135,7 @@ const RegistrationAgent: React.FC = () => {
 
     try {
       const res = await axios.post(
-        `${BASE_URL}/agents/register`,
+        `${BASE_URL}/agent/register`,
         updatedFormData
       );
       if (res.data.status) {
