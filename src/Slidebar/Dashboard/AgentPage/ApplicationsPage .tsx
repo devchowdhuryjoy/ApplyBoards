@@ -286,7 +286,7 @@ const ApplicationsPage: React.FC = () => {
           studentId: item.student_id || item.studentId || "N/A",
           program: item.program_name || item.program || "N/A",
           university: item.university_name || item.university || "N/A",
-          status: ["Accepted", "Rejected", "Submitted"].includes(item.status)
+          status: ["Reviewed", "Accepted", "Rejected", "Submitted"].includes(item.status)
             ? item.status
             : "Pending",
           submittedAt:
