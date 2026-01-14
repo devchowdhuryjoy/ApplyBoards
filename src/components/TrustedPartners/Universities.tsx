@@ -110,7 +110,7 @@ const Universities: React.FC = () => {
   );
 
   useEffect(() => {
-    // window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "smooth" });
     fetchUniversities();
   }, [currentPage]);
 

@@ -60,8 +60,8 @@ function HomePage() {
       <SolutionSection />
       <SolutionServices />
       <Testimonials />
-      <TrustedPartners />
-      <Universities />
+      {/* <TrustedPartners />
+      <Universities /> */}
       <ChannelPartners />
       <RequirementPartnar />
       <StudyProgramsBanner />
