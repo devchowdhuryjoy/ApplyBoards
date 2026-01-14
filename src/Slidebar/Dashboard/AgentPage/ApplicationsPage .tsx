@@ -220,8 +220,6 @@
 
 // export default ApplicationsPage;
 
-
-
 import React, { useEffect, useState } from "react";
 import BASE_URL from "../../../ApiBaseUrl/ApiBaseUrl";
 import AgentFinalApply from "../../FinalApply/AgentFinalApply";
@@ -274,7 +272,10 @@ const ApplicationsPage: React.FC = () => {
         },
       });
 
-      if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+      // if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+      if (!response.ok) {
+        throw new Error("No application found.");
+      }
 
       const result = await response.json();
       console.log("API Response:", result);
@@ -286,7 +287,9 @@ const ApplicationsPage: React.FC = () => {
           studentId: item.student_id || item.studentId || "N/A",
           program: item.program_name || item.program || "N/A",
           university: item.university_name || item.university || "N/A",
-          status: ["Reviewed", "Accepted", "Rejected", "Submitted"].includes(item.status)
+          status: ["Reviewed", "Accepted", "Rejected", "Submitted"].includes(
+            item.status
+          )
             ? item.status
             : "Pending",
           submittedAt:
@@ -310,7 +313,7 @@ const ApplicationsPage: React.FC = () => {
     setSelectedId(id);
     setShowModal(true);
     // Prevent body scroll when modal is open
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
   };
 
   // Handle closing modal
@@ -318,7 +321,7 @@ const ApplicationsPage: React.FC = () => {
     setShowModal(false);
     setSelectedId(null);
     // Restore body scroll
-    document.body.style.overflow = 'auto';
+    document.body.style.overflow = "auto";
   };
 
   // Pagination logic
@@ -352,7 +355,10 @@ const ApplicationsPage: React.FC = () => {
 
         {/* Table Container with Scrollbar */}
         <div className="overflow-hidden bg-white rounded-xl shadow border border-gray-100 mb-4">
-          <div className="overflow-x-auto" style={{ maxHeight: 'calc(100vh - 200px)' }}>
+          <div
+            className="overflow-x-auto"
+            style={{ maxHeight: "calc(100vh - 200px)" }}
+          >
             <table className="min-w-full divide-y text-sm sm:text-base">
               <thead className="bg-gray-50 sticky top-0 z-10">
                 <tr className="text-left text-black">
@@ -369,7 +375,10 @@ const ApplicationsPage: React.FC = () => {
               <tbody>
                 {paginatedApplications.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="px-4 py-6 text-center text-gray-500">
+                    <td
+                      colSpan={8}
+                      className="px-4 py-6 text-center text-gray-500"
+                    >
                       No applications found
                     </td>
                   </tr>
@@ -437,10 +446,7 @@ const ApplicationsPage: React.FC = () => {
 
       {/* Modal for AgentFinalApply */}
       {showModal && selectedId && (
-        <AgentFinalApply 
-          id={selectedId} 
-          onClose={handleCloseModal}
-        />
+        <AgentFinalApply id={selectedId} onClose={handleCloseModal} />
       )}
     </div>
   );

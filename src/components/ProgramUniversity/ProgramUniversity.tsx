@@ -1088,11 +1088,11 @@ const ProgramUniversity: React.FC = () => {
             <div className="space-y-6">
               {/* Apply Now Card */}
               <div className="bg-white rounded-xl shadow-sm border p-6">
-                <div className="text-center mb-6">
+                {/* <div className="text-center mb-6">
                   <button className="w-full bg-secondary text-white font-bold py-3 px-6 rounded-lg hover:bg-primary transition-colors text-lg">
                     Apply Now
                   </button>
-                </div>
+                </div> */}
                 
                 <div className="space-y-4">
                   {[
