@@ -19,7 +19,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const destinations = ["UK", "USA", "Canada", "Australia"];
+  const destinations = ["UK", "USA", "Canada", "Australia", "Europe", "Hungary", "Denmark", "Finland", "Sweden", "Dubai", "Malaysia",];
 
   // Click outside handler
   useEffect(() => {
@@ -49,6 +49,20 @@ const Navbar = () => {
         return "/canada";
       case "Australia":
         return "/australia";
+      case "Hungary":
+        return "/hungary";
+      case "Denmark":
+        return "/hungary";
+      case "Finland":
+        return "/hungary";
+      case "Sweden":
+        return "/hungary";
+      case "Dubai":
+        return "/hungary";
+      case "Malaysia":
+        return "/hungary";
+      case "Europe":
+        return "/hungary";
       default:
         return "/";
     }
@@ -86,7 +100,7 @@ const Navbar = () => {
           <div className="relative" ref={dropdownRef}>
             {/* Trigger */}
             <div
-              className="flex items-center gap-1 cursor-pointer text-black hover:text-primary"
+              className="flex items-center gap-1  cursor-pointer text-black hover:text-primary"
               onClick={() => setOpen(!open)}
             >
               Study Destinations <ChevronDown size={16} />

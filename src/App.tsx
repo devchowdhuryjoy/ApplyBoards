@@ -37,6 +37,7 @@ import ProgramDetails from "./components/TrustedPartners/AboutUniversity/Program
 import CreateApplicationForm from "./components/TrustedPartners/CreateApplicationForm/CreateApplicationForm";
 import ProgramUniversity from "./components/ProgramUniversity/ProgramUniversity";
 import AgentFinalApply from "./Slidebar/FinalApply/AgentFinalApply";
+import HungaryPage from "./components/Navbar/StudyDestination/HungaryPage";
 
 
 //Main layout with Navbar & Footer
@@ -172,6 +173,14 @@ function App() {
           element={
             <MainLayout>
               <AustraliaPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/hungary"
+          element={
+            <MainLayout>
+              <HungaryPage />
             </MainLayout>
           }
         />
