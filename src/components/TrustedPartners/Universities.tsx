@@ -110,7 +110,7 @@ const Universities: React.FC = () => {
   );
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // window.scrollTo({ top: 0, behavior: "smooth" });
     fetchUniversities();
   }, [currentPage]);
 
@@ -444,7 +444,7 @@ const Universities: React.FC = () => {
             onClick={() => navigate("/university-apply")}
             className="bg-primary text-white font-medium px-6 py-3 rounded-lg shadow-md hover:bg-secondary transition"
           >
-            Explore More Institutions
+            Explore More Program
           </button>
         </div>
       </div>
