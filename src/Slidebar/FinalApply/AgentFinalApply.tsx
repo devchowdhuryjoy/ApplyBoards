@@ -780,7 +780,7 @@ const AgentFinalApply = ({ id, onClose }: { id: string; onClose?: () => void }) 
           <form onSubmit={handleSubmit} className="h-full">
             <div 
               ref={stepContainerRef}
-              className="p-6 overflow-y-auto"
+              className="p-6 overflow-y-auto pb-24"
               style={{ height: 'calc(95vh - 280px)', maxHeight: '600px' }}
             >
               {/* Step 1: Student Personal Information */}
