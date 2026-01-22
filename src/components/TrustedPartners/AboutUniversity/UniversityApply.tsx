@@ -117,7 +117,7 @@ const UniversityApply: React.FC = () => {
       };
 
       const response = await fetch(
-        `${BASE_URL}/university-programs/`,
+        `${BASE_URL}/university-programs`,
         requestOptions
       );
 
