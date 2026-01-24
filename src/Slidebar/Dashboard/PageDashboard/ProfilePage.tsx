@@ -494,7 +494,7 @@ const ProfilePage: React.FC = () => {
       });
 
       // API Call
-      const response = await fetch(`${BASE_URL}/student/profile/update/`, {
+      const response = await fetch(`${BASE_URL}/student/profile/update`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
