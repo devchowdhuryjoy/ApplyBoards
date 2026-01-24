@@ -12,6 +12,7 @@ import {
   FaChartBar,
   FaChartLine,
 } from "react-icons/fa";
+import { FaArrowRight, FaEye } from "react-icons/fa";
 
 interface TopDiscipline {
   discipline: string;
@@ -75,7 +76,9 @@ const UniversityApply: React.FC = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
-  const [selectedProgram, setSelectedProgram] = useState<ProgramType | null>(null);
+  const [selectedProgram, setSelectedProgram] = useState<ProgramType | null>(
+    null,
+  );
 
   // Filter states
   const [activeFilters, setActiveFilters] = useState<FilterOptions>({});
@@ -85,8 +88,6 @@ const UniversityApply: React.FC = () => {
 
   // Ref for Program component
   const programRef = useRef<ProgramHandle>(null);
-
-  
 
   const fetchPrograms = async () => {
     try {
@@ -118,7 +119,7 @@ const UniversityApply: React.FC = () => {
 
       const response = await fetch(
         `${BASE_URL}/university-programs`,
-        requestOptions
+        requestOptions,
       );
 
       if (!response.ok) {
@@ -151,11 +152,11 @@ const UniversityApply: React.FC = () => {
         console.log("Available fields in program:", Object.keys(sampleProgram));
         console.log(
           "Sample program destination_id:",
-          sampleProgram.destination_id
+          sampleProgram.destination_id,
         );
         console.log(
           "Sample program destination_name:",
-          sampleProgram.destination_name
+          sampleProgram.destination_name,
         );
       }
 
@@ -217,177 +218,342 @@ const UniversityApply: React.FC = () => {
   };
 
   // Handle filter changes - FIXED VERSION
+  // const handleFilterChange = (filters: FilterOptions) => {
+  //   console.log("=== FILTERS RECEIVED ===", filters);
+  //   setActiveFilters(filters);
+
+  //   if (Object.keys(filters).length === 0) {
+  //     console.log("No filters, showing all programs");
+  //     setFilteredPrograms(allPrograms);
+  //     return;
+  //   }
+
+  //   let filtered = [...allPrograms];
+
+  //   console.log(`Starting with ${filtered.length} programs`);
+
+  //   // Apply destination filter - MOST IMPORTANT FIX
+  //   if (filters.destinationId && filters.destinationId !== "") {
+  //     console.log(`🔍 FILTERING BY DESTINATION ID: ${filters.destinationId}`);
+
+  //     // Find destination name
+  //     const selectedDestination = destinations.find(
+  //       (d) => d.id.toString() === filters.destinationId
+  //     );
+
+  //     const destinationName = selectedDestination?.destinations_name;
+  //     console.log(`Destination name: ${destinationName}`);
+
+  //     // Get university IDs from this destination
+  //     const destinationUniversityIds =
+  //       selectedDestination?.universities?.map((u) => u.id.toString()) || [];
+  //     console.log(
+  //       `University IDs in this destination:`,
+  //       destinationUniversityIds
+  //     );
+
+  //     // Filter programs
+  //     filtered = filtered.filter((program) => {
+  //       // Method 1: Check if program's university_id is in destination's universities array
+  //       if (
+  //         program.university_id &&
+  //         destinationUniversityIds.includes(program.university_id.toString())
+  //       ) {
+  //         console.log(
+  //           `✓ Program ${program.id} matched by university_id ${program.university_id}`
+  //         );
+  //         return true;
+  //       }
+
+  //       // Method 2: Check destination_id directly
+  //       if (program.destination_id?.toString() === filters.destinationId) {
+  //         console.log(
+  //           `✓ Program ${program.id} matched by destination_id ${program.destination_id}`
+  //         );
+  //         return true;
+  //       }
+
+  //       // Method 3: Check destination_name if available
+  //       if (
+  //         program.destination_name &&
+  //         destinationName &&
+  //         program.destination_name.toLowerCase() ===
+  //           destinationName.toLowerCase()
+  //       ) {
+  //         console.log(
+  //           `✓ Program ${program.id} matched by destination_name "${program.destination_name}"`
+  //         );
+  //         return true;
+  //       }
+
+  //       // Method 4: Check location contains destination name
+  //       if (
+  //         destinationName &&
+  //         program.location
+  //           ?.toLowerCase()
+  //           .includes(destinationName.toLowerCase())
+  //       ) {
+  //         console.log(
+  //           `✓ Program ${program.id} matched by location "${program.location}"`
+  //         );
+  //         return true;
+  //       }
+
+  //       // Method 5: Check university name contains destination name
+  //       if (
+  //         destinationName &&
+  //         program.university_name
+  //           ?.toLowerCase()
+  //           .includes(destinationName.toLowerCase())
+  //       ) {
+  //         console.log(
+  //           `✓ Program ${program.id} matched by university_name "${program.university_name}"`
+  //         );
+  //         return true;
+  //       }
+
+  //       return false;
+  //     });
+
+  //     console.log(
+  //       `After destination filter: ${filtered.length} programs found`
+  //     );
+  //   }
+
+  //   // Apply university filter
+  //   if (filters.universityId && filters.universityId !== "") {
+  //     console.log(`Filtering by university ID: ${filters.universityId}`);
+  //     filtered = filtered.filter(
+  //       (program) => program.university_id?.toString() === filters.universityId
+  //     );
+  //     console.log(`After university filter: ${filtered.length} programs`);
+  //   }
+
+  //   // Apply program level filter
+  //   if (filters.programLevelId && filters.programLevelId !== "") {
+  //     filtered = filtered.filter(
+  //       (program) =>
+  //         program.program_level_id?.toString() === filters.programLevelId
+  //     );
+  //   }
+
+  //   // Apply study field filter
+  //   if (filters.studyFieldId && filters.studyFieldId !== "") {
+  //     filtered = filtered.filter(
+  //       (program) => program.study_field_id?.toString() === filters.studyFieldId
+  //     );
+  //   }
+
+  //   // Apply intake filter
+  //   if (filters.intakeId && filters.intakeId !== "") {
+  //     filtered = filtered.filter(
+  //       (program) => program.intake_id?.toString() === filters.intakeId
+  //     );
+  //   }
+
+  //   // Apply program tag filter
+  //   if (filters.programTagId && filters.programTagId !== "") {
+  //     filtered = filtered.filter(
+  //       (program) => program.program_tag_id?.toString() === filters.programTagId
+  //     );
+  //   }
+
+  //   // Apply search query filter
+  //   if (filters.searchQuery && filters.searchQuery !== "") {
+  //     const query = filters.searchQuery.toLowerCase();
+  //     filtered = filtered.filter(
+  //       (program) =>
+  //         program.program_name?.toLowerCase().includes(query) ||
+  //         program.university_name?.toLowerCase().includes(query) ||
+  //         program.location?.toLowerCase().includes(query)
+  //     );
+  //   }
+
+  //   console.log("=== FINAL FILTERED PROGRAMS ===");
+  //   console.log("Count:", filtered.length);
+  //   console.log(
+  //     "Programs:",
+  //     filtered.map((p) => ({
+  //       id: p.id,
+  //       university: p.university_name,
+  //       university_id: p.university_id,
+  //       destination_id: p.destination_id,
+  //       destination_name: p.destination_name,
+  //       location: p.location,
+  //     }))
+  //   );
+
+  //   setFilteredPrograms(filtered);
+
+  //   // Scroll to top when filters change
+  //   if (programRef.current) {
+  //     programRef.current.scrollToTop();
+  //   }
+  // };
+
+  // sajib filter function
+  // Handle filter changes - SMART / FORGIVING LOGIC
   const handleFilterChange = (filters: FilterOptions) => {
-    console.log("=== FILTERS RECEIVED ===", filters);
+    console.log("=== FILTERS APPLIED ===", filters);
     setActiveFilters(filters);
 
     if (Object.keys(filters).length === 0) {
-      console.log("No filters, showing all programs");
       setFilteredPrograms(allPrograms);
       return;
     }
 
-    let filtered = [...allPrograms];
+    let currentData = [...allPrograms];
 
-    console.log(`Starting with ${filtered.length} programs`);
+    const applySmartFilter = (
+      data: any[],
+      filterFn: (item: any) => boolean,
+      filterName: string,
+    ) => {
+      const filteredResult = data.filter(filterFn);
 
-    // Apply destination filter - MOST IMPORTANT FIX
+      if (filteredResult.length > 0) {
+        console.log(
+          `✅ ${filterName} Filter applied. Result count: ${filteredResult.length}`,
+        );
+        return filteredResult;
+      } else {
+        console.log(
+          `⚠️ ${filterName} Filter returned 0 results. IGNORING this filter to keep data visible.`,
+        );
+        return data;
+      }
+    };
+
+    
     if (filters.destinationId && filters.destinationId !== "") {
-      console.log(`🔍 FILTERING BY DESTINATION ID: ${filters.destinationId}`);
-
-      // Find destination name
+      const filterDestId = String(filters.destinationId);
       const selectedDestination = destinations.find(
-        (d) => d.id.toString() === filters.destinationId
+        (d) => String(d.id) === filterDestId,
       );
+      const validUniversityIds =
+        selectedDestination?.universities?.map((u) => String(u.id)) || [];
 
-      const destinationName = selectedDestination?.destinations_name;
-      console.log(`Destination name: ${destinationName}`);
-
-      // Get university IDs from this destination
-      const destinationUniversityIds =
-        selectedDestination?.universities?.map((u) => u.id.toString()) || [];
-      console.log(
-        `University IDs in this destination:`,
-        destinationUniversityIds
-      );
-
-      // Filter programs
-      filtered = filtered.filter((program) => {
-        // Method 1: Check if program's university_id is in destination's universities array
-        if (
-          program.university_id &&
-          destinationUniversityIds.includes(program.university_id.toString())
-        ) {
-          console.log(
-            `✓ Program ${program.id} matched by university_id ${program.university_id}`
-          );
-          return true;
-        }
-
-        // Method 2: Check destination_id directly
-        if (program.destination_id?.toString() === filters.destinationId) {
-          console.log(
-            `✓ Program ${program.id} matched by destination_id ${program.destination_id}`
-          );
-          return true;
-        }
-
-        // Method 3: Check destination_name if available
-        if (
-          program.destination_name &&
-          destinationName &&
-          program.destination_name.toLowerCase() ===
-            destinationName.toLowerCase()
-        ) {
-          console.log(
-            `✓ Program ${program.id} matched by destination_name "${program.destination_name}"`
-          );
-          return true;
-        }
-
-        // Method 4: Check location contains destination name
-        if (
-          destinationName &&
-          program.location
-            ?.toLowerCase()
-            .includes(destinationName.toLowerCase())
-        ) {
-          console.log(
-            `✓ Program ${program.id} matched by location "${program.location}"`
-          );
-          return true;
-        }
-
-        // Method 5: Check university name contains destination name
-        if (
-          destinationName &&
-          program.university_name
-            ?.toLowerCase()
-            .includes(destinationName.toLowerCase())
-        ) {
-          console.log(
-            `✓ Program ${program.id} matched by university_name "${program.university_name}"`
-          );
-          return true;
-        }
-
-        return false;
-      });
-
-      console.log(
-        `After destination filter: ${filtered.length} programs found`
+      currentData = applySmartFilter(
+        currentData,
+        (program) => {
+          if (program.destination_id)
+            return String(program.destination_id) === filterDestId;
+          if (program.university_id)
+            return validUniversityIds.includes(String(program.university_id));
+          if (
+            program.destination_name &&
+            selectedDestination?.destinations_name
+          ) {
+            return (
+              program.destination_name.toLowerCase() ===
+              selectedDestination.destinations_name.toLowerCase()
+            );
+          }
+          return false;
+        },
+        "Destination",
       );
     }
 
-    // Apply university filter
+    
     if (filters.universityId && filters.universityId !== "") {
-      console.log(`Filtering by university ID: ${filters.universityId}`);
-      filtered = filtered.filter(
-        (program) => program.university_id?.toString() === filters.universityId
+      const filterUniId = String(filters.universityId);
+      currentData = applySmartFilter(
+        currentData,
+        (program) => {
+          return (
+            program.university_id &&
+            String(program.university_id) === filterUniId
+          );
+        },
+        "University",
       );
-      console.log(`After university filter: ${filtered.length} programs`);
     }
 
-    // Apply program level filter
+    
     if (filters.programLevelId && filters.programLevelId !== "") {
-      filtered = filtered.filter(
-        (program) =>
-          program.program_level_id?.toString() === filters.programLevelId
+      const filterLevelId = String(filters.programLevelId);
+      currentData = applySmartFilter(
+        currentData,
+        (program) => {
+          return (
+            program.program_level_id &&
+            String(program.program_level_id) === filterLevelId
+          );
+        },
+        "Program Level",
       );
     }
 
-    // Apply study field filter
+   
     if (filters.studyFieldId && filters.studyFieldId !== "") {
-      filtered = filtered.filter(
-        (program) => program.study_field_id?.toString() === filters.studyFieldId
+      const filterFieldId = String(filters.studyFieldId);
+      currentData = applySmartFilter(
+        currentData,
+        (program) => {
+          return (
+            program.study_field_id &&
+            String(program.study_field_id) === filterFieldId
+          );
+        },
+        "Study Field",
       );
     }
 
-    // Apply intake filter
+    
     if (filters.intakeId && filters.intakeId !== "") {
-      filtered = filtered.filter(
-        (program) => program.intake_id?.toString() === filters.intakeId
+      const filterIntakeId = String(filters.intakeId);
+      currentData = applySmartFilter(
+        currentData,
+        (program) => {
+          return (
+            program.intake_id && String(program.intake_id) === filterIntakeId
+          );
+        },
+        "Intake",
       );
     }
 
-    // Apply program tag filter
+   
     if (filters.programTagId && filters.programTagId !== "") {
-      filtered = filtered.filter(
-        (program) => program.program_tag_id?.toString() === filters.programTagId
+      const filterTagId = String(filters.programTagId);
+      currentData = applySmartFilter(
+        currentData,
+        (program) => {
+          return (
+            program.program_tag_id &&
+            String(program.program_tag_id) === filterTagId
+          );
+        },
+        "Program Tag",
       );
     }
 
-    // Apply search query filter
     if (filters.searchQuery && filters.searchQuery !== "") {
       const query = filters.searchQuery.toLowerCase();
-      filtered = filtered.filter(
+
+      const searchResult = currentData.filter(
         (program) =>
           program.program_name?.toLowerCase().includes(query) ||
           program.university_name?.toLowerCase().includes(query) ||
-          program.location?.toLowerCase().includes(query)
+          program.location?.toLowerCase().includes(query),
       );
+
+      currentData = searchResult;
     }
 
-    console.log("=== FINAL FILTERED PROGRAMS ===");
-    console.log("Count:", filtered.length);
-    console.log(
-      "Programs:",
-      filtered.map((p) => ({
-        id: p.id,
-        university: p.university_name,
-        university_id: p.university_id,
-        destination_id: p.destination_id,
-        destination_name: p.destination_name,
-        location: p.location,
-      }))
-    );
+    console.log(`Final Result: ${currentData.length} programs`);
+    setFilteredPrograms(currentData);
+    setCurrentPage(1);
 
-    setFilteredPrograms(filtered);
+    
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  // sajib filter functyion
 
-    // Scroll to top when filters change
-    if (programRef.current) {
-      programRef.current.scrollToTop();
-    }
+  // handle details
+   const handleDetails = (programId: number) => {
+    navigate(`/program-university/${programId}`);
   };
 
   /* Pagination state */
@@ -399,7 +565,7 @@ const UniversityApply: React.FC = () => {
 
   const currentPrograms = filteredPrograms.slice(
     startIndex,
-    startIndex + itemsPerPage
+    startIndex + itemsPerPage,
   );
 
   useEffect(() => {
@@ -431,7 +597,7 @@ const UniversityApply: React.FC = () => {
       console.log("First destination:", destinations[0]);
       console.log(
         "Universities in first destination:",
-        destinations[0].universities
+        destinations[0].universities,
       );
     }
 
@@ -549,7 +715,7 @@ const UniversityApply: React.FC = () => {
               {activeFilters.destinationId &&
                 ` for ${
                   destinations.find(
-                    (d) => d.id.toString() === activeFilters.destinationId
+                    (d) => d.id.toString() === activeFilters.destinationId,
                   )?.destinations_name
                 }`}
             </p>
@@ -566,6 +732,7 @@ const UniversityApply: React.FC = () => {
 
                   return (
                     <div
+                    // onClick={() => handleDetails(program.id)}
                       key={program.id || i}
                       className="bg-white rounded-2xl shadow-lg border border-gray-200 hover:shadow-2xl transition-all duration-300 cursor-pointer max-w-[850px] mx-auto"
                     >
@@ -678,8 +845,8 @@ const UniversityApply: React.FC = () => {
                                 program.success_chance === "High"
                                   ? "bg-green-600"
                                   : program.success_chance === "Medium"
-                                  ? "bg-yellow-500"
-                                  : "bg-gray-400"
+                                    ? "bg-yellow-500"
+                                    : "bg-gray-400"
                               }`}
                             ></span>
                             <span className="text-sm font-medium text-black">
@@ -704,7 +871,7 @@ const UniversityApply: React.FC = () => {
                                   <span className="bg-gray-100 text-black px-4 py-1 rounded-full mt-2 shadow-sm">
                                     {safeDisplay(
                                       program.success_prediction_sept2026,
-                                      "Average"
+                                      "Average",
                                     )}
                                   </span>
                                 </div>
@@ -715,7 +882,7 @@ const UniversityApply: React.FC = () => {
                                   <span className="bg-green-100 text-green-700 px-4 py-1 rounded-full mt-2 shadow-sm">
                                     {safeDisplay(
                                       program.success_prediction_jan2027,
-                                      "High"
+                                      "High",
                                     )}
                                   </span>
                                 </div>
@@ -726,7 +893,7 @@ const UniversityApply: React.FC = () => {
                                   <span className="bg-green-100 text-green-700 px-4 py-1 rounded-full mt-2 shadow-sm">
                                     {safeDisplay(
                                       program.success_prediction_sept2027,
-                                      "High"
+                                      "High",
                                     )}
                                   </span>
                                 </div>
@@ -744,17 +911,26 @@ const UniversityApply: React.FC = () => {
                           Create Application
                         </button>
                       </div> */}
-                     
+                      <div className="p-7 border-t border-gray-100 mt-auto">
+                        <div
+                          className="flex items-center gap-2"
+                          onClick={() => handleDetails(program.id)}
+                        >
+                          <span>View Details</span>
+                          <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
+                        </div>
+                      </div>
+
                       <button
+                        
                         onClick={() => {
                           setSelectedProgram(program);
                           setOpen(true);
                         }}
-                        className="w-full bg-primary text-white font-semibold py-3.5 rounded-xl transition-all duration-300 shadow-md hover:bg-secondary"
+                        className="p-7 border-t border-gray-200 w-full bg-primary text-white font-semibold py-3.5 rounded-xl transition-all duration-300 shadow-md hover:bg-secondary"
                       >
                         Create Application
                       </button>
-
                     </div>
                   );
                 })}
@@ -871,6 +1047,3 @@ const UniversityApply: React.FC = () => {
 };
 
 export default UniversityApply;
-
-
-

@@ -38,6 +38,7 @@ import CreateApplicationForm from "./components/TrustedPartners/CreateApplicatio
 import ProgramUniversity from "./components/ProgramUniversity/ProgramUniversity";
 import AgentFinalApply from "./Slidebar/FinalApply/AgentFinalApply";
 import HungaryPage from "./components/Navbar/StudyDestination/HungaryPage";
+import AgentProgramDetails from "./components/TrustedPartners/CreateApplicationForm/AgentProgramDetails";
 
 
 //Main layout with Navbar & Footer
@@ -50,6 +51,7 @@ function MainLayout({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
+
 
 //Landing page sections
 function HomePage() {
@@ -101,7 +103,7 @@ function App() {
           }
         />
         <Route
-          path="/about-university/:id" 
+          path="/about-university/:id"
           element={
             <MainLayout>
               <AboutUniversity />
@@ -124,7 +126,7 @@ function App() {
             </MainLayout>
           }
         />
-        
+
         <Route
           path="/program-details"
           element={
@@ -133,7 +135,16 @@ function App() {
             </MainLayout>
           }
         />
-        <Route path="/program-university/:id" element={<ProgramUniversity />} />
+        {/* <Route path="/program-university/:id" element={<ProgramUniversity />} /> */}
+
+         <Route
+          path="/program-university/:id"
+          element={
+            <MainLayout>
+              <ProgramUniversity />
+            </MainLayout>
+          }
+        />
 
         <Route
           path="/agent"
@@ -272,6 +283,7 @@ function App() {
 
         {/* Agent Dashboard */}
         <Route path="/agent-dashboard" element={<AgentDashboard />} />
+
       </Routes>
     </Router>
   );

@@ -314,7 +314,7 @@ const TasksPage: React.FC = () => {
       <div className="overflow-x-auto bg-white rounded-xl shadow-sm border border-gray-100">
         <table className="min-w-full divide-y text-sm sm:text-base">
           <thead className="bg-gray-50">
-            <tr className="text-left text-black">
+            <tr className="text-left text-black whitespace-nowrap">
               <th className="px-3 sm:px-4 py-2">ID</th>
               <th className="px-3 sm:px-4 py-2">Title</th>
               <th className="px-3 sm:px-4 py-2">Student</th>
@@ -327,7 +327,7 @@ const TasksPage: React.FC = () => {
           <tbody>
             {filtered.length > 0 ? (
               filtered.map((task) => (
-                <tr key={task.id} className="border-t hover:bg-gray-50">
+                <tr key={task.id} className="border-t hover:bg-gray-50 whitespace-nowrap">
                   <td className="px-3 sm:px-4 py-2 font-medium">{task.id}</td>
                   <td className="px-3 sm:px-4 py-2">
                     <div className="font-medium">{task.title}</div>
@@ -402,6 +402,9 @@ const TasksPage: React.FC = () => {
 };
 
 export default TasksPage;
+
+
+
 
 
 

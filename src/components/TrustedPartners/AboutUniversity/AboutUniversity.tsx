@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import BASE_URL from "../../../ApiBaseUrl/ApiBaseUrl";
 import ProgramDetails from "./ProgramDetails";
+import RelatedPrograms from "./RelatedProrams";
+import Admissions from "./Admissions";
+import Scholarships from "./Scholarships";
+import CampusLife from "./CampusLife";
 
 interface TopDiscipline {
   discipline: string;
@@ -43,7 +47,8 @@ const AboutUniversity: React.FC = () => {
 
   const [activeTab, setActiveTab] = useState("Overview");
 
-  const tabs = ["Overview", "Programs", "Admissions", "Campus Life", "Scholarships", "Reviews"];
+  const tabs = ["Overview", "Programs", "Admissions","Campus Life",  "Scholarships"];
+  // const tabs = ["Overview", "Programs", "Admissions", "Campus Life", "Scholarships", "Reviews","RelatedPrograms"];
 
   useEffect(() => {
     if (!id) {
@@ -551,12 +556,12 @@ const AboutUniversity: React.FC = () => {
                 <div className="mt-6">
                   {activeTab === "Overview" && <div></div>}
                   {activeTab === "Programs" && <div><ProgramDetails /></div>}
-                  {activeTab === "Admissions" && <div></div>}
+                  {activeTab === "Admissions" && <div><Admissions/></div>}
                   {activeTab === "Campus Life" && (
-                    <div>Campus Life Content</div>
+                    <div> <CampusLife/> </div>
                   )}
                   {activeTab === "Scholarships" && (
-                    <div>Scholarship Content</div>
+                    <div><Scholarships/></div>
                   )}
                   {activeTab === "Reviews" && <div></div>}
                 </div>
@@ -707,8 +712,12 @@ const AboutUniversity: React.FC = () => {
                   </div>
                 </div>
               </div>
+              {/* Related Programs */}
+              <div className="bg-white rounded-xl shadow-sm border p-6 md:p-8">
+                        <RelatedPrograms/>
+              </div>
             </div>
-
+  
             {/* Right Column - Sidebar */}
             <div className="space-y-6">
               {/* Quick Facts */}
