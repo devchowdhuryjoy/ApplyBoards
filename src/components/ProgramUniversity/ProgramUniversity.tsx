@@ -4,7 +4,7 @@
 // interface University {
 //   id: number;
 //   program_name: string;
-  
+
 // }
 
 // const ProgramUniversity: React.FC = () => {
@@ -188,7 +188,7 @@
 //               <div className="bg-white rounded-xl shadow-sm border p-6 md:p-8">
 //                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Admission Requirements</h2>
 //                 <p className="text-gray-600 mb-6">May vary depending on student nationality and education background.</p>
-                
+
 //                 <div className="space-y-8">
 //                   {/* Academic Background */}
 //                   <div>
@@ -267,7 +267,7 @@
 //                     <div key={index} className="border border-gray-200 rounded-xl p-6 hover:border-secondary transition-colors">
 //                       <h3 className="text-lg font-bold text-gray-900 mb-2">{program.title}</h3>
 //                       <p className="text-gray-600 mb-4">{program.university}</p>
-                      
+
 //                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
 //                         <div>
 //                           <p className="text-gray-600 text-sm mb-1">Earliest Intake</p>
@@ -286,7 +286,7 @@
 //                           <p className="font-medium text-gray-900">{program.fee}</p>
 //                         </div>
 //                       </div>
-                      
+
 //                       <button className="w-full md:w-auto px-6 py-2.5 bg-secondary text-white font-medium rounded-lg hover:bg-primary transition-colors">
 //                         Apply Now
 //                       </button>
@@ -309,9 +309,9 @@
 //                     </p>
 //                     <p className="text-gray-700">
 //                       For more information see{" "}
-//                       <a 
-//                         href="https://www.uscis.gov/o/" 
-//                         target="_blank" 
+//                       <a
+//                         href="https://www.uscis.gov/o/"
+//                         target="_blank"
 //                         rel="noopener noreferrer"
 //                         className="text-secondary hover:text-primary transition-colors"
 //                       >
@@ -332,7 +332,7 @@
 //                     Apply Now
 //                   </button>
 //                 </div>
-                
+
 //                 <div className="space-y-4">
 //                   {[
 //                     { label: "Program Level", value: "Master's Degree", icon: "🎓" },
@@ -404,11 +404,10 @@
 
 // export default ProgramUniversity;
 
-
-
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import BASE_URL from "../../ApiBaseUrl/ApiBaseUrl";
+import RelatedPrograms from "../TrustedPartners/AboutUniversity/RelatedProrams";
 
 interface ProgramData {
   id: number;
@@ -445,6 +444,7 @@ interface ProgramData {
   address?: string;
   campus_city?: string;
   duration?: string;
+  intake_id?: number; //
   intake_name?: string;
   submission_deadline?: string;
   average_gross_tuition_short_desc?: string;
@@ -466,8 +466,10 @@ const ProgramUniversity: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
-
   const [activeTab, setActiveTab] = useState("Overview");
+
+  const [selectedIntakeId, setSelectedIntakeId] = useState<number>(0);
+  const [intakeList, setIntakeList] = useState<any[]>([]);
 
   useEffect(() => {
     if (!id) {
@@ -483,13 +485,13 @@ const ProgramUniversity: React.FC = () => {
 
       try {
         console.log(`Fetching program data for ID: ${id}`);
-        
+
         // Try multiple API endpoints
         const endpoints = [
           `${BASE_URL}/university-programs/details/${id}`,
           `${BASE_URL}/university/programs/${id}`,
           `${BASE_URL}/programs/${id}`,
-          `${BASE_URL}/api/programs/${id}`
+          `${BASE_URL}/api/programs/${id}`,
         ];
 
         let success = false;
@@ -498,11 +500,11 @@ const ProgramUniversity: React.FC = () => {
         for (const endpoint of endpoints) {
           try {
             console.log(`Trying endpoint: ${endpoint}`);
-            
+
             const response = await fetch(endpoint, {
               method: "GET",
               headers: {
-                "Accept": "application/json",
+                Accept: "application/json",
                 "Content-Type": "application/json",
               },
             });
@@ -551,7 +553,6 @@ const ProgramUniversity: React.FC = () => {
             success = true;
             console.log("Successfully fetched program data");
             break;
-
           } catch (err) {
             console.error(`Error with endpoint ${endpoint}:`, err);
             lastError = err.message;
@@ -560,8 +561,10 @@ const ProgramUniversity: React.FC = () => {
 
         if (!success) {
           // If all API endpoints fail, use the data directly from localStorage or create mock
-          console.log("All API endpoints failed, creating data from console structure");
-          
+          console.log(
+            "All API endpoints failed, creating data from console structure",
+          );
+
           // Create program data based on your console output
           const programFromLocal = {
             id: parseInt(id),
@@ -577,32 +580,34 @@ const ProgramUniversity: React.FC = () => {
             images: [],
             // Add more fields as needed
           };
-          
-          setProgramData(programFromLocal);
-          setError(`Could not fetch from API. Using fallback data. Last error: ${lastError}`);
-        }
 
+          setProgramData(programFromLocal);
+          setError(
+            `Could not fetch from API. Using fallback data. Last error: ${lastError}`,
+          );
+        }
       } catch (err: any) {
         console.error("Error fetching program data:", err);
         setError(err.message || "Failed to fetch program data");
-        
+
         // Create fallback data
         const fallbackData: ProgramData = {
           id: parseInt(id) || 0,
           program_name: "Fallback Program",
           university_name: "Fallback University",
           location: "Unknown",
-          description: "This is fallback program data because the API failed to load.",
+          description:
+            "This is fallback program data because the API failed to load.",
           program_level: "Bachelor's",
           program_length: "4 years",
           cost_of_living: "$15,000",
           gross_tuition: "$30,000",
           application_fee: "$100",
           images: [
-            "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80"
-          ]
+            "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80",
+          ],
         };
-        
+
         setProgramData(fallbackData);
       } finally {
         setLoading(false);
@@ -612,9 +617,71 @@ const ProgramUniversity: React.FC = () => {
     fetchProgramData();
   }, [id]);
 
+  // --- Fetch Intakes from Admin API ---
+  useEffect(() => {
+    const fetchIntakes = async () => {
+      // console.log("Intake API calling started...");
+
+      let token = null;
+      const auth = localStorage.getItem("auth");
+
+      if (auth) {
+        try {
+          const authData = JSON.parse(auth);
+
+          if (authData.token) {
+            token = authData.token;
+          }
+        } catch (e) {
+          console.error("Error parsing auth data:", e);
+        }
+      }
+
+      if (!token) {
+        console.warn("No auth token found inside 'auth' key.");
+        return;
+      }
+
+      try {
+        const response = await fetch(`${BASE_URL}/admin/intakes`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        console.log("📡 Intake API Status:", response.status);
+
+        if (response.ok) {
+          const result = await response.json();
+          // console.log("✅ Intake API Data:", result);
+
+          if (result.data) {
+            setIntakeList(result.data);
+          } else if (Array.isArray(result)) {
+            setIntakeList(result);
+          }
+        } else {
+          console.error("Failed to fetch intakes. Status:", response.status);
+        }
+      } catch (error) {
+        console.error("Error fetching intakes:", error);
+      }
+    };
+
+    fetchIntakes();
+  }, []);
+
   // Function to get correct image URL
   const getImageUrl = (imagePath: string): string => {
-    if (!imagePath || typeof imagePath !== "string" || imagePath.trim() === "") {
+    if (
+      !imagePath ||
+      typeof imagePath !== "string" ||
+      imagePath.trim() === ""
+    ) {
       return "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1600&q=80";
     }
 
@@ -642,12 +709,12 @@ const ProgramUniversity: React.FC = () => {
   // Parse images from string or array
   const getImagesArray = (images: any): string[] => {
     if (!images) return [];
-    
+
     if (Array.isArray(images)) {
       return images;
     }
-    
-    if (typeof images === 'string') {
+
+    if (typeof images === "string") {
       try {
         // Try to parse as JSON array
         const parsed = JSON.parse(images);
@@ -659,7 +726,7 @@ const ProgramUniversity: React.FC = () => {
         return [images];
       }
     }
-    
+
     return [];
   };
 
@@ -704,9 +771,15 @@ const ProgramUniversity: React.FC = () => {
               <strong>Tried endpoints:</strong>
             </p>
             <ul className="text-xs text-gray-500 mt-1">
-              <li>• {BASE_URL}/university-programs/details/{id}</li>
-              <li>• {BASE_URL}/university/programs/{id}</li>
-              <li>• {BASE_URL}/programs/{id}</li>
+              <li>
+                • {BASE_URL}/university-programs/details/{id}
+              </li>
+              <li>
+                • {BASE_URL}/university/programs/{id}
+              </li>
+              <li>
+                • {BASE_URL}/programs/{id}
+              </li>
             </ul>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
@@ -731,6 +804,30 @@ const ProgramUniversity: React.FC = () => {
   const data = programData!;
   const imagesArray = getImagesArray(data.images);
 
+  // --- Intake Options Logic ---
+  let intakeOptions: { id: number; name: string }[] = [];
+
+  if (intakeList.length > 0) {
+    intakeOptions = intakeList.map((item: any) => ({
+      id: item.id || item.intake_id,
+
+      name: item.name,
+    }));
+  } else {
+    intakeOptions = [
+      {
+        id: data.intake_id || 0,
+        name: data.intake_name || "Current Intake",
+      },
+    ];
+  }
+
+  // Selected Name Logic
+  const selectedIntakeName =
+    intakeOptions.find((opt) => opt.id === selectedIntakeId)?.name ||
+    data.intake_name ||
+    "Intake";
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header Section */}
@@ -740,7 +837,7 @@ const ProgramUniversity: React.FC = () => {
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0">
                 <div className="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold text-2xl shadow-lg">
-                  {data.program_name?.charAt(0) || 'P'}
+                  {data.program_name?.charAt(0) || "P"}
                 </div>
               </div>
               <div className="flex-1">
@@ -762,7 +859,8 @@ const ProgramUniversity: React.FC = () => {
                       />
                     </svg>
                     <span className="font-medium">
-                      {data.university_name || "University Name"}, {data.location || "Location"}
+                      {data.university_name || "University Name"},{" "}
+                      {data.location || "Location"}
                     </span>
                   </span>
                   {data.campus_city && (
@@ -799,7 +897,9 @@ const ProgramUniversity: React.FC = () => {
               </button>
               {data.university_id && (
                 <button
-                  onClick={() => navigate(`/about-university/${data.university_id}`)}
+                  onClick={() =>
+                    navigate(`/about-university/${data.university_id}`)
+                  }
                   className="px-5 py-2.5 bg-secondary text-white font-medium rounded-lg hover:bg-primary transition-colors flex items-center justify-center gap-2"
                 >
                   <svg
@@ -847,8 +947,9 @@ const ProgramUniversity: React.FC = () => {
                       className="w-full h-full object-cover"
                       onError={(e) => {
                         console.error(`Image ${index} failed to load`);
-                        setImageErrors(prev => ({ ...prev, [index]: true }));
-                        e.currentTarget.src = "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80";
+                        setImageErrors((prev) => ({ ...prev, [index]: true }));
+                        e.currentTarget.src =
+                          "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80";
                       }}
                       loading={index < 2 ? "eager" : "lazy"}
                     />
@@ -879,7 +980,10 @@ const ProgramUniversity: React.FC = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-              <div className="relative rounded-xl overflow-hidden bg-gray-100 shadow-lg hover:shadow-xl transition-shadow duration-300 md:col-span-2 md:row-span-2" style={{ aspectRatio: "16/9" }}>
+              <div
+                className="relative rounded-xl overflow-hidden bg-gray-100 shadow-lg hover:shadow-xl transition-shadow duration-300 md:col-span-2 md:row-span-2"
+                style={{ aspectRatio: "16/9" }}
+              >
                 <img
                   src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1600&q=80"
                   alt="Default program image"
@@ -887,7 +991,11 @@ const ProgramUniversity: React.FC = () => {
                 />
               </div>
               {[1, 2, 3].map((item) => (
-                <div key={item} className="relative rounded-xl overflow-hidden bg-gray-100 shadow-lg hover:shadow-xl transition-shadow duration-300" style={{ aspectRatio: "4/3" }}>
+                <div
+                  key={item}
+                  className="relative rounded-xl overflow-hidden bg-gray-100 shadow-lg hover:shadow-xl transition-shadow duration-300"
+                  style={{ aspectRatio: "4/3" }}
+                >
                   <img
                     src={`https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80&${item}`}
                     alt={`Default image ${item}`}
@@ -906,19 +1014,21 @@ const ProgramUniversity: React.FC = () => {
           {/* Navigation Tabs */}
           <div className="mb-8">
             <div className="flex overflow-x-auto border-b">
-              {["Overview", "Admission Requirements", "Similar Programs"].map((tab, index) => (
-                <button
-                  key={index}
-                  className={`flex-shrink-0 px-6 py-4 font-medium border-b-2 transition-colors ${
-                    activeTab === tab
-                      ? "border-blue-600 text-secondary"
-                      : "border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300"
-                  }`}
-                  onClick={() => setActiveTab(tab)}
-                >
-                  {tab}
-                </button>
-              ))}
+              {["Overview", "Admission Requirements", "Similar Programs"].map(
+                (tab, index) => (
+                  <button
+                    key={index}
+                    className={`flex-shrink-0 px-6 py-4 font-medium border-b-2 transition-colors ${
+                      activeTab === tab
+                        ? "border-blue-600 text-secondary"
+                        : "border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300"
+                    }`}
+                    onClick={() => setActiveTab(tab)}
+                  >
+                    {tab}
+                  </button>
+                ),
+              )}
             </div>
           </div>
 
@@ -927,73 +1037,128 @@ const ProgramUniversity: React.FC = () => {
             <div className="lg:col-span-2 space-y-8">
               {/* Program Summary Section */}
               <div className="bg-white rounded-xl shadow-sm border p-6 md:p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Program Summary</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                  Program Summary
+                </h2>
                 <div className="space-y-4">
                   <p className="text-gray-700 leading-relaxed">
-                    {data.program_description || data.program_summary || data.description || "No description available for this program."}
+                    {data.program_description ||
+                      data.program_summary ||
+                      data.description ||
+                      "No description available for this program."}
                   </p>
-                  
+
                   {/* Program Details Grid */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
                     {data.field_of_study_name && (
                       <div className="bg-gray-50 rounded-lg p-4">
-                        <p className="text-gray-600 text-sm mb-1">Field of Study</p>
-                        <p className="text-lg font-bold text-gray-900">{data.field_of_study_name}</p>
+                        <p className="text-gray-600 text-sm mb-1">
+                          Field of Study
+                        </p>
+                        <p className="text-lg font-bold text-gray-900">
+                          {data.field_of_study_name}
+                        </p>
                       </div>
                     )}
-                    
+
                     {data.program_level && (
                       <div className="bg-gray-50 rounded-lg p-4">
-                        <p className="text-gray-600 text-sm mb-1">Program Level</p>
-                        <p className="text-lg font-bold text-gray-900">{data.program_level}</p>
+                        <p className="text-gray-600 text-sm mb-1">
+                          Program Level
+                        </p>
+                        <p className="text-lg font-bold text-gray-900">
+                          {data.program_level}
+                        </p>
                       </div>
                     )}
-                    
+
                     {data.duration && (
                       <div className="bg-gray-50 rounded-lg p-4">
                         <p className="text-gray-600 text-sm mb-1">Duration</p>
-                        <p className="text-lg font-bold text-gray-900">{data.duration}</p>
+                        <p className="text-lg font-bold text-gray-900">
+                          {data.duration}
+                        </p>
                       </div>
                     )}
-                    
-                    {data.intake_name && (
+
+                    {/* {data.intake_name && (
                       <div className="bg-gray-50 rounded-lg p-4">
                         <p className="text-gray-600 text-sm mb-1">Intake</p>
                         <p className="text-lg font-bold text-gray-900">{data.intake_name}</p>
                       </div>
-                    )}
+                    )} */}
+
+                    {/* Intake Card Update */}
+
+                    <select
+                      value={selectedIntakeId}
+                      onChange={(e) =>
+                        setSelectedIntakeId(Number(e.target.value))
+                      }
+                      className="w-full appearance-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-3 pr-10 cursor-pointer font-semibold transition-colors hover:bg-white hover:border-blue-400"
+                    >
+                      {/* Default Option (Optional) */}
+                      <option value={0} disabled>
+                        Select an Intake
+                      </option>
+
+                      {/* Dynamic Options */}
+                      {intakeOptions.map((intake) => (
+                        <option key={intake.id} value={intake.id}>
+                          {intake.name}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
               </div>
 
               {/* Admission Requirements Section */}
               <div className="bg-white rounded-xl shadow-sm border p-6 md:p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Admission Requirements</h2>
-                
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                  Admission Requirements
+                </h2>
+
                 <div className="space-y-8">
                   {/* Language Requirements */}
-                  {(data.ielts_required || data.toefl_required || data.duolingo_required) && (
+                  {(data.ielts_required ||
+                    data.toefl_required ||
+                    data.duolingo_required) && (
                     <div>
-                      <h3 className="text-xl font-semibold text-gray-900 mb-4">Language Requirements</h3>
+                      <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                        Language Requirements
+                      </h3>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {data.ielts_required && data.ielts_overall && (
                           <div className="bg-blue-50 rounded-lg p-4">
-                            <p className="text-gray-600 text-sm mb-1">IELTS Overall</p>
-                            <p className="text-lg font-bold text-gray-900">{data.ielts_overall}</p>
+                            <p className="text-gray-600 text-sm mb-1">
+                              IELTS Overall
+                            </p>
+                            <p className="text-lg font-bold text-gray-900">
+                              {data.ielts_overall}
+                            </p>
                           </div>
                         )}
-                        
+
                         {data.toefl_required && data.toefl_overall && (
                           <div className="bg-green-50 rounded-lg p-4">
-                            <p className="text-gray-600 text-sm mb-1">TOEFL Overall</p>
-                            <p className="text-lg font-bold text-gray-900">{data.toefl_overall}</p>
+                            <p className="text-gray-600 text-sm mb-1">
+                              TOEFL Overall
+                            </p>
+                            <p className="text-lg font-bold text-gray-900">
+                              {data.toefl_overall}
+                            </p>
                           </div>
                         )}
-                        
+
                         {data.duolingo_required && data.duolingo_total && (
                           <div className="bg-purple-50 rounded-lg p-4">
-                            <p className="text-gray-600 text-sm mb-1">Duolingo Total</p>
-                            <p className="text-lg font-bold text-gray-900">{data.duolingo_total}</p>
+                            <p className="text-gray-600 text-sm mb-1">
+                              Duolingo Total
+                            </p>
+                            <p className="text-lg font-bold text-gray-900">
+                              {data.duolingo_total}
+                            </p>
                           </div>
                         )}
                       </div>
@@ -1002,16 +1167,22 @@ const ProgramUniversity: React.FC = () => {
 
                   {/* Academic Background */}
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-4">Academic Background</h3>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                      Academic Background
+                    </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="bg-gray-50 rounded-lg p-4">
-                        <p className="text-gray-600 text-sm mb-1">Minimum GPA</p>
+                        <p className="text-gray-600 text-sm mb-1">
+                          Minimum GPA
+                        </p>
                         <p className="text-lg font-bold text-gray-900">
                           {data.minimum_gpa || data.grading_scheme || "N/A"}
                         </p>
                       </div>
                       <div className="bg-gray-50 rounded-lg p-4">
-                        <p className="text-gray-600 text-sm mb-1">Last Level of Study</p>
+                        <p className="text-gray-600 text-sm mb-1">
+                          Last Level of Study
+                        </p>
                         <p className="text-lg font-bold text-gray-900">
                           {data.last_level_of_study || "N/A"}
                         </p>
@@ -1022,19 +1193,29 @@ const ProgramUniversity: React.FC = () => {
                   {/* Visa Information */}
                   {(data.study_permit_or_visa || data.nationality) && (
                     <div>
-                      <h3 className="text-xl font-semibold text-gray-900 mb-4">Visa Information</h3>
+                      <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                        Visa Information
+                      </h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {data.study_permit_or_visa && (
                           <div className="bg-gray-50 rounded-lg p-4">
-                            <p className="text-gray-600 text-sm mb-1">Study Permit/Visa</p>
-                            <p className="text-lg font-bold text-gray-900">{data.study_permit_or_visa}</p>
+                            <p className="text-gray-600 text-sm mb-1">
+                              Study Permit/Visa
+                            </p>
+                            <p className="text-lg font-bold text-gray-900">
+                              {data.study_permit_or_visa}
+                            </p>
                           </div>
                         )}
-                        
+
                         {data.nationality && (
                           <div className="bg-gray-50 rounded-lg p-4">
-                            <p className="text-gray-600 text-sm mb-1">Nationality</p>
-                            <p className="text-lg font-bold text-gray-900">{data.nationality}</p>
+                            <p className="text-gray-600 text-sm mb-1">
+                              Nationality
+                            </p>
+                            <p className="text-lg font-bold text-gray-900">
+                              {data.nationality}
+                            </p>
                           </div>
                         )}
                       </div>
@@ -1044,35 +1225,46 @@ const ProgramUniversity: React.FC = () => {
                   {/* Important Dates */}
                   {(data.open_date || data.submission_deadline) && (
                     <div>
-                      <h3 className="text-xl font-semibold text-gray-900 mb-4">Important Dates</h3>
+                      <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                        Important Dates
+                      </h3>
                       <div className="space-y-2">
                         {data.open_date && (
                           <div className="flex items-center justify-between py-3 border-b border-gray-100">
                             <div className="flex items-center gap-3">
                               <span className="text-green-600">📅</span>
-                              <span className="font-medium text-gray-900">Open Date</span>
+                              <span className="font-medium text-gray-900">
+                                Open Date
+                              </span>
                             </div>
                             <span className="text-gray-600">
-                              {new Date(data.open_date).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric'
-                              })}
+                              {new Date(data.open_date).toLocaleDateString(
+                                "en-US",
+                                {
+                                  year: "numeric",
+                                  month: "long",
+                                  day: "numeric",
+                                },
+                              )}
                             </span>
                           </div>
                         )}
-                        
+
                         {data.submission_deadline && (
                           <div className="flex items-center justify-between py-3">
                             <div className="flex items-center gap-3">
                               <span className="text-red-600">⏰</span>
-                              <span className="font-medium text-gray-900">Submission Deadline</span>
+                              <span className="font-medium text-gray-900">
+                                Submission Deadline
+                              </span>
                             </div>
                             <span className="text-gray-600">
-                              {new Date(data.submission_deadline).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric'
+                              {new Date(
+                                data.submission_deadline,
+                              ).toLocaleDateString("en-US", {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
                               })}
                             </span>
                           </div>
@@ -1081,6 +1273,11 @@ const ProgramUniversity: React.FC = () => {
                     </div>
                   )}
                 </div>
+              </div>
+
+              {/* Similar prorams  */}
+              <div className="bg-white rounded-xl shadow-sm border p-6 md:p-8">
+                <RelatedPrograms />
               </div>
             </div>
 
@@ -1093,22 +1290,57 @@ const ProgramUniversity: React.FC = () => {
                     Apply Now
                   </button>
                 </div> */}
-                
+
                 <div className="space-y-4">
                   {[
-                    { label: "Program Name", value: data.program_name || "N/A", icon: "📚" },
-                    { label: "University", value: data.university_name || "N/A", icon: "🏛️" },
-                    { label: "Location", value: data.location || "N/A", icon: "📍" },
-                    { label: "Application Fee", value: data.application_fee ? `$${data.application_fee}` : "N/A", icon: "💰" },
-                    { label: "Gross Tuition", value: data.gross_tuition ? `$${data.gross_tuition}` : "N/A", icon: "📊" },
-                    { label: "Cost of Living", value: data.cost_of_living ? `$${data.cost_of_living}/year` : "N/A", icon: "🏠" }
+                    {
+                      label: "Program Name",
+                      value: data.program_name || "N/A",
+                      icon: "📚",
+                    },
+                    {
+                      label: "University",
+                      value: data.university_name || "N/A",
+                      icon: "🏛️",
+                    },
+                    {
+                      label: "Location",
+                      value: data.location || "N/A",
+                      icon: "📍",
+                    },
+                    {
+                      label: "Application Fee",
+                      value: data.application_fee
+                        ? `$${data.application_fee}`
+                        : "N/A",
+                      icon: "💰",
+                    },
+                    {
+                      label: "Gross Tuition",
+                      value: data.gross_tuition
+                        ? `$${data.gross_tuition}`
+                        : "N/A",
+                      icon: "📊",
+                    },
+                    {
+                      label: "Cost of Living",
+                      value: data.cost_of_living
+                        ? `$${data.cost_of_living}/year`
+                        : "N/A",
+                      icon: "🏠",
+                    },
                   ].map((item, index) => (
-                    <div key={index} className="flex items-start justify-between py-3 border-b border-gray-100">
+                    <div
+                      key={index}
+                      className="flex items-start justify-between py-3 border-b border-gray-100"
+                    >
                       <div className="flex items-center gap-3">
                         <span className="text-lg">{item.icon}</span>
                         <span className="text-gray-600">{item.label}</span>
                       </div>
-                      <span className="font-semibold text-gray-900 text-right">{item.value}</span>
+                      <span className="font-semibold text-gray-900 text-right">
+                        {item.value}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -1117,21 +1349,36 @@ const ProgramUniversity: React.FC = () => {
               {/* Success Chance */}
               {data.success_chance && (
                 <div className="bg-white rounded-xl shadow-sm border p-6">
-                  <h3 className="text-lg font-bold text-gray-900 mb-4">Success Chance</h3>
-                  <div className={`p-4 rounded-lg ${
-                    data.success_chance === 'High' ? 'bg-green-50 border border-green-200' :
-                    data.success_chance === 'Medium' ? 'bg-yellow-50 border border-yellow-200' :
-                    'bg-red-50 border border-red-200'
-                  }`}>
+                  <h3 className="text-lg font-bold text-gray-900 mb-4">
+                    Success Chance
+                  </h3>
+                  <div
+                    className={`p-4 rounded-lg ${
+                      data.success_chance === "High"
+                        ? "bg-green-50 border border-green-200"
+                        : data.success_chance === "Medium"
+                          ? "bg-yellow-50 border border-yellow-200"
+                          : "bg-red-50 border border-red-200"
+                    }`}
+                  >
                     <div className="flex items-center justify-between">
-                      <span className="font-medium text-gray-900">{data.success_chance} Chance</span>
-                      <span className={`text-2xl ${
-                        data.success_chance === 'High' ? 'text-green-600' :
-                        data.success_chance === 'Medium' ? 'text-yellow-600' :
-                        'text-red-600'
-                      }`}>
-                        {data.success_chance === 'High' ? '🎯' :
-                         data.success_chance === 'Medium' ? '⚠️' : '❌'}
+                      <span className="font-medium text-gray-900">
+                        {data.success_chance} Chance
+                      </span>
+                      <span
+                        className={`text-2xl ${
+                          data.success_chance === "High"
+                            ? "text-green-600"
+                            : data.success_chance === "Medium"
+                              ? "text-yellow-600"
+                              : "text-red-600"
+                        }`}
+                      >
+                        {data.success_chance === "High"
+                          ? "🎯"
+                          : data.success_chance === "Medium"
+                            ? "⚠️"
+                            : "❌"}
                       </span>
                     </div>
                   </div>
@@ -1140,17 +1387,33 @@ const ProgramUniversity: React.FC = () => {
 
               {/* Quick Links */}
               <div className="bg-white rounded-xl shadow-sm border p-6">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">Quick Links</h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-4">
+                  Quick Links
+                </h3>
                 <div className="space-y-3">
                   {[
-                    { label: "Download Brochure", icon: "📥", onClick: () => console.log("Download Brochure") },
-                    { label: "Schedule Consultation", icon: "📅", onClick: () => console.log("Schedule Consultation") },
-                    { 
-                      label: "View University Details", 
-                      icon: "🏛️", 
-                      onClick: () => data.university_id && navigate(`/about-university/${data.university_id}`) 
+                    {
+                      label: "Download Brochure",
+                      icon: "📥",
+                      onClick: () => console.log("Download Brochure"),
                     },
-                    { label: "Compare Programs", icon: "⚖️", onClick: () => console.log("Compare Programs") }
+                    {
+                      label: "Schedule Consultation",
+                      icon: "📅",
+                      onClick: () => console.log("Schedule Consultation"),
+                    },
+                    {
+                      label: "View University Details",
+                      icon: "🏛️",
+                      onClick: () =>
+                        data.university_id &&
+                        navigate(`/about-university/${data.university_id}`),
+                    },
+                    {
+                      label: "Compare Programs",
+                      icon: "⚖️",
+                      onClick: () => console.log("Compare Programs"),
+                    },
                   ].map((link, index) => (
                     <button
                       key={index}
@@ -1161,8 +1424,19 @@ const ProgramUniversity: React.FC = () => {
                         <span>{link.icon}</span>
                         <span className="text-gray-700">{link.label}</span>
                       </div>
-                      <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                      <svg
+                        className="w-4 h-4 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M9 5l7 7-7 7"
+                        />
                       </svg>
                     </button>
                   ))}
