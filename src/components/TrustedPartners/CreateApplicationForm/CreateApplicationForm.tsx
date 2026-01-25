@@ -399,7 +399,6 @@ const CreateApplicationForm: React.FC = () => {
 
   // sajib filter function
   // Handle filter changes - FIXED & SIMPLIFIED
-  // Handle filter changes - SMART / FORGIVING LOGIC
   const handleFilterChange = (filters: FilterOptions) => {
     console.log("=== FILTERS APPLIED ===", filters);
     setActiveFilters(filters);
