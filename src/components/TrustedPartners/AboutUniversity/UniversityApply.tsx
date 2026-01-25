@@ -734,7 +734,7 @@ const UniversityApply: React.FC = () => {
                     <div
                     // onClick={() => handleDetails(program.id)}
                       key={program.id || i}
-                      className="bg-white rounded-2xl shadow-lg border border-gray-200 hover:shadow-2xl transition-all duration-300 cursor-pointer max-w-[850px] mx-auto"
+                      className="bg-white rounded-2xl shadow-lg border border-gray-200 hover:shadow-2xl transition-all duration-300 cursor-pointer max-w-[850px] mx-auto flex flex-col"
                     >
                       {/* Header */}
                       <div className="p-7 border-b border-gray-200">
@@ -927,7 +927,7 @@ const UniversityApply: React.FC = () => {
                           setSelectedProgram(program);
                           setOpen(true);
                         }}
-                        className="p-7 border-t border-gray-200 w-full bg-primary text-white font-semibold py-3.5 rounded-xl transition-all duration-300 shadow-md hover:bg-secondary"
+                        className="p-7 border-t border-gray-200 w-full bg-primary text-white font-semibold py-3.5 rounded-b-2xl transition-all duration-300 shadow-md hover:bg-secondary"
                       >
                         Create Application
                       </button>

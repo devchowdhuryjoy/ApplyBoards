@@ -706,7 +706,7 @@ const CreateApplicationForm: React.FC = () => {
                   return (
                     <div
                       key={program.id || i}
-                      className="bg-white rounded-2xl shadow-lg border border-gray-200 hover:shadow-2xl transition-all duration-300 cursor-pointer max-w-[850px] mx-auto"
+                      className="bg-white rounded-2xl shadow-lg border border-gray-200 hover:shadow-2xl transition-all duration-300 cursor-pointer max-w-[850px] mx-auto flex flex-col"
                     >
                       {/* Header */}
                       <div className="p-7 border-b border-gray-200">
@@ -877,7 +877,7 @@ const CreateApplicationForm: React.FC = () => {
                         ) : null}
                       </div>
 
-                      <div className="p-7 border-t border-gray-100 mt-auto">
+                      {/* <div className="p-7 border-t border-gray-100 mt-auto">
                         <div
                           className="flex items-center gap-2"
                           onClick={() => handleDetails(program.id)}
@@ -885,7 +885,7 @@ const CreateApplicationForm: React.FC = () => {
                           <span>View Details</span>
                           <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
                         </div>
-                      </div>
+                      </div> */}
 
                       {/*FIXED: Bottom Button */}
                       <div className="p-7 border-t border-gray-200">
