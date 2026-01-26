@@ -558,9 +558,9 @@ const CreateApplicationForm: React.FC = () => {
   };
   // sajib filter functyion
 
-  const handleDetails = (programId: number) => {
-    navigate(`/program-university/${programId}`);
-  };
+  // const handleDetails = (programId: number) => {
+  //   navigate(`/program-university/${programId}`);
+  // };
   /* Pagination state */
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
@@ -877,7 +877,7 @@ const CreateApplicationForm: React.FC = () => {
                         ) : null}
                       </div>
 
-                      <div className="p-7 border-t border-gray-100 mt-auto">
+                      {/* <div className="p-7 border-t border-gray-100 mt-auto">
                         <div
                           className="flex items-center gap-2"
                           onClick={() => handleDetails(program.id)}
@@ -885,7 +885,7 @@ const CreateApplicationForm: React.FC = () => {
                           <span>View Details</span>
                           <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
                         </div>
-                      </div>
+                      </div> */}
 
                       {/*FIXED: Bottom Button */}
                       <div className="p-7 border-t border-gray-200">

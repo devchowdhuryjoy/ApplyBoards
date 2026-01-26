@@ -2,6 +2,9 @@
 
 // export default IMAGE_URL;
 
-const IMAGE_URL = "https://stdxl.globalrouteway.com/api";
+// const IMAGE_URL = "https://stdxl.globalrouteway.com/api";
+
+// export default IMAGE_URL;
+const IMAGE_URL = "https://studyxl2.globalrouteway.com/api";
 
 export default IMAGE_URL;
