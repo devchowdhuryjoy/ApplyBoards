@@ -92,63 +92,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const [error, setError] = useState<string | null>(null);
   const [unreadCount, setUnreadCount] = useState(0);
 
-  // Fetch notifications
-//   const fetchNotifications = async () => {
-//     const headers = getHeaders();
-    
-//     if (!headers) {
-//       setError('Authentication token not found. Please login again.');
-//       setNotifications([]);
-//       setUnreadCount(0);
-//       return;
-//     }
 
-//     try {
-//       setLoading(true);
-//       setError(null);
-      
-//       console.log('Fetching notifications with token...');
-      
-//       const response = await fetch("https://studyxl2.globalrouteway.com/api/agent/notifications", {
-//         method: "GET",
-//         headers: headers,
-//         credentials: 'include' // If using cookies
-//       });
-      
-//       console.log('Notification API response status:', response.status);
-      
-//       if (!response.ok) {
-//         if (response.status === 401) {
-//           // Token expired or invalid
-//           localStorage.removeItem('auth');
-//           localStorage.removeItem('agent_token');
-//           throw new Error('Session expired. Please login again.');
-//         }
-//         throw new Error(`Failed to fetch notifications: ${response.status} ${response.statusText}`);
-//       }
-      
-//       const result: NotificationResponse = await response.json();
-//       console.log('Notifications API Response:', result);
-      
-//       if (result.success && result.data) {
-//         setNotifications(result.data);
-//         const unread = result.data.filter(notif => !notif.is_read).length;
-//         setUnreadCount(unread);
-//         console.log(`Fetched ${result.data.length} notifications, ${unread} unread`);
-//       } else {
-//         console.warn('No notification data received:', result.message);
-//         setNotifications([]);
-//         setUnreadCount(0);
-//       }
-//     } catch (error) {
-//       console.error("Error fetching notifications:", error);
-//       setError(error instanceof Error ? error.message : 'Unknown error occurred');
-//       setNotifications([]);
-//       setUnreadCount(0);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
 
 // contexts/NotificationContext.tsx - fetchNotifications function update করুন
 const fetchNotifications = async () => {

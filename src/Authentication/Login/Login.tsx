@@ -9,55 +9,6 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-
-  //   try {
-  //     const formdata = new FormData();
-  //     formdata.append("email", email);
-  //     formdata.append("password", password);
-
-  //     const requestOptions: RequestInit = {
-  //       method: "POST",
-  //       body: formdata,
-  //       redirect: "follow",
-  //     };
-
-  //     const response = await fetch(`${BASE_URL}/login`, requestOptions);
-  //     const result = await response.json();
-
-  //     if (!response.ok) {
-
-  //       Swal.fire({
-  //         icon: "error",
-  //         title: "Login Failed",
-  //         text: result.message || "Something went wrong",
-  //       });
-  //       return;
-  //     }
-
-  //     Swal.fire({
-  //       icon: "success",
-  //       title: "Login Successful",
-  //       text: result.message || "Welcome back!",
-  //       timer: 2000,
-  //       showConfirmButton: false,
-  //     });
-
-  //     localStorage.setItem("auth", JSON.stringify(result));
-
-  //     setTimeout(() => navigate("/sidebar"), 2000);
-  //   } catch (err: any) {
-  //     Swal.fire({
-  //       icon: "error",
-  //       title: "Error",
-  //       text: err.message || "Something went wrong",
-  //     });
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

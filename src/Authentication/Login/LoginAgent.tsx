@@ -8,62 +8,6 @@ const AgentLogin = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  // const handleLogin = async (e) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     const response = await fetch(`${BASE_URL}/agent/login`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ email, password }),
-  //     });
-
-  //     const data = await response.json();
-
-  //     if (!response.ok) {
-  //       if (response.status === 403) {
-  //         Swal.fire({
-  //           icon: "warning",
-  //           title: "Pending Approval",
-  //           text: data.message,
-  //         });
-  //       } else if (response.status === 401) {
-  //         Swal.fire({
-  //           icon: "error",
-  //           title: "Invalid Credentials",
-  //           text: data.message,
-  //         });
-  //       } else {
-  //         Swal.fire({
-  //           icon: "error",
-  //           title: "Login Failed",
-  //           text: data.message || "Something went wrong!",
-  //         });
-  //       }
-  //       return;
-  //     }
-
-  //     // ✅ Success
-  //     if (data.status) {
-  //       Swal.fire({
-  //         icon: "success",
-  //         title: "Login Successful",
-  //         text: data.message,
-  //       });
-  //       localStorage.setItem("agent", JSON.stringify(data.agent));
-  //       navigate("/agent-dashboard");
-  //     }
-  //   } catch (error) {
-  //     Swal.fire({
-  //       icon: "error",
-  //       title: "Server Error",
-  //       text: "Something went wrong!",
-  //     });
-  //   }
-  // };
-
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -102,7 +46,7 @@ const AgentLogin = () => {
         return;
       }
 
-      // ✅ Success
+      //Success
       if (data.status) {
         Swal.fire({
           icon: "success",
@@ -110,7 +54,7 @@ const AgentLogin = () => {
           text: data.message,
         });
 
-        // ✅ Save token + user
+        //Save token + user
         localStorage.setItem(
           "auth",
           JSON.stringify({
