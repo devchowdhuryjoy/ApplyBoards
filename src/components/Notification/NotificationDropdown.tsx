@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Bell, Check, X, Eye, EyeOff, RefreshCw } from 'lucide-react';
+import { Bell, Check, X, Eye, EyeOff, RefreshCw, User, GraduationCap } from 'lucide-react';
 import { useNotifications } from '../../Slidebar/contexts/NotificationContext';
 import { Notification } from '../../types/notification';
 
@@ -11,6 +11,7 @@ const NotificationDropdown: React.FC = () => {
     unreadCount,
     loading,
     error,
+    userType,
     markAsRead,
     markAllAsRead,
     refreshNotifications,
@@ -19,13 +20,14 @@ const NotificationDropdown: React.FC = () => {
   // Debug log
   useEffect(() => {
     console.log('NotificationDropdown State:', {
+      userType,
       isOpen,
       notificationsCount: notifications.length,
       unreadCount,
       loading,
       error
     });
-  }, [isOpen, notifications, unreadCount, loading, error]);
+  }, [userType, isOpen, notifications, unreadCount, loading, error]);
 
   // Toggle dropdown
   const toggleDropdown = () => {
@@ -49,32 +51,21 @@ const NotificationDropdown: React.FC = () => {
     };
   }, []);
 
-  // Handle notification click - MAIN FUNCTION
+  // Handle notification click
   const handleNotificationClick = async (notification: Notification) => {
-    console.log('Notification clicked:', notification);
+    console.log(`${userType} notification clicked:`, notification);
     
-    // If notification is unread, mark it as read
     if (!notification.is_read) {
       console.log(`Marking notification ${notification.id} as read...`);
       const success = await markAsRead(notification.id);
       
       if (success) {
         console.log(`Success: Notification ${notification.id} marked as read`);
-        
-        // You can add a toast notification here
-        // toast.success('Notification marked as read');
-        
-        // Optional: Navigate based on notification type
-        // handleNotificationNavigation(notification);
       } else {
         console.error(`Failed to mark notification ${notification.id} as read`);
-        // toast.error('Failed to mark as read');
       }
     } else {
       console.log(`Notification ${notification.id} is already read`);
-      
-      // Still show notification details even if already read
-      // handleNotificationNavigation(notification);
     }
   };
 
@@ -86,10 +77,8 @@ const NotificationDropdown: React.FC = () => {
     const success = await markAllAsRead();
     if (success) {
       console.log('Success: All notifications marked as read');
-      // toast.success('All notifications marked as read');
     } else {
       console.error('Failed to mark all as read');
-      // toast.error('Failed to mark all as read');
     }
   };
 
@@ -115,7 +104,7 @@ const NotificationDropdown: React.FC = () => {
     }
   };
 
-  // Get notification icon based on type
+  // Get notification icon based on type and user type
   const getNotificationIcon = (type: string, isRead: boolean) => {
     const baseClass = `w-10 h-10 rounded-full flex items-center justify-center ${
       !isRead ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-600'
@@ -146,6 +135,12 @@ const NotificationDropdown: React.FC = () => {
       case 'invoice':
         icon = '💰';
         break;
+      case 'university_update':
+        icon = '🏫';
+        break;
+      case 'agent_message':
+        icon = '👤';
+        break;
       default:
         icon = !isRead ? '🔔' : '📭';
     }
@@ -167,6 +162,16 @@ const NotificationDropdown: React.FC = () => {
         type="button"
       >
         <Bell size={20} className="hover:text-gray-200 transition-colors" />
+        
+        {/* User Type Badge */}
+        {userType && (
+          <div className={`absolute -bottom-1 -right-1 rounded-full w-4 h-4 flex items-center justify-center text-[10px] ${
+            userType === 'agent' ? 'bg-orange-500 text-white' : 'bg-green-500 text-white'
+          }`}>
+            {userType === 'agent' ? 'A' : 'S'}
+          </div>
+        )}
+        
         {unreadCount > 0 && (
           <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-pulse">
             {unreadCount > 9 ? '9+' : unreadCount}
@@ -177,11 +182,22 @@ const NotificationDropdown: React.FC = () => {
       {/* Dropdown Panel */}
       {isOpen && (
         <div className="absolute right-0 mt-2 w-80 md:w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
-          {/* Header */}
+          {/* Header with user type */}
           <div className="flex items-center justify-between p-4 border-b bg-gray-50">
             <div className="flex-1">
               <div className="flex items-center justify-between">
-                <h3 className="font-semibold text-gray-800">Notifications</h3>
+                <div className="flex items-center gap-2">
+                  <h3 className="font-semibold text-gray-800">Notifications</h3>
+                  {userType && (
+                    <span className={`text-xs px-2 py-1 rounded-full ${
+                      userType === 'agent' 
+                        ? 'bg-orange-100 text-orange-800' 
+                        : 'bg-green-100 text-green-800'
+                    }`}>
+                      {userType === 'agent' ? 'Agent' : 'Student'}
+                    </span>
+                  )}
+                </div>
                 <button
                   onClick={() => refreshNotifications()}
                   className="p-1 hover:bg-gray-200 rounded-full transition-colors"
@@ -312,15 +328,10 @@ const NotificationDropdown: React.FC = () => {
                             ) : (
                               <span className="text-xs text-blue-600 font-medium flex items-center">
                                 <EyeOff size={12} className="mr-1" />
-                                Unread - Click to mark as read
+                                Unread
                               </span>
                             )}
                           </div>
-                          
-                          {/* Click indicator */}
-                          <span className="text-xs text-gray-400 group-hover:text-gray-600">
-                            Click to {!notification.is_read ? 'mark as read' : 'view'}
-                          </span>
                         </div>
                       </div>
                     </div>

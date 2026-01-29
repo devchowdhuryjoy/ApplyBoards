@@ -1,80 +1,106 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Notification, NotificationResponse } from '../../types/notification';
+import { Notification } from '../../types/notification';
+import BASE_URL from '../../ApiBaseUrl/ApiBaseUrl'; 
 
 interface NotificationContextType {
   notifications: Notification[];
   unreadCount: number;
   loading: boolean;
   error: string | null;
+  userType: 'agent' | 'student' | null;
   fetchNotifications: () => Promise<void>;
   markAsRead: (id: number) => Promise<boolean>;
   markAllAsRead: () => Promise<boolean>;
   refreshNotifications: () => void;
+  setUserType: (type: 'agent' | 'student') => void;
 }
 
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
 
-//UPDATED: Helper function to get agent token from 'auth' key
-const getAgentToken = (): string | null => {
+// Helper function to get token based on user type
+const getUserToken = (): { token: string | null, userType: 'agent' | 'student' | null } => {
   try {
-    // 1. First check 'auth' key (your current login system)
+    // Check localStorage for auth data
     const authData = localStorage.getItem('auth');
+    
     if (authData) {
       const parsedAuth = JSON.parse(authData);
       
-      // Check multiple possible token keys
-      const token = parsedAuth.token || parsedAuth.access_token || parsedAuth.api_token;
-      if (token) {
-        console.log('Token found in auth data:', token.substring(0, 20) + '...');
-        return token;
+      // Check if it's agent
+      if (parsedAuth.token && (parsedAuth.user_type === 'agent' || parsedAuth.role === 'agent' || parsedAuth.agent)) {
+        console.log('Agent token found');
+        return { 
+          token: parsedAuth.token, 
+          userType: 'agent' 
+        };
       }
       
-      // Also check if agent data has token
-      if (parsedAuth.agent && parsedAuth.agent.token) {
-        console.log('Token found in agent data:', parsedAuth.agent.token.substring(0, 20) + '...');
-        return parsedAuth.agent.token;
+      // Check if it's student/user
+      if (parsedAuth.token && (parsedAuth.user_type === 'student' || parsedAuth.role === 'student' || parsedAuth.user)) {
+        console.log('Student token found');
+        return { 
+          token: parsedAuth.token, 
+          userType: 'student' 
+        };
+      }
+      
+      // Fallback: Check for any token
+      if (parsedAuth.token) {
+        console.log('Generic token found, defaulting to student');
+        return { 
+          token: parsedAuth.token, 
+          userType: 'student' 
+        };
       }
     }
     
-    // 2. Check direct 'agent_token' key (for backward compatibility)
-    const directToken = localStorage.getItem('agent_token');
-    if (directToken) {
-      console.log('Token found in agent_token key:', directToken.substring(0, 20) + '...');
-      return directToken;
+    // Check specific keys
+    const agentToken = localStorage.getItem('agent_token');
+    if (agentToken) {
+      console.log('Agent token from specific key');
+      return { token: agentToken, userType: 'agent' };
     }
     
-    // 3. Check sessionStorage
-    const sessionToken = sessionStorage.getItem('auth') || sessionStorage.getItem('agent_token');
-    if (sessionToken) {
+    const studentToken = localStorage.getItem('student_token') || localStorage.getItem('user_token');
+    if (studentToken) {
+      console.log('Student token from specific key');
+      return { token: studentToken, userType: 'student' };
+    }
+    
+    // Check sessionStorage
+    const sessionAuth = sessionStorage.getItem('auth');
+    if (sessionAuth) {
       try {
-        const parsed = JSON.parse(sessionToken);
+        const parsed = JSON.parse(sessionAuth);
         if (parsed.token) {
-          console.log('Token found in sessionStorage:', parsed.token.substring(0, 20) + '...');
-          return parsed.token;
+          if (parsed.user_type === 'agent') {
+            return { token: parsed.token, userType: 'agent' };
+          }
+          return { token: parsed.token, userType: 'student' };
         }
       } catch {
-        // If it's not JSON, maybe it's just the token
-        console.log('Token found in sessionStorage:', sessionToken.substring(0, 20) + '...');
-        return sessionToken;
+        // If not JSON, check as string
+        if (typeof sessionAuth === 'string' && sessionAuth.length > 20) {
+          return { token: sessionAuth, userType: 'student' };
+        }
       }
     }
     
-    console.warn('No authentication token found in any storage location');
-    return null;
+    console.warn('No authentication token found');
+    return { token: null, userType: null };
     
   } catch (error) {
     console.error('Error retrieving token:', error);
-    return null;
+    return { token: null, userType: null };
   }
 };
 
-// Helper function to get headers with dynamic token
-const getHeaders = () => {
-  const token = getAgentToken();
+// Helper function to get headers
+const getHeaders = (userType: 'agent' | 'student' | null) => {
+  const { token } = getUserToken();
   
   if (!token) {
-    console.warn('No agent token found. Available localStorage keys:', Object.keys(localStorage));
-    console.warn('Auth data in localStorage:', localStorage.getItem('auth'));
+    console.warn('No token found for user type:', userType);
     return null;
   }
   
@@ -86,229 +112,270 @@ const getHeaders = () => {
   return myHeaders;
 };
 
+// Get correct API endpoint based on user type
+const getNotificationEndpoint = (userType: 'agent' | 'student' | null) => {
+  if (userType === 'agent') {
+    return `${BASE_URL}/agent/notifications`;
+  } else if (userType === 'student') {
+    return `${BASE_URL}/student/notifications`;
+  }
+  return null;
+};
+
+// Get mark as read endpoint
+const getMarkAsReadEndpoint = (userType: 'agent' | 'student' | null, id: number) => {
+  if (userType === 'agent') {
+    return `${BASE_URL}/agent/notifications/read/${id}`;
+  } else if (userType === 'student') {
+    return `${BASE_URL}/student/notifications/read/${id}`;
+  }
+  return null;
+};
+
+// Get mark all as read endpoint
+const getMarkAllAsReadEndpoint = (userType: 'agent' | 'student' | null) => {
+  if (userType === 'agent') {
+    return `${BASE_URL}/agent/notifications/mark-all-read`;
+  } else if (userType === 'student') {
+    return `${BASE_URL}/student/notifications/mark-all-read`;
+  }
+  return null;
+};
+
 export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [userType, setUserTypeState] = useState<'agent' | 'student' | null>(null);
 
+  // Set user type
+  const setUserType = (type: 'agent' | 'student') => {
+    console.log('Setting user type to:', type);
+    setUserTypeState(type);
+  };
 
-
-// contexts/NotificationContext.tsx - fetchNotifications function update করুন
-const fetchNotifications = async () => {
-  const headers = getHeaders();
-  
-  if (!headers) {
-    setError('Authentication token not found. Please login again.');
-    setNotifications([]);
-    setUnreadCount(0);
-    return;
-  }
-
-  try {
-    setLoading(true);
-    setError(null);
-    
-    console.log('Fetching notifications with token...');
-    
-    const response = await fetch("https://studyxl2.globalrouteway.com/api/agent/notifications", {
-      method: "GET",
-      headers: headers,
-    });
-    
-    console.log('Notification API response status:', response.status);
-    
-    if (!response.ok) {
-      if (response.status === 401) {
-        localStorage.removeItem('auth');
-        localStorage.removeItem('agent_token');
-        throw new Error('Session expired. Please login again.');
-      }
-      throw new Error(`Failed to fetch notifications: ${response.status} ${response.statusText}`);
+  // Auto-detect user type on mount
+  useEffect(() => {
+    const { userType: detectedType } = getUserToken();
+    if (detectedType) {
+      setUserTypeState(detectedType);
+      console.log('Auto-detected user type:', detectedType);
     }
+  }, []);
+
+  // Fetch notifications function
+  const fetchNotifications = async () => {
+    const { userType: currentUserType } = getUserToken();
     
-    const result = await response.json();
-    console.log('Full Notifications API Response:', result);
-    
-    //FIXED: Handle both "notifications" and "data" keys
-    let notificationsData: Notification[] = [];
-    
-    if (result.success) {
-      // Check multiple possible keys
-      if (result.notifications && Array.isArray(result.notifications)) {
-        notificationsData = result.notifications;
-        console.log(`Using 'notifications' key: ${notificationsData.length} items`);
-      } else if (result.data && Array.isArray(result.data)) {
-        notificationsData = result.data;
-        console.log(`Using 'data' key: ${notificationsData.length} items`);
-      } else if (Array.isArray(result)) {
-        notificationsData = result;
-        console.log(`Response is direct array: ${notificationsData.length} items`);
-      }
-      
-      // Log first notification for debugging
-      if (notificationsData.length > 0) {
-        console.log('First notification:', notificationsData[0]);
-      }
-      
-      setNotifications(notificationsData);
-      
-      // Count unread notifications
-      const unread = notificationsData.filter(notif => {
-        // Handle both boolean and string values
-        const isRead = notif.is_read;
-        return isRead === false || isRead === 0 || isRead === 'false' || isRead === '0';
-      }).length;
-      
-      setUnreadCount(unread);
-      console.log(`Fetched ${notificationsData.length} notifications, ${unread} unread`);
-    } else {
-      console.warn('API returned success: false', result.message);
+    if (!currentUserType) {
+      setUserTypeState(null);
+      setError('User type not detected. Please login.');
       setNotifications([]);
       setUnreadCount(0);
+      return;
     }
-  } catch (error) {
-    console.error("Error fetching notifications:", error);
-    setError(error instanceof Error ? error.message : 'Unknown error occurred');
-    setNotifications([]);
-    setUnreadCount(0);
-  } finally {
-    setLoading(false);
-  }
-};
 
-//Also update markAsRead function to match API response structure
-const markAsRead = async (id: number): Promise<boolean> => {
-  const headers = getHeaders();
-  
-  if (!headers) {
-    console.error('Cannot mark as read: No authentication token');
-    return false;
-  }
-
-  try {
-    console.log(`Marking notification ${id} as read...`);
+    setUserTypeState(currentUserType);
+    const headers = getHeaders(currentUserType);
+    const endpoint = getNotificationEndpoint(currentUserType);
     
-    // OPTIMISTIC UPDATE: First update the UI immediately
-    let wasUnread = false;
-    
-    setNotifications(prev => 
-      prev.map(notif => {
-        if (notif.id === id && !notif.is_read) {
-          wasUnread = true;
-          console.log(`Optimistically marking notification ${id} as read`);
-          return { 
-            ...notif, 
-            is_read: true, 
-            read_at: new Date().toISOString() 
-          };
-        }
-        return notif;
-      })
-    );
-    
-    if (wasUnread) {
-      setUnreadCount(prev => {
-        const newCount = Math.max(0, prev - 1);
-        console.log(`Unread count updated: ${prev} → ${newCount}`);
-        return newCount;
-      });
-    }
-    
-    // Try different API endpoint formats
-    const endpoints = [
-      `https://studyxl2.globalrouteway.com/api/agent/notifications/read/${id}`,
-    //   `https://studyxl2.globalrouteway.com/api/agent/notifications/mark-read/${id}`,
-    //   `https://studyxl2.globalrouteway.com/api/agent/notification/read/${id}`,
-    ];
-    
-    let apiSuccess = false;
-    
-    for (const endpoint of endpoints) {
-      try {
-        const response = await fetch(endpoint, {
-          method: "POST",
-          headers: headers,
-        });
-        
-        if (response.ok) {
-          const result = await response.json();
-          console.log(`API success for ${endpoint}:`, result);
-          apiSuccess = true;
-          break;
-        } else {
-          console.log(`API failed for ${endpoint}: ${response.status}`);
-        }
-      } catch (err) {
-        console.log(`Error trying ${endpoint}:`, err);
-      }
-    }
-    
-    if (!apiSuccess) {
-      console.warn(`All API endpoints failed for notification ${id}, but UI was updated`);
-    } else {
-      console.log(`Successfully marked notification ${id} as read via API`);
-    }
-    
-    return true;
-    
-  } catch (error) {
-    console.error("Error in markAsRead:", error);
-    return false;
-  }
-};
-
-//Update markAllAsRead function
-const markAllAsRead = async (): Promise<boolean> => {
-  const headers = getHeaders();
-  
-  if (!headers) {
-    console.error('Cannot mark all as read: No authentication token');
-    return false;
-  }
-
-  try {
-    console.log("Marking all notifications as read...");
-    
-    // OPTIMISTIC UPDATE: First update the UI immediately
-    const hadUnread = unreadCount > 0;
-    
-    if (hadUnread) {
-      console.log(`Optimistically marking ${unreadCount} notifications as read`);
-      setNotifications(prev => 
-        prev.map(notif => ({ 
-          ...notif, 
-          is_read: true,
-          read_at: notif.read_at || new Date().toISOString()
-        }))
-      );
+    if (!headers || !endpoint) {
+      setError('Authentication failed. Please login again.');
+      setNotifications([]);
       setUnreadCount(0);
+      return;
     }
-    
-    // Try mark-all-read endpoint
-    const response = await fetch(`https://studyxl2.globalrouteway.com/api/agent/notifications/mark-all-read`, {
-      method: "POST",
-      headers: headers,
-    });
-    
-    if (!response.ok) {
-      console.warn(`API mark-all-read failed (Status: ${response.status}), but UI was updated`);
-    } else {
+
+    try {
+      setLoading(true);
+      setError(null);
+      
+      console.log(`Fetching ${currentUserType} notifications from:`, endpoint);
+      
+      const response = await fetch(endpoint, {
+        method: "GET",
+        headers: headers,
+      });
+      
+      console.log('Notification API response status:', response.status);
+      
+      if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem('auth');
+          localStorage.removeItem('agent_token');
+          localStorage.removeItem('student_token');
+          throw new Error('Session expired. Please login again.');
+        }
+        throw new Error(`Failed to fetch notifications: ${response.status} ${response.statusText}`);
+      }
+      
       const result = await response.json();
-      console.log("Mark all read API response:", result);
-      console.log("Successfully marked all notifications as read via API");
+      console.log(`${currentUserType} Notifications API Response:`, result);
+      
+      let notificationsData: Notification[] = [];
+      
+      if (result.success) {
+        if (result.notifications && Array.isArray(result.notifications)) {
+          notificationsData = result.notifications;
+        } else if (result.data && Array.isArray(result.data)) {
+          notificationsData = result.data;
+        } else if (Array.isArray(result)) {
+          notificationsData = result;
+        }
+        
+        console.log(`Loaded ${notificationsData.length} notifications for ${currentUserType}`);
+        
+        if (notificationsData.length > 0) {
+          console.log('First notification:', notificationsData[0]);
+        }
+        
+        setNotifications(notificationsData);
+        
+        // Count unread notifications
+        const unread = notificationsData.filter(notif => {
+          const isRead = notif.is_read;
+          return isRead === false || isRead === 0 || isRead === 'false' || isRead === '0';
+        }).length;
+        
+        setUnreadCount(unread);
+        console.log(`Unread count: ${unread}/${notificationsData.length}`);
+      } else {
+        console.warn('API returned success: false', result.message);
+        setNotifications([]);
+        setUnreadCount(0);
+      }
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+      setError(error instanceof Error ? error.message : 'Unknown error occurred');
+      setNotifications([]);
+      setUnreadCount(0);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  // Mark as read function
+  const markAsRead = async (id: number): Promise<boolean> => {
+    const { userType: currentUserType } = getUserToken();
     
-    return true;
-  } catch (error) {
-    console.error("Error in markAllAsRead:", error);
-    return false;
-  }
-};
+    if (!currentUserType) {
+      console.error('Cannot mark as read: User type not detected');
+      return false;
+    }
 
+    const headers = getHeaders(currentUserType);
+    const endpoint = getMarkAsReadEndpoint(currentUserType, id);
+    
+    if (!headers || !endpoint) {
+      console.error('Cannot mark as read: No authentication token');
+      return false;
+    }
 
-  
+    try {
+      console.log(`Marking notification ${id} as read for ${currentUserType}...`);
+      
+      // OPTIMISTIC UPDATE
+      let wasUnread = false;
+      
+      setNotifications(prev => 
+        prev.map(notif => {
+          if (notif.id === id && !notif.is_read) {
+            wasUnread = true;
+            console.log(`Optimistically marking notification ${id} as read`);
+            return { 
+              ...notif, 
+              is_read: true, 
+              read_at: new Date().toISOString() 
+            };
+          }
+          return notif;
+        })
+      );
+      
+      if (wasUnread) {
+        setUnreadCount(prev => {
+          const newCount = Math.max(0, prev - 1);
+          console.log(`Unread count updated: ${prev} → ${newCount}`);
+          return newCount;
+        });
+      }
+      
+      // API Call
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: headers,
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        console.log(`Mark as read API success:`, result);
+        return true;
+      } else {
+        console.warn(`API mark as read failed (Status: ${response.status}), but UI was updated`);
+        return true; // Still return true for optimistic update
+      }
+      
+    } catch (error) {
+      console.error("Error in markAsRead:", error);
+      return false;
+    }
+  };
 
+  // Mark all as read function
+  const markAllAsRead = async (): Promise<boolean> => {
+    const { userType: currentUserType } = getUserToken();
+    
+    if (!currentUserType) {
+      console.error('Cannot mark all as read: User type not detected');
+      return false;
+    }
+
+    const headers = getHeaders(currentUserType);
+    const endpoint = getMarkAllAsReadEndpoint(currentUserType);
+    
+    if (!headers || !endpoint) {
+      console.error('Cannot mark all as read: No authentication token');
+      return false;
+    }
+
+    try {
+      console.log(`Marking all notifications as read for ${currentUserType}...`);
+      
+      // OPTIMISTIC UPDATE
+      const hadUnread = unreadCount > 0;
+      
+      if (hadUnread) {
+        console.log(`Optimistically marking ${unreadCount} notifications as read`);
+        setNotifications(prev => 
+          prev.map(notif => ({ 
+            ...notif, 
+            is_read: true,
+            read_at: notif.read_at || new Date().toISOString()
+          }))
+        );
+        setUnreadCount(0);
+      }
+      
+      // API Call
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: headers,
+      });
+      
+      if (!response.ok) {
+        console.warn(`API mark-all-read failed (Status: ${response.status}), but UI was updated`);
+      } else {
+        const result = await response.json();
+        console.log("Mark all read API response:", result);
+      }
+      
+      return true;
+    } catch (error) {
+      console.error("Error in markAllAsRead:", error);
+      return false;
+    }
+  };
 
   // Manual refresh function
   const refreshNotifications = () => {
@@ -318,10 +385,11 @@ const markAllAsRead = async (): Promise<boolean> => {
 
   // Initial fetch and polling
   useEffect(() => {
-    // Check if user is authenticated
-    const token = getAgentToken();
-    if (token) {
-      console.log('User is authenticated, fetching notifications...');
+    const { token, userType: detectedType } = getUserToken();
+    
+    if (token && detectedType) {
+      console.log(`${detectedType} is authenticated, fetching notifications...`);
+      setUserTypeState(detectedType);
       fetchNotifications();
       
       // Poll for new notifications every 30 seconds
@@ -334,19 +402,18 @@ const markAllAsRead = async (): Promise<boolean> => {
       setError('Please login to view notifications');
     }
     
-    return () => {}; // Cleanup if no token
+    return () => {};
   }, []);
 
-  // Listen for auth changes (login/logout)
+  // Listen for auth changes
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'auth' || e.key === 'agent_token') {
+      if (e.key === 'auth' || e.key === 'agent_token' || e.key === 'student_token') {
         console.log('Auth data changed, refetching notifications');
         fetchNotifications();
       }
     };
 
-    // Also listen for custom auth change events
     const handleAuthChange = () => {
       console.log('Auth change event detected, refetching notifications');
       fetchNotifications();
@@ -368,10 +435,12 @@ const markAllAsRead = async (): Promise<boolean> => {
         unreadCount,
         loading,
         error,
+        userType,
         fetchNotifications,
         markAsRead,
         markAllAsRead,
         refreshNotifications,
+        setUserType,
       }}
     >
       {children}

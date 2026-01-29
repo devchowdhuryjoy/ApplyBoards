@@ -60,6 +60,7 @@ const AgentLogin = () => {
           JSON.stringify({
             token: data.token,
             user: data.agent,
+            user_type: "agent",
           })
         );
 

@@ -51,6 +51,7 @@ const Login: React.FC = () => {
         JSON.stringify({
           token: result.data.token,
           user: result.data.user,
+          user_type: "student",
         })
       );
 
