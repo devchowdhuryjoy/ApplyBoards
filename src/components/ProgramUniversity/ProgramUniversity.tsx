@@ -443,7 +443,7 @@ const ProgramUniversity: React.FC = () => {
                 </div>
               </div>
               <div className="flex-1">
-                <h1 className="text-2xl md:text-3xl font-bold text-secondary mb-2">
+                <h1 className="text-md md:text-3xl font-bold text-secondary mb-2">
                   {data.program_name || "Program Name"}
                 </h1>
                 <div className="flex flex-wrap items-center gap-3 text-gray-600">
@@ -468,9 +468,9 @@ const ProgramUniversity: React.FC = () => {
                   {data.campus_city && (
                     <>
                       <span className="hidden md:inline text-gray-300">•</span>
-                      <span className="truncate" title={data.campus_city}>
+                      {/* <span className="truncate" title={data.campus_city}>
                         {data.campus_city}
-                      </span>
+                      </span> */}
                     </>
                   )}
                 </div>
@@ -856,7 +856,7 @@ const ProgramUniversity: React.FC = () => {
                           <div className="flex items-center justify-between py-3">
                             <div className="flex items-center gap-3">
                               <span className="text-red-600">⏰</span>
-                              <span className="font-medium text-gray-900">
+                              <span className="font-medium text-gray-900 text-sm md:text-lg">
                                 Submission Deadline
                               </span>
                             </div>
@@ -940,7 +940,7 @@ const ProgramUniversity: React.FC = () => {
                         <span className="text-lg">{item.icon}</span>
                         <span className="text-gray-600">{item.label}</span>
                       </div>
-                      <span className="font-semibold text-gray-900 text-right">
+                      <span className="font-semibold text-gray-900 text-right ">
                         {item.value}
                       </span>
                     </div>

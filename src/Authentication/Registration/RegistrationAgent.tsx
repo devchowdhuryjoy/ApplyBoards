@@ -2,10 +2,12 @@ import React, { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import BASE_URL from "../../ApiBaseUrl/ApiBaseUrl";
 
 const RegistrationAgent: React.FC = () => {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState<any>({
     prefix: "Mr",
@@ -62,7 +64,7 @@ const RegistrationAgent: React.FC = () => {
   });
 
   const [selectedDestinations, setSelectedDestinations] = useState<string[]>(
-    []
+    [],
   );
   const [showOtherInput, setShowOtherInput] = useState(false);
 
@@ -70,7 +72,7 @@ const RegistrationAgent: React.FC = () => {
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev: any) => ({
@@ -136,7 +138,7 @@ const RegistrationAgent: React.FC = () => {
     try {
       const res = await axios.post(
         `${BASE_URL}/agent/register`,
-        updatedFormData
+        updatedFormData,
       );
       if (res.data.status) {
         // changed from res.data.success to res.data.status
@@ -149,7 +151,7 @@ const RegistrationAgent: React.FC = () => {
       Swal.fire(
         "Error",
         err.response?.data?.message || "Server error",
-        "error"
+        "error",
       );
     }
   };
@@ -255,15 +257,23 @@ const RegistrationAgent: React.FC = () => {
             placeholder="Email"
             className="border p-2 rounded w-full mb-4"
           />
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Password"
-            className="border p-2 rounded w-full mb-4"
-          />
-           
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Password"
+              className="border p-2 rounded w-full mb-4"
+            />
+            <span
+               className="absolute right-3 top-1/3 -translate-y-1/2 cursor-pointer text-black"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+            </span>
+          </div>
+
           <h2 className="text-xl font-semibold mb-2">Address</h2>
           <hr className="mb-4" />
           {/* Address */}
@@ -585,7 +595,7 @@ const RegistrationAgent: React.FC = () => {
             name="why_oxford"
             value={formData.why_oxford}
             onChange={handleChange}
-            placeholder="Why choose Oxford?"
+             placeholder="Why choose study-xl?"
             className="border p-2 rounded w-full mb-4"
           />
 

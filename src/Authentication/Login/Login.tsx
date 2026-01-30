@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import BASE_URL from "../../ApiBaseUrl/ApiBaseUrl";
 
 const Login: React.FC = () => {
@@ -8,6 +9,7 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -52,7 +54,7 @@ const Login: React.FC = () => {
           token: result.data.token,
           user: result.data.user,
           user_type: "student",
-        })
+        }),
       );
 
       setTimeout(() => navigate("/sidebar"), 2000);
@@ -82,7 +84,7 @@ const Login: React.FC = () => {
               required
             />
           </div>
-          <div>
+          {/* <div>
             <label className="block text-sm mb-1">Password</label>
             <input
               type="password"
@@ -91,7 +93,26 @@ const Login: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+          </div> */}
+          <div className="relative">
+            <label className="block text-sm mb-1">Password</label>
+
+            <input
+              type={showPassword ? "text" : "password"}
+              className="w-full border rounded-lg px-3 py-2 pr-12"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+
+            <span
+              className="absolute right-2 top-1/2 mt-3 -translate-y-1/2 cursor-pointer text-black z-10"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+            </span>
           </div>
+
           <button
             type="submit"
             disabled={loading}

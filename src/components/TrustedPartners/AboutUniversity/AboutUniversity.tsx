@@ -587,12 +587,12 @@ const AboutUniversity: React.FC = () => {
                       />
                     </svg>
                   </div>
-                  <h2 className="text-xl md:text-2xl font-bold text-gray-900">
+                  <h2 className="text-md md:text-2xl font-bold text-gray-900">
                     About {university.university_name}
                   </h2>
                 </div>
 
-                <div className="space-y-6">
+                <div className="space-y-6 text-justify">
                   <p className="text-gray-700 leading-relaxed">
                     {university.university_desc ||
                       "No description available for this university."}
@@ -697,7 +697,7 @@ const AboutUniversity: React.FC = () => {
                           />
                         </svg>
                       </div>
-                      <h3 className="text-lg font-semibold text-gray-900">
+                      <h3 className="text-md sm:text-lg font-semibold text-gray-900">
                         Undergraduate Programs
                       </h3>
                     </div>
@@ -762,26 +762,26 @@ const AboutUniversity: React.FC = () => {
                   <div className="flex justify-between items-center bg-blue-50 rounded-lg p-4">
                     <div>
                       <p className="font-medium text-gray-900">
-                        Cost of Living
+                        {/* Cost of Living */}
                       </p>
                       <p className="text-gray-600 text-sm">
                         {university.cost_of_living_short_desc}
                       </p>
                     </div>
-                    <span className="text-secondary font-bold text-lg">
+                    <span className="text-secondary font-bold text-md">
                       {university.cost_of_living || "N/A"}
                     </span>
                   </div>
                   <div className="flex justify-between items-center bg-green-50 rounded-lg p-4">
                     <div>
                       <p className="font-medium text-gray-900">
-                        Average Tuition
+                        {/* Average Tuition */}
                       </p>
                       <p className="text-gray-600 text-sm">
                         {university.average_gross_tuition_short_desc}
                       </p>
                     </div>
-                    <span className="text-secondary font-bold text-lg">
+                    <span className="text-secondary font-bold text-sm">
                       {university.average_gross_tuition || "N/A"}
                     </span>
                   </div>

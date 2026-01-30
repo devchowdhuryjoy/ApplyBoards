@@ -227,7 +227,7 @@ const ProgramDetails = () => {
         <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
           <span className="text-xl">📄</span>
         </div>
-        <h2 className="text-3xl font-semibold">Programs</h2>
+        <h2 className="md:text-3xl text-md font-semibold">Programs</h2>
         <span className="text-sm bg-blue-100 text-secondary px-3 py-1 rounded-full">
           {displayPrograms.length}
         </span>
@@ -248,7 +248,7 @@ const ProgramDetails = () => {
               key={p.id || index}
               className="border rounded-2xl p-6 shadow-sm hover:shadow-md transition"
             >
-              <h3 className="text-xl font-semibold mb-1">{p.title}</h3>
+              <h3 className="md:text-xl text-sm font-semibold mb-1">{p.title}</h3>
               <p className="text-black mb-4">{p.university}</p>
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
@@ -275,7 +275,7 @@ const ProgramDetails = () => {
 
               <button
                 onClick={() => handleProgramDetailsClick(p.originalProgram)}
-                className="px-5 py-2 bg-secondary text-white rounded-lg hover:bg-primary transition"
+                className="md:px-5 px-2 md:py-2 py-2 bg-secondary text-white rounded-lg hover:bg-primary transition"
               >
                 Program Details
               </button>
