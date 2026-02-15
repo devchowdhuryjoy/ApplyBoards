@@ -62,7 +62,7 @@ const Login: React.FC = () => {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: err.message || "Something went wrong",
+        text: err.response?.data?.message || "Something went wrong. Please try again later.",
       });
     } finally {
       setLoading(false);
