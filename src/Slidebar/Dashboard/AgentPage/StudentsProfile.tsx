@@ -1,19 +1,17 @@
+
+
 // import React, { useState } from "react";
 // import { PlusCircle, Trash2, Download, Eye, Save } from "lucide-react";
 // import BASE_URL from "../../../ApiBaseUrl/ApiBaseUrl";
 // import Swal from "sweetalert2";
 
 // const StudentsProfile: React.FC = () => {
-//   // Main profile data
+//   // Main profile data - with first_name and last_name separate for UI
 //   const [mainProfile, setMainProfile] = useState({
-//     name: "",
+//     first_name: "",
+//     last_name: "",
 //     email: "",
-//     destination: "",
-//     study_level: "",
 //     subject: "",
-//     nationality: "",
-//     elp: "",
-//     passport: "",
 //   });
 
 //   // Detailed profile data
@@ -29,6 +27,11 @@
 //     specialization: "",
 //     sop: "",
 //     achievements: "",
+//     destination: "",
+//     study_level: "",
+//     nationality: "Bangladesh",
+//     elp: "",
+//     passport: "",
 //   });
 
 //   // Arrays for multiple entries
@@ -163,7 +166,7 @@
 //     ];
 
 //     const filledFields = fields.filter(
-//       (value) => value && value.toString().trim() !== ""
+//       (value) => value && value.toString().trim() !== "",
 //     ).length;
 
 //     const totalFields = fields.length;
@@ -173,122 +176,146 @@
 //   };
 
 //   const handleSubmit = async (e: React.FormEvent) => {
-//   e.preventDefault();
-//   setLoading(true);
+//     e.preventDefault();
+//     setLoading(true);
 
-//   try {
-//     //  Get token from localStorage
-//     const authString = localStorage.getItem("auth");
-//     if (!authString) {
-//       Swal.fire("Error", "User not authenticated. Please login.", "error");
-//       return;
-//     }
-//     const auth = JSON.parse(authString);
-//     const token = auth?.token || auth?.access || auth?.access_token;
-//     if (!token) {
-//       Swal.fire("Error", "User not authenticated. Please login.", "error");
-//       return;
-//     }
-
-//     // Prepare FormData
-//     const formData = new FormData();
-
-//     // Main profile fields
-//     Object.entries(mainProfile).forEach(([key, value]) => {
-//       if (value) formData.append(key, value);
-//     });
-
-//     // Profile data fields
-//     Object.entries(profileData).forEach(([key, value]) => {
-//       if (value) formData.append(key, value);
-//     });
-
-//     // Array fields
-//     if (academicList.length)
-//       formData.append("academic_qualifications", JSON.stringify(academicList));
-//     if (testList.length)
-//       formData.append("test_scores", JSON.stringify(testList));
-//     if (workList.length)
-//       formData.append("work_experiences", JSON.stringify(workList));
-//     if (referenceList.length)
-//       formData.append("references", JSON.stringify(referenceList));
-
-//     // File uploads
-//     Object.entries(attachments).forEach(([key, file]) => {
-//       if (file) formData.append(key, file as File);
-//     });
-
-//     //  POST request with Authorization header
-//     const response = await fetch(`${BASE_URL}/agent/agent-student/register`, {
-//       method: "POST",
-//       body: formData,
-//       headers: {
-//         Authorization: `Bearer ${token}`, // Pass the token here
-//       },
-//     });
-
-//     // Safe JSON parsing
-//     let result: any;
 //     try {
-//       result = await response.json();
-//     } catch {
-//       const text = await response.text();
-//       console.error("Server returned non-JSON response:", text);
-//       throw new Error("Server returned invalid response");
-//     }
+//       // Get token from localStorage
+//       const authString = localStorage.getItem("auth");
+//       if (!authString) {
+//         Swal.fire("Error", "User not authenticated. Please login.", "error");
+//         return;
+//       }
+//       const auth = JSON.parse(authString);
+//       const token = auth?.token || auth?.access || auth?.access_token;
+//       if (!token) {
+//         Swal.fire("Error", "User not authenticated. Please login.", "error");
+//         return;
+//       }
 
-//     //  Handle success or error
-//     if (response.ok && result.success) {
-//       Swal.fire("Success", "Profile submitted successfully!", "success");
+//       // Prepare FormData
+//       const formData = new FormData();
 
-//       // Reset all form states
-//       setMainProfile({
-//         name: "",
-//         email: "",
-//         destination: "",
-//         study_level: "",
-//         subject: "",
-//         nationality: "",
-//         elp: "",
-//         passport: "",
+//       // FIX: Combine first_name and last_name into 'name' field for API
+//       const fullName = `${mainProfile.first_name} ${mainProfile.last_name}`.trim();
+//       if (fullName) {
+//         formData.append("name", fullName);
+//       }
+
+//       // Add email and subject
+//       if (mainProfile.email) formData.append("email", mainProfile.email);
+//       if (mainProfile.subject) formData.append("subject", mainProfile.subject);
+
+//       // Profile data fields
+//       Object.entries(profileData).forEach(([key, value]) => {
+//         if (value) formData.append(key, value);
 //       });
-//       setProfileData({
-//         dob: "",
-//         address: "",
-//         phone: "",
-//         gender: "",
-//         passport_expiry: "",
-//         country_of_residence: "",
-//         program: "",
-//         intake: "",
-//         specialization: "",
-//         sop: "",
-//         achievements: "",
-//       });
-//       setAcademicList([]);
-//       setTestList([]);
-//       setWorkList([]);
-//       setReferenceList([]);
-//       setAttachments({});
-//     } else {
-//       Swal.fire("Error", result?.message || "Submission failed", "error");
-//     }
-//   } catch (err: any) {
-//     console.error("Submission error:", err);
-//     Swal.fire("Error", err.message || "Something went wrong", "error");
-//   } finally {
-//     setLoading(false);
-//   }
-// };
 
-//   // PDF Generate Function (simplified version)
+//       // Array fields - send as JSON strings
+//       if (academicList.length) {
+//         formData.append("academic_qualifications", JSON.stringify(academicList));
+//       }
+//       if (testList.length) {
+//         formData.append("test_scores", JSON.stringify(testList));
+//       }
+//       if (workList.length) {
+//         formData.append("work_experiences", JSON.stringify(workList));
+//       }
+//       if (referenceList.length) {
+//         formData.append("references", JSON.stringify(referenceList));
+//       }
+
+//       // File uploads
+//       Object.entries(attachments).forEach(([key, file]) => {
+//         if (file) formData.append(key, file as File);
+//       });
+
+//       // Log the FormData contents for debugging
+//       console.log("FormData entries:");
+//       for (let pair of formData.entries()) {
+//         console.log(pair[0], pair[1]);
+//       }
+
+//       // POST request with Authorization header
+//       const response = await fetch(`${BASE_URL}/agent/agent-student/register`, {
+//         method: "POST",
+//         body: formData,
+//         headers: {
+//           'Authorization': `Bearer ${token}`,
+//         },
+//       });
+
+//       // Handle response
+//       let result;
+//       const contentType = response.headers.get("content-type");
+      
+//       if (contentType && contentType.includes("application/json")) {
+//         result = await response.json();
+//       } else {
+//         const text = await response.text();
+//         console.error("Server returned non-JSON response:", text);
+        
+//         if (response.ok) {
+//           result = { success: true, message: "Submission successful" };
+//         } else {
+//           throw new Error(`Server error: ${response.status} ${response.statusText}`);
+//         }
+//       }
+
+//       if (response.ok && result.success) {
+//         Swal.fire("Success", "Profile submitted successfully!", "success");
+
+//         // Reset all form states
+//         setMainProfile({
+//           first_name: "",
+//           last_name: "",
+//           email: "",
+//           subject: "",
+//         });
+        
+//         setProfileData({
+//           dob: "",
+//           address: "",
+//           phone: "",
+//           gender: "",
+//           passport_expiry: "",
+//           country_of_residence: "",
+//           program: "",
+//           intake: "",
+//           specialization: "",
+//           sop: "",
+//           achievements: "",
+//           destination: "",
+//           study_level: "",
+//           nationality: "Bangladesh",
+//           elp: "",
+//           passport: "",
+//         });
+        
+//         setAcademicList([]);
+//         setTestList([]);
+//         setWorkList([]);
+//         setReferenceList([]);
+//         setAttachments({});
+//       } else {
+//         Swal.fire("Error", result?.message || "Submission failed", "error");
+//       }
+//     } catch (err: any) {
+//       console.error("Submission error:", err);
+//       Swal.fire("Error", err.message || "Something went wrong", "error");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   // PDF Generate Function
 //   const generatePdf = async () => {
 //     try {
 //       setLoading(true);
 //       Swal.fire(
 //         "Info",
 //         "PDF generation feature will be implemented soon",
-//         "info"
+//         "info",
 //       );
 //     } catch (error) {
 //       console.error("PDF generation error:", error);
@@ -298,26 +325,10 @@
 //     }
 //   };
 
-//   // View file function
-//   const viewFile = (fileUrl: string, fileName: string) => {
-//     if (!fileUrl) {
-//       Swal.fire("Info", "No file available to view.", "info");
-//       return;
-//     }
-//     window.open(fileUrl, "_blank");
-//   };
-
 //   // Recalculate completion when data changes
 //   React.useEffect(() => {
 //     calculateProfileCompletion();
-//   }, [
-//     mainProfile,
-//     profileData,
-//     academicList,
-//     testList,
-//     workList,
-//     referenceList,
-//   ]);
+//   }, [mainProfile, profileData]);
 
 //   return (
 //     <div className="w-full px-4 sm:px-6 lg:px-8 py-6 bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
@@ -366,20 +377,48 @@
 //         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 //           {/* Left Column - Personal Info */}
 //           <div className="lg:col-span-2 space-y-8">
-//             {/* Basic Information */}
+//             {/* Basic Information - With First Name and Last Name separate */}
 //             <Section title="Basic Information" icon="👤">
 //               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//                 {Object.entries(mainProfile).map(([key, value]) => (
-//                   <InputField
-//                     key={key}
-//                     label={key.replace(/_/g, " ")}
-//                     name={key}
-//                     value={value}
-//                     onChange={handleMainProfileChange}
-//                     type={key === "email" ? "email" : "text"}
-//                     required={key === "name" || key === "email"}
-//                   />
-//                 ))}
+//                 {/* First Name */}
+//                 <InputField
+//                   label="First Name"
+//                   name="first_name"
+//                   value={mainProfile.first_name}
+//                   onChange={handleMainProfileChange}
+//                   type="text"
+//                   required={true}
+//                 />
+                
+//                 {/* Last Name */}
+//                 <InputField
+//                   label="Last Name"
+//                   name="last_name"
+//                   value={mainProfile.last_name}
+//                   onChange={handleMainProfileChange}
+//                   type="text"
+//                   required={true}
+//                 />
+                
+//                 {/* Email */}
+//                 <InputField
+//                   label="Email"
+//                   name="email"
+//                   value={mainProfile.email}
+//                   onChange={handleMainProfileChange}
+//                   type="email"
+//                   required={true}
+//                 />
+                
+//                 {/* Subject */}
+//                 <InputField
+//                   label="Subject"
+//                   name="subject"
+//                   value={mainProfile.subject}
+//                   onChange={handleMainProfileChange}
+//                   type="text"
+//                   required={false}
+//                 />
 //               </div>
 //             </Section>
 
@@ -424,8 +463,8 @@
 //                 <InputField
 //                   label="Passport Number"
 //                   name="passport"
-//                   value={mainProfile.passport}
-//                   onChange={handleMainProfileChange}
+//                   value={profileData.passport}
+//                   onChange={handleProfileDataChange}
 //                 />
 //                 <InputField
 //                   label="Passport Expiry"
@@ -434,11 +473,27 @@
 //                   value={profileData.passport_expiry}
 //                   onChange={handleProfileDataChange}
 //                 />
-//                 <InputField
+//                 <SelectField
 //                   label="Nationality"
 //                   name="nationality"
-//                   value={mainProfile.nationality}
-//                   onChange={handleMainProfileChange}
+//                   value={profileData.nationality}
+//                   onChange={handleProfileDataChange}
+//                   options={[
+//                     "Bangladesh",
+//                     "India",
+//                     "Pakistan",
+//                     "United Kingdom",
+//                     "United States",
+//                     "Canada",
+//                     "Australia",
+//                     "Germany",
+//                     "Hungary",
+//                     "Malaysia",
+//                     "Singapore",
+//                     "United Arab Emirates (Dubai)",
+//                     "Netherlands",
+//                     "Malta",
+//                   ]}
 //                 />
 //                 <InputField
 //                   label="Country of Residence"
@@ -458,17 +513,32 @@
 //                   value={profileData.program}
 //                   onChange={handleProfileDataChange}
 //                 />
-//                 <InputField
+//                 <SelectField
 //                   label="Preferred Intake"
 //                   name="intake"
 //                   value={profileData.intake}
 //                   onChange={handleProfileDataChange}
+//                   options={[
+//                     "",
+//                     "January",
+//                     "February",
+//                     "March",
+//                     "April",
+//                     "May",
+//                     "June",
+//                     "July",
+//                     "August",
+//                     "September",
+//                     "October",
+//                     "November",
+//                     "December",
+//                   ]}
 //                 />
 //                 <InputField
 //                   label="Study Level"
 //                   name="study_level"
-//                   value={mainProfile.study_level}
-//                   onChange={handleMainProfileChange}
+//                   value={profileData.study_level}
+//                   onChange={handleProfileDataChange}
 //                 />
 //                 <InputField
 //                   label="Specialization"
@@ -476,17 +546,33 @@
 //                   value={profileData.specialization}
 //                   onChange={handleProfileDataChange}
 //                 />
-//                 <InputField
+//                 <SelectField
 //                   label="Destination Country"
 //                   name="destination"
-//                   value={mainProfile.destination}
-//                   onChange={handleMainProfileChange}
+//                   value={profileData.destination}
+//                   onChange={handleProfileDataChange}
+//                   options={[
+//                     "Bangladesh",
+//                     "India",
+//                     "Pakistan",
+//                     "United Kingdom",
+//                     "United States",
+//                     "Canada",
+//                     "Australia",
+//                     "Germany",
+//                     "Hungary",
+//                     "Malaysia",
+//                     "Singapore",
+//                     "United Arab Emirates (Dubai)",
+//                     "Netherlands",
+//                     "Malta",
+//                   ]}
 //                 />
 //                 <InputField
 //                   label="English Proficiency (ELP)"
 //                   name="elp"
-//                   value={mainProfile.elp}
-//                   onChange={handleMainProfileChange}
+//                   value={profileData.elp}
+//                   onChange={handleProfileDataChange}
 //                 />
 //               </div>
 //             </Section>
@@ -534,7 +620,20 @@
 //           <Section title="Academic Qualifications" icon="📚">
 //             <DynamicList
 //               fields={[
-//                 { name: "degree", label: "Degree", type: "text" },
+//                 {
+//                   name: "degree",
+//                   label: "Degree",
+//                   type: "select",
+//                   options: [
+//                     "",
+//                     "SSC",
+//                     "HSC",
+//                     "Diploma",
+//                     "Bachelor",
+//                     "Masters",
+//                     "PhD",
+//                   ],
+//                 },
 //                 { name: "institution", label: "Institution", type: "text" },
 //                 { name: "year", label: "Year", type: "text" },
 //                 { name: "cgpa", label: "CGPA", type: "text" },
@@ -555,7 +654,7 @@
 //                   name: "test_name",
 //                   label: "Test Name",
 //                   type: "select",
-//                   options: ["", "IELTS", "TOEFL", "GRE", "GMAT", "SAT", "ACT"],
+//                   options: ["", "IELTS", "TOEFL", "PTE", "GMAT", "GRE", "Other"],
 //                 },
 //                 { name: "score", label: "Score", type: "text" },
 //                 { name: "date", label: "Date", type: "date" },
@@ -655,7 +754,7 @@
 //   );
 // };
 
-// // Helper Components (same as first code)
+// // Helper Components (keep all the same)
 // const Section: React.FC<{
 //   title: string;
 //   icon?: string;
@@ -876,8 +975,7 @@
 //                       </span>{" "}
 //                       {val}
 //                     </p>
-//                   )
-//               )}
+//               ))}
 //             </div>
 //             <button
 //               type="button"
@@ -900,8 +998,16 @@
 
 
 
-import React, { useState } from "react";
-import { PlusCircle, Trash2, Download, Eye, Save } from "lucide-react";
+
+
+
+
+
+
+
+
+import React, { useState, useEffect } from "react";
+import { PlusCircle, Trash2, Download, Eye, Save, Upload, FileText, X } from "lucide-react";
 import BASE_URL from "../../../ApiBaseUrl/ApiBaseUrl";
 import Swal from "sweetalert2";
 
@@ -935,10 +1041,10 @@ const StudentsProfile: React.FC = () => {
   });
 
   // Arrays for multiple entries
-  const [academicList, setAcademicList] = useState([]);
-  const [testList, setTestList] = useState([]);
-  const [workList, setWorkList] = useState([]);
-  const [referenceList, setReferenceList] = useState([]);
+  const [academicList, setAcademicList] = useState<any[]>([]);
+  const [testList, setTestList] = useState<any[]>([]);
+  const [workList, setWorkList] = useState<any[]>([]);
+  const [referenceList, setReferenceList] = useState<any[]>([]);
 
   // Current items for adding to lists
   const [currentAcademic, setCurrentAcademic] = useState({
@@ -946,6 +1052,7 @@ const StudentsProfile: React.FC = () => {
     institution: "",
     year: "",
     cgpa: "",
+    documents: [] as File[]
   });
 
   const [currentTest, setCurrentTest] = useState({
@@ -969,27 +1076,63 @@ const StudentsProfile: React.FC = () => {
     phone: "",
   });
 
-  // Attachments
-  const [attachments, setAttachments] = useState({});
+  // Attachments - Now supports multiple files per category
+  const [attachments, setAttachments] = useState<Record<string, File[]>>({});
   const [loading, setLoading] = useState(false);
   const [profilePercent, setProfilePercent] = useState(0);
 
   // Handlers
-  const handleMainProfileChange = (e) => {
+  const handleMainProfileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setMainProfile((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleProfileDataChange = (e) => {
+  const handleProfileDataChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setProfileData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Handle multiple file upload for academic qualifications
+  const handleAcademicDocumentsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const filesArray = Array.from(e.target.files);
+      setCurrentAcademic(prev => ({
+        ...prev,
+        documents: [...prev.documents, ...filesArray]
+      }));
+    }
+  };
+
+  const removeAcademicDocument = (index: number) => {
+    setCurrentAcademic(prev => ({
+      ...prev,
+      documents: prev.documents.filter((_, i) => i !== index)
+    }));
+  };
+
   const handleAddAcademic = () => {
-    const hasValues = Object.values(currentAcademic).some((val) => val !== "");
+    // Check if at least one field has a value
+    const hasValues = currentAcademic.degree || 
+                      currentAcademic.institution || 
+                      currentAcademic.year || 
+                      currentAcademic.cgpa || 
+                      currentAcademic.documents?.length > 0;
+    
     if (hasValues) {
-      setAcademicList([...academicList, currentAcademic]);
-      setCurrentAcademic({ degree: "", institution: "", year: "", cgpa: "" });
+      // Make a copy of currentAcademic to add to the list
+      const academicToAdd = { ...currentAcademic };
+      setAcademicList([...academicList, academicToAdd]);
+      
+      // Reset current academic
+      setCurrentAcademic({ 
+        degree: "", 
+        institution: "", 
+        year: "", 
+        cgpa: "",
+        documents: [] 
+      });
+    } else {
+      Swal.fire("Warning", "Please fill at least one field", "warning");
     }
   };
 
@@ -1028,34 +1171,46 @@ const StudentsProfile: React.FC = () => {
     }
   };
 
-  const handleRemoveAcademic = (index) => {
+  const handleRemoveAcademic = (index: number) => {
     const updated = [...academicList];
     updated.splice(index, 1);
     setAcademicList(updated);
   };
 
-  const handleRemoveTest = (index) => {
+  const handleRemoveTest = (index: number) => {
     const updated = [...testList];
     updated.splice(index, 1);
     setTestList(updated);
   };
 
-  const handleRemoveWork = (index) => {
+  const handleRemoveWork = (index: number) => {
     const updated = [...workList];
     updated.splice(index, 1);
     setWorkList(updated);
   };
 
-  const handleRemoveReference = (index) => {
+  const handleRemoveReference = (index: number) => {
     const updated = [...referenceList];
     updated.splice(index, 1);
     setReferenceList(updated);
   };
 
-  const handleAttachmentChange = (e, key) => {
-    if (e.target.files && e.target.files[0]) {
-      setAttachments({ ...attachments, [key]: e.target.files[0] });
+  // Handle multiple file attachments for document sections
+  const handleAttachmentChange = (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const filesArray = Array.from(e.target.files);
+      setAttachments(prev => ({
+        ...prev,
+        [key]: [...(prev[key] || []), ...filesArray]
+      }));
     }
+  };
+
+  const removeAttachment = (key: string, index: number) => {
+    setAttachments(prev => ({
+      ...prev,
+      [key]: prev[key].filter((_, i) => i !== index)
+    }));
   };
 
   // Calculate Profile Completion
@@ -1075,137 +1230,222 @@ const StudentsProfile: React.FC = () => {
     setProfilePercent(percentage);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setLoading(true);
 
-    try {
-      // Get token from localStorage
-      const authString = localStorage.getItem("auth");
-      if (!authString) {
-        Swal.fire("Error", "User not authenticated. Please login.", "error");
-        return;
+  try {
+    // =========================
+    // 1️⃣ Get Auth Token
+    // =========================
+    const authString = localStorage.getItem("auth");
+    if (!authString) {
+      Swal.fire("Error", "User not authenticated. Please login.", "error");
+      return;
+    }
+
+    const auth = JSON.parse(authString);
+    const token = auth?.token || auth?.access || auth?.access_token;
+
+    if (!token) {
+      Swal.fire("Error", "User not authenticated. Please login.", "error");
+      return;
+    }
+
+    // =========================
+    // 2️⃣ Prepare FormData
+    // =========================
+    const formData = new FormData();
+
+    // Combine first + last name into a single 'name' field
+    const fullName = `${mainProfile.first_name} ${mainProfile.last_name}`.trim();
+    if (fullName) formData.append("name", fullName);
+    if (mainProfile.email) formData.append("email", mainProfile.email);
+    if (mainProfile.subject) formData.append("subject", mainProfile.subject);
+
+    // =========================
+    // 3️⃣ Profile Data - Map to match JSON structure
+    // =========================
+    const profileMapping = {
+      dob: "dob",
+      address: "address",
+      phone: "phone",
+      gender: "gender",
+      passport_expiry: "passport_expiry",
+      country_of_residence: "country_of_residence",
+      program: "program",
+      intake: "intake",
+      specialization: "specialization",
+      sop: "sop",
+      achievements: "achievements",
+      destination: "destination",
+      study_level: "study_level",
+      nationality: "nationality",
+      elp: "elp",
+      passport: "passport",
+    };
+
+    // Append all profile data
+    Object.entries(profileMapping).forEach(([stateKey, apiKey]) => {
+      const value = profileData[stateKey as keyof typeof profileData];
+      if (value && value !== "") {
+        formData.append(apiKey, value);
       }
-      const auth = JSON.parse(authString);
-      const token = auth?.token || auth?.access || auth?.access_token;
-      if (!token) {
-        Swal.fire("Error", "User not authenticated. Please login.", "error");
-        return;
-      }
+    });
 
-      // Prepare FormData
-      const formData = new FormData();
-
-      // FIX: Combine first_name and last_name into 'name' field for API
-      const fullName = `${mainProfile.first_name} ${mainProfile.last_name}`.trim();
-      if (fullName) {
-        formData.append("name", fullName);
-      }
-
-      // Add email and subject
-      if (mainProfile.email) formData.append("email", mainProfile.email);
-      if (mainProfile.subject) formData.append("subject", mainProfile.subject);
-
-      // Profile data fields
-      Object.entries(profileData).forEach(([key, value]) => {
-        if (value) formData.append(key, value);
+    // =========================
+    // 4️⃣ Academic Qualifications - Send as individual fields (NOT as JSON)
+    // =========================
+    if (academicList.length > 0) {
+      academicList.forEach((academic, index) => {
+        // Append text fields with the format: academic_qualifications[0][degree]
+        if (academic.degree) {
+          formData.append(`academic_qualifications[${index}][degree]`, academic.degree);
+        }
+        if (academic.institution) {
+          formData.append(`academic_qualifications[${index}][institution]`, academic.institution);
+        }
+        if (academic.year) {
+          formData.append(`academic_qualifications[${index}][year]`, academic.year);
+        }
+        if (academic.cgpa) {
+          formData.append(`academic_qualifications[${index}][cgpa]`, academic.cgpa);
+        }
+        
+        // Append files with the format: academic_qualifications[0][document_file][]
+        if (academic.documents && academic.documents.length > 0) {
+          academic.documents.forEach((file: File, fileIndex: number) => {
+            // Using document_file as per your requirement
+            formData.append(
+              `academic_qualifications[${index}][document_file][]`,
+              file
+            );
+          });
+        }
       });
+    }
 
-      // Array fields - send as JSON strings
-      if (academicList.length) {
-        formData.append("academic_qualifications", JSON.stringify(academicList));
-      }
-      if (testList.length) {
-        formData.append("test_scores", JSON.stringify(testList));
-      }
-      if (workList.length) {
-        formData.append("work_experiences", JSON.stringify(workList));
-      }
-      if (referenceList.length) {
-        formData.append("references", JSON.stringify(referenceList));
-      }
+    // =========================
+    // 5️⃣ Test Scores - JSON string
+    // =========================
+    if (testList.length > 0) {
+      formData.append("test_scores", JSON.stringify(testList));
+    }
 
-      // File uploads
-      Object.entries(attachments).forEach(([key, file]) => {
-        if (file) formData.append(key, file as File);
-      });
+    // =========================
+    // 6️⃣ Work Experiences - JSON string
+    // =========================
+    if (workList.length > 0) {
+      formData.append("work_experiences", JSON.stringify(workList));
+    }
 
-      // Log the FormData contents for debugging
-      console.log("FormData entries:");
-      for (let pair of formData.entries()) {
+    // =========================
+    // 7️⃣ References - JSON string
+    // =========================
+    if (referenceList.length > 0) {
+      formData.append("references", JSON.stringify(referenceList));
+    }
+
+    // =========================
+    // 8️⃣ File Attachments - as individual files
+    // =========================
+    
+    // Helper function to append files
+    const appendFiles = (key: string, files: File[]) => {
+      if (files && files.length > 0) {
+        files.forEach((file, index) => {
+          // For other file types, use the format: key[index]
+          formData.append(`${key}[${index}]`, file);
+        });
+      }
+    };
+
+    // Append all file attachments
+    appendFiles("resume", attachments.resume || []);
+    appendFiles("passport_copy", attachments.passport_copy || []);
+    appendFiles("transcripts", attachments.transcripts || []);
+    appendFiles("english_test", attachments.english_test || []);
+    appendFiles("photo", attachments.photo || []);
+    appendFiles("other_file_uploaded", attachments.other_documents || []);
+
+    // =========================
+    // 9️⃣ Debug Log
+    // =========================
+    console.log("========== SUBMITTING FORMDATA ==========");
+    for (let pair of formData.entries()) {
+      if (pair[1] instanceof File) {
+        console.log(pair[0], `File: ${pair[1].name} (${pair[1].size} bytes)`);
+      } else {
         console.log(pair[0], pair[1]);
       }
-
-      // POST request with Authorization header
-      const response = await fetch(`${BASE_URL}/agent/agent-student/register`, {
-        method: "POST",
-        body: formData,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-
-      // Handle response
-      let result;
-      const contentType = response.headers.get("content-type");
-      
-      if (contentType && contentType.includes("application/json")) {
-        result = await response.json();
-      } else {
-        const text = await response.text();
-        console.error("Server returned non-JSON response:", text);
-        
-        if (response.ok) {
-          result = { success: true, message: "Submission successful" };
-        } else {
-          throw new Error(`Server error: ${response.status} ${response.statusText}`);
-        }
-      }
-
-      if (response.ok && result.success) {
-        Swal.fire("Success", "Profile submitted successfully!", "success");
-
-        // Reset all form states
-        setMainProfile({
-          first_name: "",
-          last_name: "",
-          email: "",
-          subject: "",
-        });
-        
-        setProfileData({
-          dob: "",
-          address: "",
-          phone: "",
-          gender: "",
-          passport_expiry: "",
-          country_of_residence: "",
-          program: "",
-          intake: "",
-          specialization: "",
-          sop: "",
-          achievements: "",
-          destination: "",
-          study_level: "",
-          nationality: "Bangladesh",
-          elp: "",
-          passport: "",
-        });
-        
-        setAcademicList([]);
-        setTestList([]);
-        setWorkList([]);
-        setReferenceList([]);
-        setAttachments({});
-      } else {
-        Swal.fire("Error", result?.message || "Submission failed", "error");
-      }
-    } catch (err: any) {
-      console.error("Submission error:", err);
-      Swal.fire("Error", err.message || "Something went wrong", "error");
-    } finally {
-      setLoading(false);
     }
+    console.log("========================================");
+
+    // =========================
+    // 🔟 Send Request
+    // =========================
+    const response = await fetch(
+      `${BASE_URL}/agent/agent-student/register`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+        body: formData,
+      }
+    );
+
+    const result = await response.json();
+    console.log("Server response:", result);
+
+    if (response.ok && result.success) {
+      Swal.fire("Success", "Student registered successfully!", "success");
+      resetForm();
+    } else {
+      Swal.fire("Error", result?.message || "Submission failed", "error");
+    }
+  } catch (error: any) {
+    console.error("Submission Error:", error);
+    Swal.fire("Error", error.message || "Something went wrong", "error");
+  } finally {
+    setLoading(false);
+  }
+};
+
+  // Reset form function
+  const resetForm = () => {
+    setMainProfile({
+      first_name: "",
+      last_name: "",
+      email: "",
+      subject: "",
+    });
+
+    setProfileData({
+      dob: "",
+      address: "",
+      phone: "",
+      gender: "",
+      passport_expiry: "",
+      country_of_residence: "",
+      program: "",
+      intake: "",
+      specialization: "",
+      sop: "",
+      achievements: "",
+      destination: "",
+      study_level: "",
+      nationality: "Bangladesh",
+      elp: "",
+      passport: "",
+    });
+
+    setAcademicList([]);
+    setTestList([]);
+    setWorkList([]);
+    setReferenceList([]);
+    setAttachments({});
   };
 
   // PDF Generate Function
@@ -1226,7 +1466,7 @@ const StudentsProfile: React.FC = () => {
   };
 
   // Recalculate completion when data changes
-  React.useEffect(() => {
+  useEffect(() => {
     calculateProfileCompletion();
   }, [mainProfile, profileData]);
 
@@ -1486,7 +1726,7 @@ const StudentsProfile: React.FC = () => {
               <div className="space-y-3">
                 <StatItem label="Basic Info" value={70} />
                 <StatItem label="Academic" value={academicList.length * 25} />
-                <StatItem label="Documents" value={40} />
+                <StatItem label="Documents" value={Object.keys(attachments).length * 10} />
                 <StatItem label="Overall" value={profilePercent} />
               </div>
             </div>
@@ -1516,34 +1756,89 @@ const StudentsProfile: React.FC = () => {
 
         {/* Dynamic Lists Sections */}
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Academic Qualifications */}
+          {/* Academic Qualifications with File Upload - FIXED */}
           <Section title="Academic Qualifications" icon="📚">
-            <DynamicList
-              fields={[
-                {
-                  name: "degree",
-                  label: "Degree",
-                  type: "select",
-                  options: [
-                    "",
-                    "SSC",
-                    "HSC",
-                    "Diploma",
-                    "Bachelor",
-                    "Masters",
-                    "PhD",
-                  ],
-                },
-                { name: "institution", label: "Institution", type: "text" },
-                { name: "year", label: "Year", type: "text" },
-                { name: "cgpa", label: "CGPA", type: "text" },
-              ]}
-              currentItem={currentAcademic}
-              setCurrentItem={setCurrentAcademic}
-              list={academicList}
-              onAdd={handleAddAcademic}
-              onRemove={handleRemoveAcademic}
-            />
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <SelectField
+                  label="Degree"
+                  name="degree"
+                  value={currentAcademic.degree}
+                  onChange={(e) => setCurrentAcademic({...currentAcademic, degree: e.target.value})}
+                  options={["", "SSC", "HSC", "Diploma", "Bachelor", "Masters", "PhD"]}
+                />
+                <InputField
+                  label="Institution"
+                  name="institution"
+                  value={currentAcademic.institution}
+                  onChange={(e) => setCurrentAcademic({...currentAcademic, institution: e.target.value})}
+                />
+                <InputField
+                  label="Year"
+                  name="year"
+                  value={currentAcademic.year}
+                  onChange={(e) => setCurrentAcademic({...currentAcademic, year: e.target.value})}
+                />
+                <InputField
+                  label="CGPA"
+                  name="cgpa"
+                  value={currentAcademic.cgpa}
+                  onChange={(e) => setCurrentAcademic({...currentAcademic, cgpa: e.target.value})}
+                />
+              </div>
+
+              {/* File Upload for Academic Documents */}
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Upload Documents (Multiple files allowed)
+                </label>
+                <input
+                  type="file"
+                  multiple
+                  onChange={handleAcademicDocumentsChange}
+                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                />
+                
+                {/* Display selected files */}
+                {currentAcademic.documents && currentAcademic.documents.length > 0 && (
+                  <div className="mt-3 space-y-2">
+                    {currentAcademic.documents.map((file, index) => (
+                      <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded">
+                        <div className="flex items-center gap-2">
+                          <FileText size={16} className="text-blue-500" />
+                          <span className="text-sm text-gray-600">{file.name}</span>
+                          <span className="text-xs text-gray-400">
+                            ({(file.size / 1024).toFixed(2)} KB)
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => removeAcademicDocument(index)}
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          <X size={16} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <button
+                type="button"
+                onClick={handleAddAcademic}
+                className="px-4 py-2 bg-secondary text-white rounded-lg hover:bg-primary flex items-center gap-2 transition-colors"
+              >
+                <PlusCircle size={18} />
+                Add Academic Qualification
+              </button>
+
+              {/* Display added academic qualifications */}
+              <ListDisplay 
+                list={academicList} 
+                onRemove={handleRemoveAcademic} 
+              />
+            </div>
           </Section>
 
           {/* Test Scores */}
@@ -1603,7 +1898,7 @@ const StudentsProfile: React.FC = () => {
           </Section>
         </div>
 
-        {/* Document Attachments */}
+        {/* Document Attachments - Multiple File Upload */}
         <Section title="Document Attachments" icon="📎">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
@@ -1616,13 +1911,16 @@ const StudentsProfile: React.FC = () => {
                 icon: "📊",
               },
               { key: "photo", label: "Photo", icon: "📷" },
+              { key: "other_documents", label: "Other Files", icon: "📝" },
+              
             ].map((item) => (
-              <FileUploadField
+              <MultiFileUploadField
                 key={item.key}
                 label={item.label}
                 icon={item.icon}
                 onChange={(e) => handleAttachmentChange(e, item.key)}
-                fileName={attachments[item.key]?.name}
+                files={attachments[item.key] || []}
+                onRemoveFile={(index) => removeAttachment(item.key, index)}
               />
             ))}
           </div>
@@ -1654,7 +1952,7 @@ const StudentsProfile: React.FC = () => {
   );
 };
 
-// Helper Components (keep all the same)
+// Helper Components
 const Section: React.FC<{
   title: string;
   icon?: string;
@@ -1750,23 +2048,56 @@ const TextAreaField: React.FC<{
   </div>
 );
 
-const FileUploadField: React.FC<{
+// MultiFileUploadField component
+const MultiFileUploadField: React.FC<{
   label: string;
   icon: string;
-  onChange: (e: any) => void;
-  fileName?: string;
-}> = ({ label, icon, onChange, fileName }) => (
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  files: File[];
+  onRemoveFile: (index: number) => void;
+}> = ({ label, icon, onChange, files, onRemoveFile }) => (
   <div className="flex flex-col">
     <label className="text-sm font-medium mb-2 text-gray-700 flex items-center gap-2">
       <span>{icon}</span>
       {label}
     </label>
-    <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-4 cursor-pointer hover:bg-gray-50 transition-colors">
-      <span className="text-gray-600 text-sm text-center">
-        {fileName || `Click to upload ${label}`}
-      </span>
-      <input type="file" className="hidden" onChange={onChange} />
-    </label>
+    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
+      <label className="flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors">
+        <Upload size={24} className="text-gray-400 mb-2" />
+        <span className="text-gray-600 text-sm text-center">
+          Click to upload files
+        </span>
+        <input
+          type="file"
+          multiple
+          className="hidden"
+          onChange={onChange}
+        />
+      </label>
+      
+      {files.length > 0 && (
+        <div className="mt-3 space-y-2 max-h-40 overflow-y-auto">
+          {files.map((file, index) => (
+            <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded">
+              <div className="flex items-center gap-2 truncate">
+                <FileText size={14} className="text-blue-500 flex-shrink-0" />
+                <span className="text-xs text-gray-600 truncate">{file.name}</span>
+                <span className="text-xs text-gray-400 flex-shrink-0">
+                  ({(file.size / 1024).toFixed(0)} KB)
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => onRemoveFile(index)}
+                className="text-red-500 hover:text-red-700 flex-shrink-0 ml-2"
+              >
+                <X size={14} />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   </div>
 );
 
@@ -1866,16 +2197,26 @@ const ListDisplay: React.FC<{
           >
             <div className="flex-1">
               {Object.entries(item).map(
-                ([key, val]) =>
-                  val &&
-                  val !== "" && (
+                ([key, val]) => {
+                  // Skip displaying the documents array as it's handled separately
+                  if (key === 'documents') return null;
+                  
+                  return val && val !== "" && (
                     <p key={key} className="text-sm text-gray-700 mb-1">
                       <span className="font-medium capitalize">
                         {key.replace(/_/g, " ")}:
                       </span>{" "}
-                      {val}
+                      {val?.toString()}
                     </p>
-              ))}
+                  );
+                }
+              )}
+              {/* Show document count if documents exist */}
+              {item.documents && item.documents.length > 0 && (
+                <p className="text-sm text-gray-700 mb-1">
+                  <span className="font-medium">Documents:</span> {item.documents.length} file(s)
+                </p>
+              )}
             </div>
             <button
               type="button"
@@ -1893,5 +2234,3 @@ const ListDisplay: React.FC<{
 );
 
 export default StudentsProfile;
-
-
