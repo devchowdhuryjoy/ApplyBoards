@@ -498,25 +498,7 @@ const TasksPage: React.FC = () => {
         />
       </div>
 
-      {/* Debug button (optional - can remove later) */}
-      {/* <div className="mb-4">
-        <button
-          onClick={() => {
-            const authRaw = localStorage.getItem("auth");
-            const auth = authRaw ? JSON.parse(authRaw) : null;
-            console.log("🔍 Debug - Current auth:", auth);
-            console.log("🔍 Debug - Token:", auth?.token);
-            console.log("🔍 Debug - All localStorage:");
-            for (let i = 0; i < localStorage.length; i++) {
-              const key = localStorage.key(i);
-              console.log(key, ":", localStorage.getItem(key));
-            }
-          }}
-          className="px-3 py-1 text-xs bg-gray-200 rounded"
-        >
-          Debug Storage
-        </button>
-      </div> */}
+     
 
       {/* Table */}
       <div className="overflow-x-auto bg-white rounded-xl shadow-sm border border-gray-100">
@@ -576,7 +558,7 @@ const TasksPage: React.FC = () => {
                         {task.documents.map((doc, i) => {
                           // Clean up the path (remove backslashes and double slashes)
                           const cleanPath = doc.replace(/\\/g, "/").replace(/\/\//g, "/");
-                          const fileUrl = `https://studyxladmin.globalrouteway.com/${cleanPath}`;
+                          const fileUrl = `https://studyxl.globalrouteway.com/${cleanPath}`;
                           const fileName = doc.split("/").pop() || "Document";
                           
                           return (

@@ -1,6 +1,3 @@
-
-
-
 import React, { useState } from "react";
 import {
   Home,
@@ -12,9 +9,10 @@ import {
   User2,
   Bell,
   Menu, // Mobile Menu Icon
-  X,    // Mobile Close Icon
+  X, // Mobile Close Icon
 } from "lucide-react";
 import { FaUserGraduate } from "react-icons/fa";
+import { MdAnnouncement } from "react-icons/md";
 
 // Import your page components
 import DashboardPage from "../../Slidebar/Dashboard/AgentPage/DashboardPage";
@@ -27,6 +25,7 @@ import StudentsProfile from "./AgentPage/StudentsProfile";
 import ProfileDropdown from "../ProfileDropdown/ProfileDropdown";
 import AllAgentStudentData from "./AgentPage/AllAgentStudentData";
 import NotificationDropdown from "../../components/Notification/NotificationDropdown";
+import Announcements from "./AgentPage/Announcements";
 
 interface MenuItem {
   name: string;
@@ -41,6 +40,11 @@ const menuItems: MenuItem[] = [
   { name: "Programs & University", icon: <GraduationCap size={22} /> },
   { name: "Applications", icon: <FileText size={22} /> },
   { name: "Tasks", icon: <CheckSquare size={22} /> },
+  // { name: "Announcements", icon: <CheckSquare size={22} /> },
+  { 
+    name: "Announcements", 
+    icon: <MdAnnouncement size={22} /> //Announcement icon
+  },
 ];
 
 const AgentDashboard: React.FC = () => {
@@ -48,7 +52,7 @@ const AgentDashboard: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   // Mobile Drawer State
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  
+
   const [profileOpen, setProfileOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState(() => {
     return localStorage.getItem("activeMenu") || "Dashboard";
@@ -57,29 +61,42 @@ const AgentDashboard: React.FC = () => {
   const handleMenuClick = (name: string) => {
     setActiveMenu(name);
     localStorage.setItem("activeMenu", name);
-    setIsMobileOpen(false); 
+    setIsMobileOpen(false);
   };
 
   const renderContent = () => {
     switch (activeMenu) {
-      case "Dashboard": return <DashboardPage />;
-      case "Search": return <SearchPage />;
-      case "My Profile": return <ProfilePage />;
-      case "Applications": return <ApplicationsPage />;
-      case "Tasks": return <TasksPage />;
-      case "Programs & University": return <Universityshow />;
-      case "StudentsProfile": return <StudentsProfile />;
-      case "AllStudentData": return <AllAgentStudentData />;
-      default: return <DashboardPage />;
+      case "Dashboard":
+        return <DashboardPage />;
+      case "Search":
+        return <SearchPage />;
+      case "My Profile":
+        return <ProfilePage />;
+      case "Applications":
+        return <ApplicationsPage />;
+      case "Tasks":
+        return <TasksPage />;
+      case "Programs & University":
+        return <Universityshow />;
+      // case "StudentsProfile": return <StudentsProfile />;
+      case "StudentsProfile":
+        return (
+          <StudentsProfile onComplete={() => setActiveMenu("AllStudentData")} />
+        );
+      case "AllStudentData":
+        return <AllAgentStudentData />;
+      case "Announcements":
+        return <Announcements />;
+      default:
+        return <DashboardPage />;
     }
   };
 
   return (
     <div className="flex h-screen w-screen bg-gray-50 relative overflow-hidden">
-      
       {/* 1. Mobile Overlay (Backdrop) */}
       {isMobileOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-30 bg-black bg-opacity-50 lg:hidden"
           onClick={() => setIsMobileOpen(false)}
         />
@@ -111,16 +128,16 @@ const AgentDashboard: React.FC = () => {
               className="w-8 h-8"
             />
             {/* Logo Text Logic */}
-            <span 
+            <span
               className={`ml-2 font-bold text-primary whitespace-nowrap transition-opacity duration-300
-              ${(isOpen || isMobileOpen) ? "opacity-100 block" : "opacity-0 hidden lg:hidden"}`}
+              ${isOpen || isMobileOpen ? "opacity-100 block" : "opacity-0 hidden lg:hidden"}`}
             >
               Agent Panel
             </span>
           </div>
 
           {/* Close Button (Mobile Only) */}
-          <button 
+          <button
             className="lg:hidden text-gray-500"
             onClick={() => setIsMobileOpen(false)}
           >
@@ -143,10 +160,12 @@ const AgentDashboard: React.FC = () => {
                 }`}
             >
               <div className="min-w-[22px]">{item.icon}</div>
-              <span className={`
+              <span
+                className={`
                 transition-all duration-200
-                ${(isOpen || isMobileOpen) ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-2 w-0 overflow-hidden lg:hidden"}
-              `}>
+                ${isOpen || isMobileOpen ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-2 w-0 overflow-hidden lg:hidden"}
+              `}
+              >
                 {item.name}
               </span>
             </div>
@@ -165,10 +184,9 @@ const AgentDashboard: React.FC = () => {
       >
         {/* Header */}
         <div className="flex items-center justify-between w-full h-16 bg-primary px-4 text-white sticky top-0 z-20 shadow-md">
-          
           {/* Left: Mobile Menu Trigger & Page Title */}
           <div className="flex items-center gap-3">
-            <button 
+            <button
               className="lg:hidden p-1 hover:bg-white/20 rounded"
               onClick={() => setIsMobileOpen(true)}
             >
@@ -194,7 +212,7 @@ const AgentDashboard: React.FC = () => {
             */}
             {profileOpen && (
               <div className="flex-shrink-0">
-                 <ProfileDropdown />
+                <ProfileDropdown />
               </div>
             )}
           </div>
