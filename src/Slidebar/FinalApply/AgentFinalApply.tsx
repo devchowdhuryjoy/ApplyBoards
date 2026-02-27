@@ -322,6 +322,7 @@ interface AgentFinalApplyProps {
   appId: string;
   currentStatus: string;
   onClose?: () => void;
+  
 }
 
 const AgentFinalApply = ({
@@ -353,7 +354,7 @@ const AgentFinalApply = ({
     phone: "",
     dob: "",
     gender: "",
-    passport: "",
+    passport_number: "",
     passport_expiry: "",
     address: "",
 
@@ -518,7 +519,8 @@ const AgentFinalApply = ({
           phone: studentSnapshot.phone || "",
           gender: studentSnapshot.gender || "",
           dob: formatDateForInput(studentSnapshot.date_of_birth),
-          passport: studentSnapshot.passport_number || "",
+          // passport: studentSnapshot.passport_number || "",
+           passport_number: studentSnapshot.passport_number || "", 
           passport_expiry: formatDateForInput(studentSnapshot.expiry_date),
           address: studentSnapshot.current_address_1 || "",
           
@@ -759,7 +761,7 @@ const AgentFinalApply = ({
           errors.push("Student ID is required");
         if (!formData.dob) errors.push("Date of Birth is required");
         if (!formData.gender) errors.push("Gender is required");
-        if (!formData.passport?.trim())
+        if (!formData.passport_number?.trim())
           errors.push("Passport Number is required");
         if (!formData.passport_expiry)
           errors.push("Passport Expiry Date is required");
@@ -782,9 +784,9 @@ const AgentFinalApply = ({
         break;
 
       case 5:
-        if (!formData.academic_qualifications || formData.academic_qualifications.length === 0) {
-          errors.push("At least one Academic Qualification is required");
-        }
+        // if (!formData.academic_qualifications || formData.academic_qualifications.length === 0) {
+        //   errors.push("At least one Academic Qualification is required");
+        // }
         break;
     }
 
@@ -1445,13 +1447,13 @@ const AgentFinalApply = ({
                       </label>
                       {isFormDisabled ? (
                         <div className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-100 text-gray-700">
-                          {formData.passport || "Not provided"}
+                          {formData.passport_number|| "Not provided"}
                         </div>
                       ) : (
                         <input
                           type="text"
-                          name="passport"
-                          value={formData.passport}
+                          name="passport_number"
+                          value={formData.passport_number}
                           onChange={handleChange}
                           required
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
@@ -1962,7 +1964,8 @@ const AgentFinalApply = ({
                   {/* Academic Qualifications Array */}
                   <div className="space-y-4">
                     <div className="flex justify-between items-center">
-                      <h4 className="text-md font-medium text-gray-700">Academic Qualifications *</h4>
+                      {/* <h4 className="text-md font-medium text-gray-700">Academic Qualifications *</h4> */}
+                      <h4 className="text-md font-medium text-gray-700">Academic Qualifications </h4>
                       {!isFormDisabled && (
                         <button
                           type="button"

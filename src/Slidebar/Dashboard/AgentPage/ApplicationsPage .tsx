@@ -1,9 +1,4 @@
 
-
-
-
-
-
 import React, { useEffect, useState } from "react";
 import BASE_URL from "../../../ApiBaseUrl/ApiBaseUrl";
 import AgentFinalApply from "../../FinalApply/AgentFinalApply";

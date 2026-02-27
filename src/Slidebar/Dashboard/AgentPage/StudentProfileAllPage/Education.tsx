@@ -25,6 +25,8 @@ const InputField = ({
 
 const Education = ({ goToSection, onSave }) => {
   const [destination, setDestination] = useState("");
+  const [englishYes, setEnglishYes] = useState(false);
+  const [otherYes, setOtherYes] = useState(false);
 
   const emptyAcademic = {
     country: "",
@@ -206,9 +208,7 @@ const Education = ({ goToSection, onSave }) => {
         <div>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2 sm:gap-0">
             <h2 className="text-lg font-semibold">Destination Countries</h2>
-            <span className="text-sm text-green-600">
-              ✓ Section is complete
-            </span>
+           
           </div>
 
           <div className="max-w-md">
@@ -549,344 +549,380 @@ const Education = ({ goToSection, onSave }) => {
           ))}
         </div>
 
-        {/* English Language Section */}
+        
+        {/* ================= English Language Section ================= */}
         <div className="border-t pt-8">
           <h2 className="text-lg font-semibold mb-4">
             English Language and Standardised Exam Scores
           </h2>
 
+          {/* Yes / No Buttons */}
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mb-6">
-            <button className="px-6 py-2 bg-blue-900 text-white rounded-md w-full sm:w-auto">
+            <button
+              onClick={() => setEnglishYes(true)}
+              className={`px-6 py-2 rounded-md w-full sm:w-auto ${
+                englishYes ? "bg-blue-900 text-white" : "border border-gray-300"
+              }`}
+            >
               Yes
             </button>
-            <button className="px-6 py-2 border border-gray-300 rounded-md w-full sm:w-auto">
+
+            <button
+              onClick={() => setEnglishYes(false)}
+              className={`px-6 py-2 rounded-md w-full sm:w-auto ${
+                !englishYes
+                  ? "bg-blue-900 text-white"
+                  : "border border-gray-300"
+              }`}
+            >
               No
             </button>
           </div>
 
-          {languageTests.map((test, index) => (
-            <div key={index} className="mb-6 p-4 border rounded">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-                {/* <InputField 
-                  label="Test taken*" 
-                  name="test_token" 
-                  value={test.test_token} 
-                  disabled={!test.isEditing}
-                  onChange={(e) => handleChange(index, e, languageTests, setLanguageTests)} 
-                /> */}
-                <div className="w-full">
-                  <label className="block text-xs text-gray-500 mb-1">
-                    Test taken*
-                  </label>
+          {englishYes && (
+            <>
+              {languageTests.map((test, index) => (
+                <div key={index} className="mb-6 p-4 border rounded">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+                    {/* Test Taken */}
+                    <div className="w-full">
+                      <label className="block text-xs text-gray-500 mb-1">
+                        Test taken*
+                      </label>
+                      <select
+                        name="test_token"
+                        value={test.test_token}
+                        disabled={!test.isEditing}
+                        onChange={(e) =>
+                          handleChange(
+                            index,
+                            e,
+                            languageTests,
+                            setLanguageTests,
+                          )
+                        }
+                        className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 disabled:bg-gray-100"
+                      >
+                        <option value="">Select Test</option>
+                        <option value="IELTS">IELTS</option>
+                        <option value="IELTS UKVI">IELTS UKVI</option>
+                        <option value="PTE">PTE</option>
+                        <option value="TOEFL IBT">TOEFL IBT</option>
+                        <option value="Cambridge English Test">
+                          Cambridge English Test
+                        </option>
+                        <option value="Duolingo">Duolingo</option>
+                        <option value="English Language Cert ESOL">
+                          English Language Cert ESOL
+                        </option>
+                        <option value="SELT">SELT</option>
+                      </select>
+                    </div>
 
-                  <select
-                    name="test_token"
-                    value={test.test_token}
-                    disabled={!test.isEditing}
-                    onChange={(e) =>
-                      handleChange(index, e, languageTests, setLanguageTests)
-                    }
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 disabled:bg-gray-100"
-                  >
-                    <option value="">Select Test</option>
-                    <option value="IELTS">IELTS</option>
-                    <option value="IELTS UKVI">IELTS UKVI</option>
-                    <option value="PTE">PTE</option>
-                    <option value="TOEFL IBT">TOEFL IBT</option>
-                    <option value="Cambridge English Test">
-                      Cambridge English Test
-                    </option>
-                    <option value="Duolingo">Duolingo</option>
-                    <option value="English Language Cert ESOL">
-                      English Language Cert ESOL
-                    </option>
-                    <option value="SELT">SELT</option>
-                  </select>
+                    <InputField
+                      label="Date of test*"
+                      name="date_of_test"
+                      type="date"
+                      value={test.date_of_test}
+                      disabled={!test.isEditing}
+                      onChange={(e) =>
+                        handleChange(index, e, languageTests, setLanguageTests)
+                      }
+                    />
+
+                    <InputField
+                      label="Test reference ID"
+                      name="test_reference"
+                      value={test.test_reference}
+                      disabled={!test.isEditing}
+                      onChange={(e) =>
+                        handleChange(index, e, languageTests, setLanguageTests)
+                      }
+                    />
+
+                    <InputField
+                      label="Remarks"
+                      name="remarks"
+                      value={test.remarks}
+                      disabled={!test.isEditing}
+                      onChange={(e) =>
+                        handleChange(index, e, languageTests, setLanguageTests)
+                      }
+                    />
+                  </div>
+
+                  <div className="flex justify-end gap-3 mt-4">
+                    {test.isEditing ? (
+                      <button
+                        onClick={() =>
+                          handleSave(index, languageTests, setLanguageTests)
+                        }
+                        className="bg-green-600 text-white px-4 py-2 rounded-md text-sm"
+                      >
+                        Save
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() =>
+                          handleEdit(index, languageTests, setLanguageTests)
+                        }
+                        className="bg-blue-900 text-white px-4 py-2 rounded-md text-sm"
+                      >
+                        Edit
+                      </button>
+                    )}
+
+                    <button
+                      onClick={() =>
+                        deleteItem(index, languageTests, setLanguageTests, {
+                          test_token: "",
+                          date_of_test: "",
+                          test_reference: "",
+                          remarks: "",
+                          isEditing: true,
+                          isSaved: false,
+                        })
+                      }
+                      className="bg-red-600 text-white px-4 py-2 rounded-md text-sm"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
-                <InputField
-                  label="Date of test*"
-                  name="date_of_test"
-                  type="date"
-                  value={test.date_of_test}
-                  disabled={!test.isEditing}
-                  onChange={(e) =>
-                    handleChange(index, e, languageTests, setLanguageTests)
-                  }
-                />
-                <InputField
-                  label="Test reference ID"
-                  name="test_reference"
-                  value={test.test_reference}
-                  disabled={!test.isEditing}
-                  onChange={(e) =>
-                    handleChange(index, e, languageTests, setLanguageTests)
-                  }
-                />
-                <InputField
-                  label="Remarks"
-                  name="remarks"
-                  value={test.remarks}
-                  disabled={!test.isEditing}
-                  onChange={(e) =>
-                    handleChange(index, e, languageTests, setLanguageTests)
-                  }
-                />
-              </div>
+              ))}
 
-              <div className="flex justify-end gap-3 mt-4">
-                {test.isEditing ? (
-                  <button
-                    onClick={() =>
-                      handleSave(index, languageTests, setLanguageTests)
-                    }
-                    className="bg-green-600 text-white px-4 py-2 rounded-md text-sm"
-                  >
-                    Save
-                  </button>
-                ) : (
-                  <button
-                    onClick={() =>
-                      handleEdit(index, languageTests, setLanguageTests)
-                    }
-                    className="bg-blue-900 text-white px-4 py-2 rounded-md text-sm"
-                  >
-                    Edit
-                  </button>
-                )}
+              <div className="flex justify-end mt-6">
                 <button
-                  onClick={() =>
-                    deleteItem(index, languageTests, setLanguageTests, {
-                      test_token: "",
-                      date_of_test: "",
-                      test_reference: "",
-                      remarks: "",
-                      isEditing: true,
-                      isSaved: false,
-                    })
-                  }
-                  className="bg-red-600 text-white px-4 py-2 rounded-md text-sm"
+                  onClick={handleSaveSection}
+                  className="bg-blue-900 text-white px-6 py-2 rounded-md"
                 >
-                  Delete
+                  Save
                 </button>
               </div>
-            </div>
-          ))}
-
-          <div className="flex justify-end mt-6">
-            <button
-              onClick={handleSaveSection}
-              className="bg-blue-900 text-white px-6 py-2 rounded-md"
-            >
-              Save
-            </button>
-          </div>
+            </>
+          )}
         </div>
 
-        {/* Other Language Section */}
+        {/* ================= Other Language Section ================= */}
         <div className="border-t pt-8">
           <h2 className="text-lg font-semibold mb-4">
             Other Language and Standardised Exam Scores
           </h2>
 
+          {/* Yes / No Buttons */}
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mb-6">
-            <button className="px-6 py-2 bg-blue-900 text-white rounded-md w-full sm:w-auto">
+            <button
+              onClick={() => setOtherYes(true)}
+              className={`px-6 py-2 rounded-md w-full sm:w-auto ${
+                otherYes ? "bg-blue-900 text-white" : "border border-gray-300"
+              }`}
+            >
               Yes
             </button>
-            <button className="px-6 py-2 border border-gray-300 rounded-md w-full sm:w-auto">
+
+            <button
+              onClick={() => setOtherYes(false)}
+              className={`px-6 py-2 rounded-md w-full sm:w-auto ${
+                !otherYes ? "bg-blue-900 text-white" : "border border-gray-300"
+              }`}
+            >
               No
             </button>
           </div>
 
-          {otherLanguage.map((test, index) => (
-            <div key={index} className="mb-6 p-4 border rounded">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-                {/* <InputField
-                  label="Test taken*"
-                  name="test_token"
-                  value={test.test_token}
-                  disabled={!test.isEditing}
-                  onChange={(e) =>
-                    handleChange(index, e, otherLanguage, setOtherLanguage)
-                  }
-                /> */}
-                <div className="w-full">
-                  <label className="block text-xs text-gray-500 mb-1">
-                    Test taken*
-                  </label>
+          {otherYes && (
+            <>
+              {otherLanguage.map((test, index) => (
+                <div key={index} className="mb-6 p-4 border rounded">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+                    <div className="w-full">
+                      <label className="block text-xs text-gray-500 mb-1">
+                        Test taken*
+                      </label>
+                      <select
+                        name="test_token"
+                        value={test.test_token}
+                        disabled={!test.isEditing}
+                        onChange={(e) =>
+                          handleChange(
+                            index,
+                            e,
+                            otherLanguage,
+                            setOtherLanguage,
+                          )
+                        }
+                        className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 disabled:bg-gray-100"
+                      >
+                        <option value="">Select Test</option>
+                        <option value="American College Testing (ACT)">
+                          American College Testing (ACT)
+                        </option>
+                        <option value="BioMedical Admissions Test (BMAT Exam)">
+                          BioMedical Admissions Test (BMAT Exam)
+                        </option>
+                        <option value="Central Universities Common Entrance Test (CUCET)">
+                          Central Universities Common Entrance Test (CUCET)
+                        </option>
+                        <option value="Common Admission Test (CAT)">
+                          Common Admission Test (CAT)
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          Common Law Admission Test (CLAT)
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          Common University Entrance Test (CUET)
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          GAMSAT (Graduate Medical School Admissions Test)
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          Graduate Aptitude Test in Engineering (GATE)
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          Graduate Management Aptitude Test (GMAT)
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          GRE Chemistry
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          GRE General
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          GRE Mathematics
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          GRE Physics
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          GRE Psychology
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          Health Professions Admission Test (HPAT Ulster)
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          Joint Entrance Examination (JEE)
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          Law School Admission Test (LSAT)
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          LNAT (National Admissions Test for Law)
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          Management Aptitude Test (MAT)
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          Mathematics Admissions Test (MAT)
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          Medical College Admission Test (MCAT)
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          National Aptitude Test (NAT)
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          National Aptitude Test in Architecture (NATA)
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          National Eligibility Entrance Test (NEET)
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          Scholastic Aptitude Test (SAT)
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          Sixth Term Examination Paper (STEP)
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          UK Clinical Aptitude Test (UKCAT)
+                        </option>
+                        <option value="Common Law Admission Test (CLAT)">
+                          University Clinical Aptitude Test (UCAT)
+                        </option>
+                      </select>
+                    </div>
 
-                  <select
-                    name="test_token"
-                    value={test.test_token}
-                    disabled={!test.isEditing}
-                    onChange={(e) =>
-                      handleChange(index, e, otherLanguage, setOtherLanguage)
-                    }
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-900 disabled:bg-gray-100"
-                  >
-                    <option value="">Select Test</option>
-                    <option value="American College Testing (ACT)">
-                      American College Testing (ACT)
-                    </option>
-                    <option value="BioMedical Admissions Test (BMAT Exam)">
-                      BioMedical Admissions Test (BMAT Exam)
-                    </option>
-                    <option value="Central Universities Common Entrance Test (CUCET)">
-                      Central Universities Common Entrance Test (CUCET)
-                    </option>
-                    <option value="Common Admission Test (CAT)">
-                      Common Admission Test (CAT)
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      Common Law Admission Test (CLAT)
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      Common University Entrance Test (CUET)
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      GAMSAT (Graduate Medical School Admissions Test)
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      Graduate Aptitude Test in Engineering (GATE)
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      Graduate Management Aptitude Test (GMAT)
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      GRE Chemistry
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      GRE General
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      GRE Mathematics
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      GRE Physics
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      GRE Psychology
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      Health Professions Admission Test (HPAT Ulster)
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      Joint Entrance Examination (JEE)
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      Law School Admission Test (LSAT)
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      LNAT (National Admissions Test for Law)
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      Management Aptitude Test (MAT)
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      Mathematics Admissions Test (MAT)
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      Medical College Admission Test (MCAT)
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      National Aptitude Test (NAT)
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      National Aptitude Test in Architecture (NATA)
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      National Eligibility Entrance Test (NEET)
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      Scholastic Aptitude Test (SAT)
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      Sixth Term Examination Paper (STEP)
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      UK Clinical Aptitude Test (UKCAT)
-                    </option>
-                    <option value="Common Law Admission Test (CLAT)">
-                      University Clinical Aptitude Test (UCAT)
-                    </option>
-                  </select>
+                    <InputField
+                      label="Date of test*"
+                      name="date_of_test"
+                      type="date"
+                      value={test.date_of_test}
+                      disabled={!test.isEditing}
+                      onChange={(e) =>
+                        handleChange(index, e, otherLanguage, setOtherLanguage)
+                      }
+                    />
+
+                    <InputField
+                      label="Test reference ID"
+                      name="test_reference"
+                      value={test.test_reference}
+                      disabled={!test.isEditing}
+                      onChange={(e) =>
+                        handleChange(index, e, otherLanguage, setOtherLanguage)
+                      }
+                    />
+
+                    <InputField
+                      label="Remarks"
+                      name="remarks"
+                      value={test.remarks}
+                      disabled={!test.isEditing}
+                      onChange={(e) =>
+                        handleChange(index, e, otherLanguage, setOtherLanguage)
+                      }
+                    />
+                  </div>
+
+                  <div className="flex justify-end gap-3 mt-4">
+                    {test.isEditing ? (
+                      <button
+                        onClick={() =>
+                          handleSave(index, otherLanguage, setOtherLanguage)
+                        }
+                        className="bg-green-600 text-white px-4 py-2 rounded-md text-sm"
+                      >
+                        Save
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() =>
+                          handleEdit(index, otherLanguage, setOtherLanguage)
+                        }
+                        className="bg-blue-900 text-white px-4 py-2 rounded-md text-sm"
+                      >
+                        Edit
+                      </button>
+                    )}
+
+                    <button
+                      onClick={() =>
+                        deleteItem(index, otherLanguage, setOtherLanguage, {
+                          test_token: "",
+                          date_of_test: "",
+                          test_reference: "",
+                          remarks: "",
+                          isEditing: true,
+                          isSaved: false,
+                        })
+                      }
+                      className="bg-red-600 text-white px-4 py-2 rounded-md text-sm"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
-                <InputField
-                  label="Date of test*"
-                  name="date_of_test"
-                  type="date"
-                  value={test.date_of_test}
-                  disabled={!test.isEditing}
-                  onChange={(e) =>
-                    handleChange(index, e, otherLanguage, setOtherLanguage)
-                  }
-                />
-                <InputField
-                  label="Test reference ID"
-                  name="test_reference"
-                  value={test.test_reference}
-                  disabled={!test.isEditing}
-                  onChange={(e) =>
-                    handleChange(index, e, otherLanguage, setOtherLanguage)
-                  }
-                />
-                <InputField
-                  label="Remarks"
-                  name="remarks"
-                  value={test.remarks}
-                  disabled={!test.isEditing}
-                  onChange={(e) =>
-                    handleChange(index, e, otherLanguage, setOtherLanguage)
-                  }
-                />
-              </div>
+              ))}
 
-              <div className="flex justify-end gap-3 mt-4">
-                {test.isEditing ? (
-                  <button
-                    onClick={() =>
-                      handleSave(index, otherLanguage, setOtherLanguage)
-                    }
-                    className="bg-green-600 text-white px-4 py-2 rounded-md text-sm"
-                  >
-                    Save
-                  </button>
-                ) : (
-                  <button
-                    onClick={() =>
-                      handleEdit(index, otherLanguage, setOtherLanguage)
-                    }
-                    className="bg-blue-900 text-white px-4 py-2 rounded-md text-sm"
-                  >
-                    Edit
-                  </button>
-                )}
+              <div className="flex justify-end mt-6">
                 <button
-                  onClick={() =>
-                    deleteItem(index, otherLanguage, setOtherLanguage, {
-                      test_token: "",
-                      date_of_test: "",
-                      test_reference: "",
-                      remarks: "",
-                      isEditing: true,
-                      isSaved: false,
-                    })
-                  }
-                  className="bg-red-600 text-white px-4 py-2 rounded-md text-sm"
+                  onClick={handleSaveSection}
+                  className="bg-blue-900 text-white px-6 py-2 rounded-md"
                 >
-                  Delete
+                  Save
                 </button>
               </div>
-            </div>
-          ))}
-
-          <div className="flex justify-end mt-6">
-            <button
-              onClick={handleSaveSection}
-              className="bg-blue-900 text-white px-6 py-2 rounded-md"
-            >
-              Save
-            </button>
-          </div>
+            </>
+          )}
         </div>
 
         {/* Immigration History */}

@@ -1,10 +1,15 @@
-
-
 import React, { useEffect, useRef, useState } from "react";
 import { studentAPI } from "../../AgentPage/services/api";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
-const Input = ({ label, name, value, onChange, type = "text", disabled = false }) => (
+const Input = ({
+  label,
+  name,
+  value,
+  onChange,
+  type = "text",
+  disabled = false,
+}) => (
   <div className="w-full">
     <label className="block text-xs text-gray-500 mb-1">{label}</label>
     <input
@@ -18,7 +23,14 @@ const Input = ({ label, name, value, onChange, type = "text", disabled = false }
   </div>
 );
 
-const Select = ({ label, name, value, onChange, options, disabled = false }) => (
+const Select = ({
+  label,
+  name,
+  value,
+  onChange,
+  options,
+  disabled = false,
+}) => (
   <div className="w-full">
     <label className="block text-xs text-gray-500 mb-1">{label}</label>
     <select
@@ -106,28 +118,32 @@ const TravelImmigration = ({ goToSection, onSave }) => {
   const [rejectionYes, setRejectionYes] = useState(false);
 
   // Travel histories array
-  const [travelHistories, setTravelHistories] = useState([{
-    date_of_arrival: "",
-    date_of_departure: "",
-    visa_start_date: "",
-    visa_expiry_date: "",
-    purpose_of_visit: "",
-    country: "",
-    visa_type: "",
-    isEditing: true,
-    isSaved: false,
-  }]);
+  const [travelHistories, setTravelHistories] = useState([
+    {
+      date_of_arrival: "",
+      date_of_departure: "",
+      visa_start_date: "",
+      visa_expiry_date: "",
+      purpose_of_visit: "",
+      country: "",
+      visa_type: "",
+      isEditing: true,
+      isSaved: false,
+    },
+  ]);
 
   // Visa rejections array
-  const [visaRejections, setVisaRejections] = useState([{
-    vis_rejection_type: "",
-    date_of_rejection: "",
-    country: "",
-    visa_type: "",
-    detail: "",
-    isEditing: true,
-    isSaved: false,
-  }]);
+  const [visaRejections, setVisaRejections] = useState([
+    {
+      vis_rejection_type: "",
+      date_of_rejection: "",
+      country: "",
+      visa_type: "",
+      detail: "",
+      isEditing: true,
+      isSaved: false,
+    },
+  ]);
 
   const [immigrationCountries, setImmigrationCountries] = useState([]);
 
@@ -136,22 +152,22 @@ const TravelImmigration = ({ goToSection, onSave }) => {
     const savedData = studentAPI.getFromStorage();
     if (savedData.travel) {
       const travel = savedData.travel;
-      
+
       if (travel.travel_histories && travel.travel_histories.length > 0) {
-        const loadedTravels = travel.travel_histories.map(item => ({
+        const loadedTravels = travel.travel_histories.map((item) => ({
           ...item,
           isEditing: false,
-          isSaved: true
+          isSaved: true,
         }));
         setTravelHistories(loadedTravels);
         setTravelYes(true);
       }
-      
+
       if (travel.visa_rejections && travel.visa_rejections.length > 0) {
-        const loadedRejections = travel.visa_rejections.map(item => ({
+        const loadedRejections = travel.visa_rejections.map((item) => ({
           ...item,
           isEditing: false,
-          isSaved: true
+          isSaved: true,
         }));
         setVisaRejections(loadedRejections);
         setRejectionYes(true);
@@ -193,52 +209,35 @@ const TravelImmigration = ({ goToSection, onSave }) => {
     setArray(updated.length ? updated : [{ ...emptyItem }]);
   };
 
-  // const handleSaveSection = () => {
-  //   const travelData = {
-  //     travel_histories: travelHistories.map(({ isEditing, isSaved, ...rest }) => rest),
-  //     visa_rejections: visaRejections.map(({ isEditing, isSaved, ...rest }) => rest),
-  //     immigration_countries: immigrationCountries,
-  //   };
-
-  //   studentAPI.saveToStorage('travel', travelData);
-    
-  //   if (onSave) {
-  //     onSave('travel', travelData);
-  //   }
-    
-  //   alert('Travel details saved successfully!');
-  // };
-
-  // const handleContinue = () => {
-  //   handleSaveSection();
-  //   goToSection("referee");
-  // };
-
   const handleSaveSection = async () => {
-  const travelData = {
-    travel_histories: travelHistories.map(({ isEditing, isSaved, ...rest }) => rest),
-    visa_rejections: visaRejections.map(({ isEditing, isSaved, ...rest }) => rest),
-    immigration_countries: immigrationCountries,
+    const travelData = {
+      travel_histories: travelHistories.map(
+        ({ isEditing, isSaved, ...rest }) => rest,
+      ),
+      visa_rejections: visaRejections.map(
+        ({ isEditing, isSaved, ...rest }) => rest,
+      ),
+      immigration_countries: immigrationCountries,
+    };
+
+    studentAPI.saveToStorage("travel", travelData);
+
+    if (onSave) {
+      onSave("travel", travelData);
+    }
+
+    await Swal.fire({
+      icon: "success",
+      title: "Saved!",
+      text: "Travel details saved successfully!",
+      confirmButtonColor: "#3085d6",
+    });
   };
 
-  studentAPI.saveToStorage('travel', travelData);
-
-  if (onSave) {
-    onSave('travel', travelData);
-  }
-
-  await Swal.fire({
-    icon: 'success',
-    title: 'Saved!',
-    text: 'Travel details saved successfully!',
-    confirmButtonColor: '#3085d6',
-  });
-};
-
-const handleContinue = async () => {
-  await handleSaveSection();
-  goToSection("referee");
-};
+  const handleContinue = async () => {
+    await handleSaveSection();
+    goToSection("referee");
+  };
 
   const emptyTravel = {
     date_of_arrival: "",
@@ -269,7 +268,6 @@ const handleContinue = async () => {
         <div>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2 sm:gap-0">
             <h2 className="text-lg font-semibold">Travel history</h2>
-            <span className="text-sm text-green-600">✓ Section is complete</span>
           </div>
 
           <p className="text-sm mb-4">
@@ -296,7 +294,9 @@ const handleContinue = async () => {
             <>
               <div className="flex justify-end mb-4">
                 <button
-                  onClick={() => addAnother(travelHistories, setTravelHistories, emptyTravel)}
+                  onClick={() =>
+                    addAnother(travelHistories, setTravelHistories, emptyTravel)
+                  }
                   className="bg-blue-900 text-white px-4 py-2 rounded-md text-sm"
                 >
                   Add Travel History +
@@ -382,13 +382,26 @@ const handleContinue = async () => {
                     {item.isEditing ? (
                       <>
                         <button
-                          onClick={() => handleSave(index, travelHistories, setTravelHistories)}
+                          onClick={() =>
+                            handleSave(
+                              index,
+                              travelHistories,
+                              setTravelHistories,
+                            )
+                          }
                           className="bg-green-600 text-white px-4 py-2 rounded-md text-sm"
                         >
                           Save
                         </button>
                         <button
-                          onClick={() => deleteItem(index, travelHistories, setTravelHistories, emptyTravel)}
+                          onClick={() =>
+                            deleteItem(
+                              index,
+                              travelHistories,
+                              setTravelHistories,
+                              emptyTravel,
+                            )
+                          }
                           className="bg-red-600 text-white px-4 py-2 rounded-md text-sm"
                         >
                           Delete
@@ -397,13 +410,26 @@ const handleContinue = async () => {
                     ) : (
                       <>
                         <button
-                          onClick={() => handleEdit(index, travelHistories, setTravelHistories)}
+                          onClick={() =>
+                            handleEdit(
+                              index,
+                              travelHistories,
+                              setTravelHistories,
+                            )
+                          }
                           className="bg-blue-900 text-white px-4 py-2 rounded-md text-sm"
                         >
                           Edit
                         </button>
                         <button
-                          onClick={() => deleteItem(index, travelHistories, setTravelHistories, emptyTravel)}
+                          onClick={() =>
+                            deleteItem(
+                              index,
+                              travelHistories,
+                              setTravelHistories,
+                              emptyTravel,
+                            )
+                          }
                           className="bg-red-600 text-white px-4 py-2 rounded-md text-sm"
                         >
                           Delete
@@ -417,7 +443,7 @@ const handleContinue = async () => {
           )}
 
           <div className="flex justify-end mt-6">
-            <button 
+            <button
               onClick={handleSaveSection}
               className="bg-blue-900 text-white px-6 py-2 rounded-md"
             >
@@ -430,7 +456,6 @@ const handleContinue = async () => {
         <div className="border-t pt-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2 sm:gap-0">
             <h2 className="text-lg font-semibold">Visa rejections</h2>
-            <span className="text-sm text-green-600">✓ Section is complete</span>
           </div>
 
           <p className="text-sm mb-4">
@@ -456,7 +481,13 @@ const handleContinue = async () => {
             <>
               <div className="flex justify-end mb-4">
                 <button
-                  onClick={() => addAnother(visaRejections, setVisaRejections, emptyRejection)}
+                  onClick={() =>
+                    addAnother(
+                      visaRejections,
+                      setVisaRejections,
+                      emptyRejection,
+                    )
+                  }
                   className="bg-blue-900 text-white px-4 py-2 rounded-md text-sm"
                 >
                   Add Rejection +
@@ -526,13 +557,22 @@ const handleContinue = async () => {
                     {item.isEditing ? (
                       <>
                         <button
-                          onClick={() => handleSave(index, visaRejections, setVisaRejections)}
+                          onClick={() =>
+                            handleSave(index, visaRejections, setVisaRejections)
+                          }
                           className="bg-green-600 text-white px-4 py-2 rounded-md text-sm"
                         >
                           Save
                         </button>
                         <button
-                          onClick={() => deleteItem(index, visaRejections, setVisaRejections, emptyRejection)}
+                          onClick={() =>
+                            deleteItem(
+                              index,
+                              visaRejections,
+                              setVisaRejections,
+                              emptyRejection,
+                            )
+                          }
                           className="bg-red-600 text-white px-4 py-2 rounded-md text-sm"
                         >
                           Delete
@@ -541,13 +581,22 @@ const handleContinue = async () => {
                     ) : (
                       <>
                         <button
-                          onClick={() => handleEdit(index, visaRejections, setVisaRejections)}
+                          onClick={() =>
+                            handleEdit(index, visaRejections, setVisaRejections)
+                          }
                           className="bg-blue-900 text-white px-4 py-2 rounded-md text-sm"
                         >
                           Edit
                         </button>
                         <button
-                          onClick={() => deleteItem(index, visaRejections, setVisaRejections, emptyRejection)}
+                          onClick={() =>
+                            deleteItem(
+                              index,
+                              visaRejections,
+                              setVisaRejections,
+                              emptyRejection,
+                            )
+                          }
                           className="bg-red-600 text-white px-4 py-2 rounded-md text-sm"
                         >
                           Delete
@@ -561,7 +610,7 @@ const handleContinue = async () => {
           )}
 
           <div className="flex justify-end mt-6">
-            <button 
+            <button
               onClick={handleSaveSection}
               className="bg-blue-900 text-white px-6 py-2 rounded-md"
             >
@@ -585,8 +634,3 @@ const handleContinue = async () => {
 };
 
 export default TravelImmigration;
-
-
-
-
-
