@@ -87,54 +87,6 @@ const Announcements: React.FC = () => {
   }
 
   return (
-    // <div className="min-h-screen bg-gray-100 py-10 px-4">
-    //   <div className="max-w-5xl mx-auto">
-
-    //     {/* Header */}
-    //     <div className="mb-8 text-center">
-    //       <h1 className="text-3xl font-bold text-gray-800">
-    //          Announcements
-    //       </h1>
-    //       <p className="text-gray-500 mt-2">
-    //         Stay updated with the latest notices
-    //       </p>
-    //     </div>
-
-    //     {/* Empty State */}
-    //     {announcements.length === 0 ? (
-    //       <div className="text-center text-gray-500">
-    //         No announcements available.
-    //       </div>
-    //     ) : (
-    //       <div className="grid gap-6 md:grid-cols-2">
-    //         {announcements.map((item) => (
-    //           <div
-    //             key={item.id}
-    //             className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition duration-300"
-    //           >
-    //             <h4 className="text-sm text-indigo-600 font-semibold mb-1">
-    //               {item.section?.name || `Section ID: ${item.section_id}`}
-    //             </h4>
-
-    //             <h3 className="text-lg font-bold text-gray-800 mb-2">
-    //               {item.title}
-    //             </h3>
-
-    //             <p className="text-gray-600 text-sm mb-4">
-    //               {item.description}
-    //             </p>
-
-    //             <div className="text-xs text-gray-400">
-    //               Published on{" "}
-    //               {new Date(item.created_at).toLocaleDateString()}
-    //             </div>
-    //           </div>
-    //         ))}
-    //       </div>
-    //     )}
-    //   </div>
-    // </div>
-
     <div className="min-h-screen bg-gray-100 py-10 px-4">
       <div className="max-w-5xl mx-auto">
         {/* Header */}

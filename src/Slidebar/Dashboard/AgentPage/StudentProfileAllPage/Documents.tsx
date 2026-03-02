@@ -183,7 +183,7 @@ const Documents = ({ goToSection, onSave, onFilesSelected }) => {
 
         <div className="mb-8">
           <h2 className="text-2xl font-semibold text-[#1a2b4c]">Documents</h2>
-          <p className="text-sm text-green-600 mt-1">✔ Section is complete</p>
+          {/* <p className="text-sm text-green-600 mt-1">✔ Section is complete</p> */}
         </div>
 
         <h3 className="text-lg font-semibold mb-4 text-[#1a2b4c]">Mandatory Documents</h3>

@@ -336,7 +336,7 @@ const Registration: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const destinations = ["UK","USA","Canada","Australia","Germany","Hungary","Finland","Malaysia"];
-  const studyLevels = ["Bachelor","Master"];
+  const studyLevels = ["SSC","HSC","Diploma","Bachelor","Master","PSD"];
   const englishTests = ["IELTS","TOEFL","PTE"];
   const nationalityOptions = ["Bangladesh","India","Pakistan","Nepal","China","USA","UK","Canada"];
 
@@ -344,7 +344,7 @@ const Registration: React.FC = () => {
     e.preventDefault();
 
     // =============================
-    // 🔥 FIELD BY FIELD VALIDATION
+    // FIELD BY FIELD VALIDATION
     // =============================
 
     if (!name.trim()) return showError("Full Name is required");
@@ -369,7 +369,7 @@ const Registration: React.FC = () => {
       return showError("Passwords do not match");
 
     // =============================
-    // 🔥 API CALL
+    // API CALL
     // =============================
 
     setLoading(true);
@@ -388,7 +388,7 @@ const Registration: React.FC = () => {
         passport: passportNumber.trim(),
       });
 
-      console.log("✅ FULL RESPONSE:", res.data);
+      console.log("FULL RESPONSE:", res.data);
 
       Swal.fire({
         title: "Success!",
@@ -402,7 +402,7 @@ const Registration: React.FC = () => {
 
     } catch (err: any) {
 
-      console.log("❌ BACKEND ERROR:", err.response?.data);
+      console.log("BACKEND ERROR:", err.response?.data);
 
       let errors = "";
 
@@ -491,7 +491,7 @@ const Registration: React.FC = () => {
           />
 
           <input type="text" placeholder="Passport Number"
-            className="w-full border rounded-lg px-3 py-2 uppercase"
+            className="w-full border rounded-lg px-3 py-2 "
             value={passportNumber}
             onChange={(e) => setPassportNumber(e.target.value.toUpperCase())}
           />

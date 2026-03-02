@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import {
   Home,
-  Search,
   User,
   FileText,
   CheckSquare,
   GraduationCap,
-  User2,
-  Bell,
-  Menu, // Mobile Menu Icon
-  X, // Mobile Close Icon
+  Menu, 
+  X,
 } from "lucide-react";
-import { FaUserGraduate } from "react-icons/fa";
 import { MdAnnouncement } from "react-icons/md";
+import { FaUserPlus } from "react-icons/fa";
+import { FaUserCircle, FaDatabase } from "react-icons/fa";
 
 // Import your page components
 import DashboardPage from "../../Slidebar/Dashboard/AgentPage/DashboardPage";
@@ -26,6 +24,7 @@ import ProfileDropdown from "../ProfileDropdown/ProfileDropdown";
 import AllAgentStudentData from "./AgentPage/AllAgentStudentData";
 import NotificationDropdown from "../../components/Notification/NotificationDropdown";
 import Announcements from "./AgentPage/Announcements";
+import EmployeeCreate from "./AgentPage/EmployeeCreate";
 
 interface MenuItem {
   name: string;
@@ -35,16 +34,16 @@ interface MenuItem {
 const menuItems: MenuItem[] = [
   { name: "Dashboard", icon: <Home size={22} /> },
   { name: "My Profile", icon: <User size={22} /> },
-  { name: "StudentsProfile", icon: <User2 size={22} /> },
-  { name: "AllStudentData", icon: <FaUserGraduate size={22} /> },
+  { name: "StudentsProfile", icon: <FaUserCircle size={22} /> },
+  { name: "AllStudentData", icon: <FaDatabase size={22} /> },
   { name: "Programs & University", icon: <GraduationCap size={22} /> },
   { name: "Applications", icon: <FileText size={22} /> },
   { name: "Tasks", icon: <CheckSquare size={22} /> },
-  // { name: "Announcements", icon: <CheckSquare size={22} /> },
   { 
     name: "Announcements", 
-    icon: <MdAnnouncement size={22} /> //Announcement icon
+    icon: <MdAnnouncement size={22} />
   },
+  { name: "EmployeeCreate", icon: <FaUserPlus size={22} /> },
 ];
 
 const AgentDashboard: React.FC = () => {
@@ -87,6 +86,8 @@ const AgentDashboard: React.FC = () => {
         return <AllAgentStudentData />;
       case "Announcements":
         return <Announcements />;
+      case "EmployeeCreate":
+        return <EmployeeCreate />;
       default:
         return <DashboardPage />;
     }

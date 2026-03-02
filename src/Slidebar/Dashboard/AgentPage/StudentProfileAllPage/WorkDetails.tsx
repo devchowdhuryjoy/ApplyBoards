@@ -144,9 +144,9 @@ const handleContinue = async () => {
             <h2 className="text-2xl font-semibold text-[#1a2b4c]">
               Work details
             </h2>
-            <p className="text-sm text-green-600 mt-1">
+            {/* <p className="text-sm text-green-600 mt-1">
               ✔ Section is complete
-            </p>
+            </p> */}
           </div>
 
           <button 

@@ -53,7 +53,7 @@ const Hero = () => {
       {/* Search Section */}
       <section className="bg-gradient-to-r from-secondary to-primary rounded-3xl mt-10 mx-4 sm:mx-8 md:mx-16 lg:mx-24 py-10 text-white text-center space-y-6">
         <h2 className="text-2xl sm:text-3xl font-semibold text-white">
-          <span className="font-bold">18 million</span> searches and counting
+          <span className="font-bold">1 million</span> searches and counting
         </h2>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 px-4">

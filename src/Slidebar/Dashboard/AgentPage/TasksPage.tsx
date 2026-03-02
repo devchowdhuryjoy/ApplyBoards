@@ -339,14 +339,14 @@ const TasksPage: React.FC = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        console.log("🔍 Checking localStorage for auth data...");
+        console.log("Checking localStorage for auth data...");
         
         // Get the auth object from localStorage (same as ProfilePage)
         const authRaw = localStorage.getItem("auth");
-        console.log("📦 authRaw from localStorage:", authRaw);
+        console.log("authRaw from localStorage:", authRaw);
         
         if (!authRaw) {
-          console.error("❌ No 'auth' found in localStorage");
+          console.error("No 'auth' found in localStorage");
           Swal.fire({
             icon: "error",
             title: "Token Missing",
@@ -360,9 +360,9 @@ const TasksPage: React.FC = () => {
         let auth;
         try {
           auth = JSON.parse(authRaw);
-          console.log("✅ Parsed auth object:", auth);
+          console.log("Parsed auth object:", auth);
         } catch (e) {
-          console.error("❌ Error parsing auth object:", e);
+          console.error("Error parsing auth object:", e);
           Swal.fire({
             icon: "error",
             title: "Token Error",
@@ -374,11 +374,11 @@ const TasksPage: React.FC = () => {
 
         // Extract token from auth object (same as ProfilePage)
         const token = auth?.token;
-        console.log("🔑 Extracted token:", token ? "Token exists" : "No token");
-        console.log("🔑 Token (first 20 chars):", token ? token.substring(0, 20) + "..." : "null");
+        console.log("Extracted token:", token ? "Token exists" : "No token");
+        console.log("Token (first 20 chars):", token ? token.substring(0, 20) + "..." : "null");
 
         if (!token) {
-          console.error("❌ Token missing inside auth object");
+          console.error("Token missing inside auth object");
           Swal.fire({
             icon: "error",
             title: "Token Missing",
@@ -388,7 +388,7 @@ const TasksPage: React.FC = () => {
           return;
         }
 
-        console.log("🌐 Making API request to:", `${BASE_URL}/agent/tasks`);
+        console.log("Making API request to:", `${BASE_URL}/agent/tasks`);
 
         const response = await axios.get(`${BASE_URL}/agent/tasks`, {
           headers: { 
@@ -397,7 +397,7 @@ const TasksPage: React.FC = () => {
           },
         });
 
-        console.log("✅ API Response:", response.data);
+        console.log("API Response:", response.data);
 
         // Handle different possible response structures
         let tasksData: Task[] = [];
@@ -418,10 +418,10 @@ const TasksPage: React.FC = () => {
 
         if (tasksData.length > 0) {
           setTasks(tasksData);
-          console.log(`✅ Successfully loaded ${tasksData.length} tasks`);
+          console.log(`Successfully loaded ${tasksData.length} tasks`);
         } else {
           setTasks([]);
-          console.log("⚠️ No tasks data found in response");
+          console.log("No tasks data found in response");
           Swal.fire({
             icon: "info",
             title: "No Tasks",
@@ -429,8 +429,8 @@ const TasksPage: React.FC = () => {
           });
         }
       } catch (err: any) {
-        console.error("❌ Error fetching tasks:", err);
-        console.error("❌ Error details:", {
+        console.error("Error fetching tasks:", err);
+        console.error("Error details:", {
           message: err.message,
           status: err.response?.status,
           data: err.response?.data
@@ -557,9 +557,11 @@ const TasksPage: React.FC = () => {
                       <div className="space-y-1">
                         {task.documents.map((doc, i) => {
                           // Clean up the path (remove backslashes and double slashes)
+
                           const cleanPath = doc.replace(/\\/g, "/").replace(/\/\//g, "/");
                           const fileUrl = `https://studyxl.globalrouteway.com/${cleanPath}`;
                           const fileName = doc.split("/").pop() || "Document";
+
                           
                           return (
                             <div key={i} className="mb-1">

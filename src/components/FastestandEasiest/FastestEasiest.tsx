@@ -3,7 +3,7 @@ import React from 'react';
 const stats = [
   {
     icon: '🎓',
-    value: '1.3M+',
+    value: '1M+',
     label: 'Students Helped',
     color: 'text-blue-600',
   },
@@ -21,13 +21,13 @@ const stats = [
   },
   {
     icon: '🏳️',
-    value: '150+',
+    value: '50+',
     label: 'Nationalities',
     color: 'text-orange-500',
   },
   {
     icon: '👥',
-    value: '10+',
+    value: '5+',
     label: 'Years of Expertise',
     color: 'text-purple-500',
   },

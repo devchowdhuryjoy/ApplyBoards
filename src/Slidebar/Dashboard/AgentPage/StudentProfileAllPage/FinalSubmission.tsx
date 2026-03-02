@@ -283,12 +283,12 @@ const FinalSubmission = ({ goToSection, onComplete, fileInputs = {} }) => {
   return (
     <div className="bg-gray-100 min-h-screen p-4 sm:p-8">
       <div className="bg-white rounded-xl shadow-sm p-4 sm:p-8">
-        <h2 className="text-2xl font-semibold text-[#1a2b4c] mb-6">
+        <h2 className="text-2xl font-semibold text-secondary mb-6">
           Review & Submit
         </h2>
 
         <div className="space-y-4 mb-8">
-          <p className="text-gray-600">
+          <p className="text-black">
             Please review all sections before final submission.
           </p>
 
@@ -351,14 +351,14 @@ const FinalSubmission = ({ goToSection, onComplete, fileInputs = {} }) => {
         <div className="flex justify-end gap-4">
           <button
             onClick={() => goToSection("documents")}
-            className="px-6 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+            className="px-6 py-2 bg-secondary text-white rounded hover:bg-primary"
           >
             Back
           </button>
           <button
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className="px-8 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:bg-gray-400"
+            className="px-8 py-3 bg-primary text-white rounded-md hover:bg-secondary disabled:bg-gray-400"
           >
             {isSubmitting ? "Submitting..." : "Submit Application"}
           </button>
