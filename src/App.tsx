@@ -40,6 +40,7 @@ import AgentFinalApply from "./Slidebar/FinalApply/AgentFinalApply";
 import HungaryPage from "./components/Navbar/StudyDestination/HungaryPage";
 // import AgentProgramDetails from "./components/TrustedPartners/CreateApplicationForm/AgentProgramDetails";
 import { NotificationProvider } from "./Slidebar/contexts/NotificationContext";
+import EmployeeDashboard from "./Slidebar/Dashboard/EmployeDashboard/EmployeeDashboard";
 
 //Main layout with Navbar & Footer
 function MainLayout({ children }: { children: React.ReactNode }) {
@@ -151,11 +152,8 @@ function App() {
               </MainLayout>
             }
           />
-          
-          <Route 
-            path="/agent-final-apply/:id" 
-            element={<AgentFinalApply />}
-          />
+
+          <Route path="/agent-final-apply/:id" element={<AgentFinalApply />} />
 
           <Route
             path="/uk"
@@ -275,10 +273,9 @@ function App() {
           <Route path="/sidebar" element={<Sidebar />} />
 
           {/* Agent Dashboard - WITH notifications */}
-          <Route 
-            path="/agent-dashboard" 
-            element={<AgentDashboard />}
-          />
+          <Route path="/agent-dashboard" element={<AgentDashboard />} />
+          {/* Employee Dashboard */}
+          <Route path="/employee-dashboard" element={<EmployeeDashboard />} />
           
         </Routes>
       </Router>

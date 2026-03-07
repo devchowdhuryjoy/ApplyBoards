@@ -15,7 +15,8 @@ interface ProgramData {
   program_level: string;
   program_length: string;
   cost_of_living: string;
-  gross_tuition: string;
+  // gross_tuition: string;
+  average_gross_tuition: string;
   application_fee: string;
   other_fees?: string;
   conditions?: string[];
@@ -177,7 +178,8 @@ const ProgramUniversity: React.FC = () => {
             program_level: "N/A",
             program_length: "N/A",
             cost_of_living: "N/A",
-            gross_tuition: "N/A",
+            // gross_tuition: "N/A",
+            average_gross_tuition: "N/A",
             application_fee: "N/A",
             images: [],
             // Add more fields as needed
@@ -203,7 +205,8 @@ const ProgramUniversity: React.FC = () => {
           program_level: "Bachelor's",
           program_length: "4 years",
           cost_of_living: "$15,000",
-          gross_tuition: "$30,000",
+          // gross_tuition: "$30,000",
+          average_gross_tuition: "$30,000",
           application_fee: "$100",
           images: [
             "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80",
@@ -921,8 +924,10 @@ const ProgramUniversity: React.FC = () => {
                     },
                     {
                       label: "Gross Tuition",
-                      value: data.gross_tuition
-                        ? `$${data.gross_tuition}`
+                      // value: data.gross_tuition
+                      value: data.average_gross_tuition
+                        // ? `$${data.gross_tuition}`
+                        ? `$${data.average_gross_tuition}`
                         : "N/A",
                       icon: "📊",
                     },
@@ -940,9 +945,9 @@ const ProgramUniversity: React.FC = () => {
                     >
                       <div className="flex items-center gap-3">
                         <span className="text-lg">{item.icon}</span>
-                        <span className="text-gray-600">{item.label}</span>
+                        <span className="text-black">{item.label}</span>
                       </div>
-                      <span className="font-semibold text-gray-900 text-right ">
+                      <span className="font-semibold text-black text-right ">
                         {item.value}
                       </span>
                     </div>
@@ -953,7 +958,7 @@ const ProgramUniversity: React.FC = () => {
               {/* Success Chance */}
               {data.success_chance && (
                 <div className="bg-white rounded-xl shadow-sm border p-6">
-                  <h3 className="text-lg font-bold text-gray-900 mb-4">
+                  <h3 className="text-lg font-bold text-black mb-4">
                     Success Chance
                   </h3>
                   <div
@@ -966,7 +971,7 @@ const ProgramUniversity: React.FC = () => {
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-medium text-gray-900">
+                      <span className="font-medium text-black">
                         {data.success_chance} Chance
                       </span>
                       <span
@@ -991,7 +996,7 @@ const ProgramUniversity: React.FC = () => {
 
               {/* Quick Links */}
               <div className="bg-white rounded-xl shadow-sm border p-6">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">
+                <h3 className="text-lg font-bold text-black mb-4">
                   Quick Links
                 </h3>
                 <div className="space-y-3">
@@ -1026,7 +1031,7 @@ const ProgramUniversity: React.FC = () => {
                     >
                       <div className="flex items-center gap-3">
                         <span>{link.icon}</span>
-                        <span className="text-gray-700">{link.label}</span>
+                        <span className="text-black">{link.label}</span>
                       </div>
                       <svg
                         className="w-4 h-4 text-gray-400"
