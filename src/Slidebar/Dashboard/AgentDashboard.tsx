@@ -536,12 +536,12 @@ const AgentDashboard: React.FC = () => {
         </div>
 
         {/* User Type Indicator */}
-        <div className="border-t p-2 text-xs text-gray-500 text-center">
+        {/* <div className="border-t p-2 text-xs text-gray-500 text-center">
           <span className="block">Logged in as: {userType}</span>
           <span className="block text-[10px] mt-1">
             Permissions: {userPermissions.length}
           </span>
-        </div>
+        </div> */}
       </div>
 
       {/* Main Content */}
